@@ -176,11 +176,14 @@ p, figure, blockquote { margin: 0; }
 }
 
 /* ---------- phones ---------- */
-@media (max-width: 45.99rem) {
+@media (max-width: 61.99rem) {
   .top { position: static; }
   .top .wrap { gap: .25rem 1rem; }
-  .brand { flex: 1; min-width: 0; font-size: .6875rem; letter-spacing: .2em; }
+  .brand { flex: 1; min-width: 0; }
   .top nav { order: 3; width: 100%; margin-left: 0; gap: 1.4rem; }
+}
+@media (max-width: 45.99rem) {
+  .brand { font-size: .6875rem; letter-spacing: .2em; }
   .framed { --off: .4rem; --over: .9rem; }
   .foot .small { margin-left: 0; }
 }

@@ -20,7 +20,7 @@ from pathlib import Path
 
 SRC = Path(__file__).resolve().parent
 RESERVED = {"index", "work"}       # page names the site itself uses
-ASSETS = ["admin", "fonts", "photos", "site.css", "site.js", "logo.svg", "logo-navy.png"]   # published as they are
+ASSETS = ["admin", "fonts", "photos", "guide", "guide.html", "site.css", "site.js", "logo.svg", "logo-navy.png"]   # published as they are
 
 
 def esc(s) -> str:
@@ -37,6 +37,12 @@ def photo(path) -> str:
 
 def paras(text) -> str:
     return "".join(f"<p>{esc(p.strip())}</p>" for p in re.split(r"\n\s*\n", str(text or "")) if p.strip())
+
+
+def rich(body) -> str:
+    """HTML from the editor's rich text box. Pictures dropped into the text are stored as '/photos/x.webp';
+    make them relative like every other link, so they load when the site is not at the root of its domain."""
+    return str(body).replace('="/photos/', '="photos/')
 
 
 def tel(phone) -> str:
@@ -135,7 +141,7 @@ def layout(site, menu, title, desc, body, here="") -> str:
 <footer class="foot"><div class="wrap">
 <img src="logo.svg" alt="" width="56" height="56">
 <p>{esc(name)}<br>{esc(site.get("area"))}</p>
-<p class="small">&copy; {datetime.date.today().year} {esc(name)}. All rights reserved. <a href="admin/">Owner login</a></p>
+<p class="small">&copy; {datetime.date.today().year} {esc(name)}. All rights reserved. <a href="admin/">Owner login</a> · <a href="guide.html">Editing guide</a></p>
 </div></footer>
 <script src="site.js?v={v}" defer></script>
 </body>
@@ -232,7 +238,7 @@ def project_page(p, nxt) -> str:
     if shots:
         cover = (f'<figure class="cover framed"><a class="zoom" href="{photo(shots[0])}">'
                  f'<img src="{photo(shots[0])}" alt="{esc(p["title"])}, photo 1"></a></figure>')
-    body = f'<div class="prose">{p["body"]}</div>' if p.get("body") else ""      # HTML from the editor's rich text box
+    body = f'<div class="prose">{rich(p["body"])}</div>' if p.get("body") else ""
     following = f'<a href="{nxt["slug"]}.html">Next: {esc(nxt["title"])} &rarr;</a>' if nxt else ""
     return f"""{page_head(p.get("kind"), p["title"], p.get("summary"))}
 <article class="project"><div class="wrap">
@@ -244,7 +250,7 @@ def project_page(p, nxt) -> str:
 
 
 def content_page(g) -> str:
-    body = f'<div class="prose">{g["body"]}</div>' if g.get("body") else ""
+    body = f'<div class="prose">{rich(g["body"])}</div>' if g.get("body") else ""
     return f"""{page_head("", g["title"], g.get("intro"))}
 <article class="project"><div class="wrap">
 {body}
@@ -320,6 +326,7 @@ def selftest() -> None:
     assert slugify("Connoly Deck & Fence") == "connoly-deck-fence"
     assert paras("a <b>\n\n c") == "<p>a &lt;b&gt;</p><p>c</p>" and paras(None) == ""
     assert num("2") == 2 and num(None) == 0 and num("x") == 0
+    assert rich('<p><img src="/photos/a.webp" alt=""></p>') == '<p><img src="photos/a.webp" alt=""></p>'
     with tempfile.TemporaryDirectory() as tmp:
         bad = build(Path(tmp))
         assert not bad, bad

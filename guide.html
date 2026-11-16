@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>How to edit the website | Crabbe Construction &amp; Design</title>
+<meta name="description" content="A step-by-step guide for Phil and Maryia: adding projects, photos and pages to the Crabbe Construction &amp; Design website.">
+<link rel="icon" href="logo-navy.png">
+<link rel="stylesheet" href="site.css">
+<style>
+/* Guide page. Layout: one readable column. Each task is a numbered list of steps with real
+   screenshots; the "why" lives in collapsed notes so the steps stay short. */
+.guide { max-width: 46rem; margin-inline: auto; padding-block: 0 var(--band); }
+.guide > * + * { margin-top: 1.25rem; }
+.start { display: grid; gap: 1rem; margin-top: clamp(-4.5rem, -6vw, -2.5rem); padding: clamp(1.5rem, 4vw, 2.25rem); background: #fff; box-shadow: 0 24px 48px -32px rgba(25, 42, 61, .45); }
+.start p { font-size: 1rem; }
+.start .addr { font: 400 clamp(1rem, 2.4vw, 1.2rem)/1.4 var(--serif); overflow-wrap: anywhere; }
+.start .btn { justify-self: start; }
+.toc { padding: 0; list-style: none; display: grid; gap: .35rem; font-size: 1rem; counter-reset: toc; }
+.toc li { counter-increment: toc; }
+.toc li::before { content: counter(toc) "."; margin-right: .5rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.toc a { color: var(--ink); text-underline-offset: .2em; text-decoration-color: var(--sand); }
+.toc a:hover { text-decoration-color: var(--ink); }
+.guide section { margin-top: clamp(3rem, 7vw, 4.5rem); scroll-margin-top: 5rem; }
+.guide section > * + * { margin-top: 1.1rem; }
+.guide h2 { padding-top: 1.25rem; border-top: 1px solid var(--sand); font-size: clamp(1.7rem, 3.4vw, 2.2rem); }
+.guide h2 small { display: block; margin-bottom: .5rem; font: 500 .75rem/1.4 var(--sans); letter-spacing: .3em; text-transform: uppercase; color: var(--muted); }
+.guide p, .guide li { font-size: 1.0625rem; }
+.guide a { color: var(--slate); text-underline-offset: .15em; }
+.steps { margin: 0; padding: 0; list-style: none; counter-reset: step; display: grid; gap: .9rem; }
+.steps > li { counter-increment: step; position: relative; padding-left: 2.75rem; min-width: 0; }
+.steps > li::before { content: counter(step); position: absolute; left: 0; top: .1rem; display: grid; place-items: center; width: 1.9rem; height: 1.9rem; border: 1px solid var(--slate); border-radius: 50%; font: 500 .875rem/1 var(--sans); color: var(--slate); font-variant-numeric: tabular-nums; }
+.steps strong, .guide p strong { font-weight: 600; }
+.plain { margin: 0; padding-left: 1.25rem; display: grid; gap: .5rem; }
+.shot { margin: 1.5rem 0; }
+.shot img { width: 100%; height: auto; border: 1px solid rgba(25, 42, 61, .18); background: #f2f2f2; }
+.shot.small img { width: auto; max-width: min(100%, 27.5rem); }
+.shot figcaption { margin-top: .5rem; font-size: .9375rem; color: var(--muted); }
+.why { padding: 0 1.25rem; border-left: 2px solid var(--sand); background: var(--sand-pale); }
+.why summary { padding: .9rem 0; cursor: pointer; font: 500 .8125rem/1.4 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--ink); }
+.why summary:hover { color: var(--slate); }
+.why[open] { padding-bottom: 1.1rem; }
+.why > * + * { margin-top: .8rem; }
+.why p, .why li { font-size: 1rem; }
+kbd { padding: .1em .45em; border: 1px solid rgba(25, 42, 61, .3); border-radius: 3px; background: #fff; font: 500 .875em/1.4 var(--sans); white-space: nowrap; }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><div class="wrap">
+<a class="brand" href="./"><img src="logo.svg" alt="" width="44" height="44"><span>Crabbe Construction &amp; Design</span></a>
+<a class="tel" href="admin/">Open the editor</a>
+<nav aria-label="Guide"><a href="./">The site</a><a href="#project">Add a project</a><a href="#help">Help</a></nav>
+</div></header>
+
+<main id="main">
+<header class="page-head"><div class="wrap">
+<p class="label">For Phil &amp; Maryia</p>
+<h1>How to edit the website</h1>
+<p class="lede">Add projects, swap photos and change the wording yourselves. A change shows up on the site about a minute after you save it.</p>
+</div></header>
+
+<div class="wrap"><div class="guide">
+
+<div class="start">
+<p>Everything is done on one page, called <strong>the editor</strong>. Bookmark it:</p>
+<p class="addr">architeuthis-flux.github.io/crabbe-construction/admin/</p>
+<a class="btn" href="admin/">Open the editor</a>
+<p>It works in the browser on a computer or a phone. There is nothing to install.</p>
+</div>
+
+<ol class="toc">
+<li><a href="#setup">One-time setup</a></li>
+<li><a href="#signin">Signing in</a></li>
+<li><a href="#around">Finding your way around</a></li>
+<li><a href="#project">Add a new project</a></li>
+<li><a href="#photos">Change the photos on a project</a></li>
+<li><a href="#home">Change the words on the home page</a></li>
+<li><a href="#page">Add a new page</a></li>
+<li><a href="#delete">Delete something</a></li>
+<li><a href="#help">If something goes wrong</a></li>
+</ol>
+
+<section id="setup">
+<h2><small>Do this once</small>One-time setup</h2>
+<p>Each of you needs your own free GitHub account. It takes about five minutes.</p>
+<ol class="steps">
+<li>Go to <a href="https://github.com/signup">github.com/signup</a> and create an account with your own email address. Choose a password only you know.</li>
+<li>Send Kevin the username you picked.</li>
+<li>Kevin adds you to the website. GitHub then emails you an invitation: open it and click <strong>Accept invitation</strong>.</li>
+<li>Bookmark the editor address at the top of this page.</li>
+</ol>
+<details class="why">
+<summary>Why do I need a GitHub account?</summary>
+<p>The website is really a folder of files: your words, your photos, and a recipe that turns them into pages. That folder is kept on GitHub, a service that stores files and remembers every change ever made to them.</p>
+<p>Your GitHub account is your key to that folder. The editor is the friendly front door, so you never have to look at GitHub itself after this setup.</p>
+</details>
+</section>
+
+<section id="signin">
+<h2><small>Every now and then</small>Signing in</h2>
+<ol class="steps">
+<li>Open the editor.</li>
+<li>Click <strong>Sign In with GitHub</strong>. Ignore the other button; that one is for Kevin.
+<figure class="shot small"><img src="guide/sign-in-buttons.jpg" width="440" height="126" alt="Two buttons: Sign In with GitHub, and Sign In Using Access Token."><figcaption>Use the top button.</figcaption></figure></li>
+<li>The first time only, a small GitHub window asks you to <strong>Authorize Crabbe Construction Editor</strong>. Click the green <strong>Authorize</strong> button.</li>
+<li>The editor opens. You stay signed in on that computer or phone, so most days you skip straight to editing.</li>
+</ol>
+<details class="why">
+<summary>What is the sign-in actually doing?</summary>
+<p>The editor asks GitHub who you are. GitHub checks with a small sign-in helper that Kevin runs, then hands the editor a temporary pass. That pass only works on this website's folder, and it renews itself quietly in the background.</p>
+<p>Your password never goes to the editor. If you have not used the editor for about six months, it will ask you to click the sign-in button again.</p>
+</details>
+</section>
+
+<section id="around">
+<h2><small>The lay of the land</small>Finding your way around</h2>
+<figure class="shot"><img src="guide/editor-home.jpg" width="800" height="640" loading="lazy" alt="The editor. A list on the left reads Projects, Pages, Home page. The middle lists three projects. A blue New button is at the top right."><figcaption>The editor after signing in.</figcaption></figure>
+<ul class="plain">
+<li><strong>Projects</strong>: one entry per job. Each gets its own page on the site and a card on the Works page.</li>
+<li><strong>Pages</strong>: extra pages you might add later, such as "Our Process".</li>
+<li><strong>Home page</strong>: the words and photos on the front page, plus the phone number shown everywhere.</li>
+<li>The <strong>New</strong> button, top right, adds an entry to whichever list you are in.</li>
+<li>The small picture icon at the top left opens the <strong>photo library</strong>: every photo on the site in one place.</li>
+</ul>
+<details class="why">
+<summary>Where does this list come from?</summary>
+<p>Each project is one small text file in the website's folder, with its photos next to it. The editor reads those files and shows them as this list. When you fill in a form and save, the editor writes the file for you.</p>
+</details>
+</section>
+
+<section id="project">
+<h2><small>The one you will use most</small>Add a new project</h2>
+<ol class="steps">
+<li>Click <strong>Projects</strong> on the left, then <strong>New</strong> at the top right.</li>
+<li>Fill in the <strong>Project name</strong>, for example "Deer Flats Exterior".</li>
+<li>Choose the <strong>Type</strong>: Residential or Commercial.</li>
+<li>Write a <strong>One-line description</strong>. It shows on the project's card and under its title.</li>
+<li>Add the <strong>Main photo</strong>: click <strong>Browse</strong> and pick it, or drag it onto the grey box. On a phone, Browse opens your photos.
+<figure class="shot"><img src="guide/project-new-top.jpg" width="800" height="640" loading="lazy" alt="The new project form: Project name, Type, One-line description, and a grey box for the Main photo with a Browse button."><figcaption>The top of the new project form. A red star marks a box you have to fill in.</figcaption></figure></li>
+<li>Add <strong>More photos</strong> the same way, as many as you like. Each one you add appears in a list.
+<figure class="shot"><img src="guide/photos-list.jpg" width="800" height="640" loading="lazy" alt="A list of photos. Each row has a small preview, a Replace button and a Remove button, and a handle of six dots on its left edge."><figcaption>Drag a row by the six dots on its left edge to change the order. The gallery on the site follows this order.</figcaption></figure></li>
+<li>Write <strong>The story</strong> if you want to: a few sentences about the job. This box is optional.</li>
+<li>Leave <strong>Show on the home page</strong> switched on if the project should also appear under Recent Works on the front page.</li>
+<li>Leave <strong>Position</strong> at 0 to put the new project first in the list.
+<figure class="shot"><img src="guide/project-new-bottom.jpg" width="800" height="640" loading="lazy" alt="The bottom of the form: The story text box, a Show on the home page switch, and a Position box set to 0."><figcaption>The bottom of the form.</figcaption></figure></li>
+<li>Click <strong>Save</strong> at the top right and wait for the green "Entry saved." message.
+<figure class="shot"><img src="guide/saved.jpg" width="800" height="640" loading="lazy" alt="The editor showing a green message at the bottom that reads Entry saved."><figcaption>Saved. The new entry is in the list.</figcaption></figure></li>
+<li>Give it a minute, then open the site and look.</li>
+</ol>
+<details class="why">
+<summary>What happens when I click Save?</summary>
+<ol class="plain">
+<li>The editor shrinks your photos. A phone photo is several megabytes; the site only needs a fraction of that, so pages stay fast. In our test a 1.5 MB photo became about 0.4 MB.</li>
+<li>It puts the project's text file and photos into the website's folder on GitHub. GitHub records this as one entry in its history, with your name on it.</li>
+<li>GitHub notices the change and rebuilds the website's pages from the files. That usually takes under a minute.</li>
+<li>The new pages replace the old ones, and the change is live.</li>
+</ol>
+<p>That rebuild is the reason for the short wait between saving and seeing it.</p>
+</details>
+<details class="why">
+<summary>What does Position do?</summary>
+<p>The site lists projects by this number, smallest first. New projects start at 0, so they land at the top. The three projects already on the site are numbered 1, 2 and 3. Change a number and save to move a project up or down.</p>
+</details>
+<details class="why">
+<summary>Where does the page's address come from?</summary>
+<p>From the name you give it when you first save. "Deer Flats Exterior" becomes <em>deer-flats-exterior</em> in the address. Renaming a project later changes the title on the page but keeps the old address, so links people already have keep working.</p>
+</details>
+</section>
+
+<section id="photos">
+<h2><small>Swap, add, reorder</small>Change the photos on a project</h2>
+<ol class="steps">
+<li>Click <strong>Projects</strong>, then click the project.</li>
+<li>To swap the main photo, click <strong>Replace</strong> next to it.</li>
+<li>Under <strong>More photos</strong>, use <strong>Replace</strong> or <strong>Remove</strong> on any row, drag rows to reorder them, and add new ones in the grey box at the bottom of the list.</li>
+<li>Click <strong>Save</strong>.</li>
+</ol>
+<p>Removing a photo from a project takes it off that page. The photo file itself stays in the photo library, in case you want it again.</p>
+<figure class="shot"><img src="guide/photo-details.jpg" width="800" height="640" loading="lazy" alt="One photo opened in the photo library, with its size, dimensions, and a line reading Used in: None. Delete is at the top right."><figcaption>A photo opened in the photo library. "Used in: None" means no page shows it, so it is safe to delete.</figcaption></figure>
+<details class="why">
+<summary>Why are there two places for photos?</summary>
+<p>The photo library is the shelf where every photo file sits. A project only keeps a list of which photos to show and in what order. That is why one photo can appear on two pages, and why taking a photo off a project does not throw the file away.</p>
+</details>
+</section>
+
+<section id="home">
+<h2><small>Front page and phone number</small>Change the words on the home page</h2>
+<ol class="steps">
+<li>Click <strong>Home page</strong> on the left, then <strong>Home page and contact details</strong>.</li>
+<li>Change what you need: company name, phone number, the big photo at the top, the introduction, services, the philosophy quote, and the About text, in roughly the order they appear on the page.
+<figure class="shot"><img src="guide/home-top.jpg" width="800" height="640" loading="lazy" alt="The home page form, showing Company name, Where you work, Phone number and an empty Email address box."><figcaption>The top of the home page form.</figcaption></figure></li>
+<li>To add a service, scroll to <strong>Services</strong> and click <strong>Add Service</strong>. To start a new paragraph in a description, leave a blank line.
+<figure class="shot"><img src="guide/home-services.jpg" width="800" height="640" loading="lazy" alt="The Services part of the form: a service with a Name box and a Description box, and an Add Service button at the bottom right."><figcaption>Each service has a name and a description.</figcaption></figure></li>
+<li>Click <strong>Save</strong>.</li>
+</ol>
+<p>The <strong>Email address</strong> box is empty for now. Fill it in and the address appears in the Contact section of every page.</p>
+<details class="why">
+<summary>Why does one form change every page?</summary>
+<p>The pages are not written by hand. They are built from these forms each time you save. So the phone number lives in exactly one place, and the header, the buttons and the Contact section on every page all pick it up from there.</p>
+</details>
+</section>
+
+<section id="page">
+<h2><small>For anything that is not a job</small>Add a new page</h2>
+<ol class="steps">
+<li>Click <strong>Pages</strong> on the left, then <strong>New</strong>.</li>
+<li>Type the <strong>Page title</strong>. It becomes the link in the menu and the page's address.</li>
+<li>Leave <strong>Show in the menu</strong> on to add the page to the menu at the top of the site. Switch it off for a page you only want to reach by its link.</li>
+<li>Write the <strong>Page text</strong>. The small buttons above the box make text bold or italic, add a link, or drop in a picture.
+<figure class="shot"><img src="guide/page-form.jpg" width="800" height="640" loading="lazy" alt="The new page form filled in: a title, the Show in the menu switch turned off, an opening line, and a paragraph of page text."><figcaption>A page being written. This one has the menu switch turned off.</figcaption></figure></li>
+<li>Add <strong>Photos</strong> if you want a gallery under the text.
+<figure class="shot"><img src="guide/photo-added.jpg" width="800" height="640" loading="lazy" alt="The Photos box showing one added photo with a small preview and Replace and Remove buttons."><figcaption>A photo after it has been added.</figcaption></figure></li>
+<li>Click <strong>Save</strong>.</li>
+</ol>
+<figure class="shot"><img src="guide/live-result.jpg" width="800" height="640" loading="lazy" alt="The finished page on the website, with the title, the opening line, the paragraph of text and the photo below it."><figcaption>The same page on the website about a minute later.</figcaption></figure>
+</section>
+
+<section id="delete">
+<h2><small>Projects, pages and photos</small>Delete something</h2>
+<ol class="steps">
+<li>Open the project or page.</li>
+<li>Click the three dots at the very top right, then <strong>Delete</strong>.
+<figure class="shot"><img src="guide/delete-menu.jpg" width="800" height="640" loading="lazy" alt="A menu opened from three dots at the top right, listing Duplicate, Delete, Edit Slug and more."><figcaption>The menu behind the three dots.</figcaption></figure></li>
+<li>Click <strong>Delete</strong> again to confirm.
+<figure class="shot"><img src="guide/delete-confirm.jpg" width="800" height="640" loading="lazy" alt="A box asking: Are you sure you want to delete this entry? with Delete and Cancel buttons."><figcaption>The editor always asks first.</figcaption></figure></li>
+</ol>
+<p>Deleting a project leaves its photos in the photo library. To remove a photo for good, open it in the photo library and click <strong>Delete</strong> there.</p>
+<details class="why">
+<summary>Is it gone forever?</summary>
+<p>No. GitHub keeps the history of every change, including deletions, so anything removed by mistake can be brought back. Ask Kevin and say roughly when it was deleted.</p>
+</details>
+</section>
+
+<section id="help">
+<h2><small>Nothing here can break the site for good</small>If something goes wrong</h2>
+<ul class="plain">
+<li><strong>I saved, but the site looks the same.</strong> Wait two minutes, then reload the page. On a phone, pull down to refresh.</li>
+<li><strong>The Save button is grey.</strong> Either nothing has changed yet, or a box with a red star is still empty.</li>
+<li><strong>I changed something and it looks wrong.</strong> Open it again, fix it and save. If you cannot get it back to how it was, ask Kevin: every save is recorded and can be undone.</li>
+<li><strong>It is asking me to sign in again.</strong> Click <strong>Sign In with GitHub</strong>. Nothing is lost.</li>
+<li><strong>A photo looks cut off on a card.</strong> Cards and gallery tiles trim photos to a common shape. Click the photo on the site to see all of it.</li>
+<li><strong>Anything else.</strong> Text Kevin.</li>
+</ul>
+</section>
+
+</div></div>
+</main>
+
+<footer class="foot"><div class="wrap">
+<img src="logo.svg" alt="" width="56" height="56">
+<p>Crabbe Construction &amp; Design<br>Editing guide</p>
+<p class="small"><a href="./">Back to the site</a> · <a href="admin/">Open the editor</a></p>
+</div></footer>
+</body>
+</html>
