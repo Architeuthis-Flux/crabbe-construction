@@ -194,6 +194,9 @@ function renew() {
 async function gh(path, init = {}, retried = false) {
   const response = await fetch(`https://api.github.com/repos/${CFG.repo}${path}`, {
     ...init,
+    // Always ask GitHub afresh. It lets browsers reuse an answer for a minute, and a minute-old
+    // answer to "where is the branch now?" makes a second publish build on the wrong commit.
+    cache: "no-store",
     headers: {
       Accept: "application/vnd.github+json",
       Authorization: `Bearer ${state.session.token}`,
