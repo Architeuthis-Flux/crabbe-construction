@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Ask Claude | Crabbe Construction &amp; Design</title>
+<meta name="description" content="Ask Claude to change the Crabbe Construction &amp; Design website for you.">
+<link rel="icon" href="logo-navy.png">
+<link rel="stylesheet" href="site.css">
+<style>
+/* Ask Claude. Layout: one column, like a text-message thread. What the person typed sits on the
+   right, Claude's replies on the left, and prepared changes wait in a card with Publish on it. */
+.ask { max-width: 44rem; margin-inline: auto; padding-block: 0 var(--band); }
+.panel { margin-top: clamp(-4.5rem, -6vw, -2.5rem); padding: clamp(1.25rem, 4vw, 2rem); background: #fff; box-shadow: 0 24px 48px -32px rgba(25, 42, 61, .45); }
+.panel > * + * { margin-top: 1rem; }
+.panel p { font-size: 1.0625rem; }
+.panel .quiet { font-size: .9375rem; color: var(--muted); }
+#log { display: grid; gap: .75rem; align-content: start; min-height: 9rem; max-height: min(60vh, 34rem); overflow-y: auto; padding: .25rem; }
+#log:empty::before { content: "For example: “Change the phone number to (831) 555-0100.” Or: “Shorten the description of the Deer Flats project.”"; color: var(--muted); font-size: 1rem; }
+.bubble { max-width: 88%; padding: .7rem 1rem; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 1.0625rem; line-height: 1.5; }
+.bubble.you { justify-self: end; background: var(--deep); color: #fff; }
+.bubble.claude { justify-self: start; background: var(--sand-pale); border-left: 2px solid var(--sand); }
+.step, .notice { font-size: .9375rem; }
+.step { color: var(--muted); }
+.step::before { content: "· "; }
+.notice { padding: .6rem .9rem; border: 1px solid var(--sand); background: #fff; }
+#form { display: grid; gap: .75rem; }
+#box { width: 100%; min-height: 5.5rem; padding: .8rem 1rem; border: 1px solid rgba(25, 42, 61, .35); border-radius: 0; background: #fff; color: var(--ink); font: 400 1.0625rem/1.5 var(--sans); resize: vertical; }
+#box:focus-visible { outline: 2px solid var(--slate); outline-offset: 1px; }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.25rem; }
+button.btn { background: none; color: var(--ink); cursor: pointer; }
+button.btn.solid { background: var(--deep); border-color: var(--deep); color: #fff; }
+button.btn.solid:hover { background: var(--ink); border-color: var(--ink); color: #fff; }
+button.btn:disabled { opacity: .5; cursor: default; }
+.link { padding: 0; border: 0; background: none; color: var(--slate); font: inherit; font-size: .9375rem; text-decoration: underline; text-underline-offset: .15em; cursor: pointer; }
+#staged { padding: 1rem 1.25rem; border: 1px solid var(--sand); background: var(--sand-pale); }
+#staged > * + * { margin-top: .75rem; }
+#staged h2 { font: 500 .8125rem/1.4 var(--sans); letter-spacing: .14em; text-transform: uppercase; }
+#changes { margin: 0; padding-left: 1.25rem; font-size: 1.0625rem; }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><div class="wrap">
+<a class="brand" href="./"><img src="logo.svg" alt="" width="44" height="44"><span>Crabbe Construction &amp; Design</span></a>
+<a class="tel" href="admin/">Open the editor</a>
+<nav aria-label="Ask Claude"><a href="./">The site</a><a href="guide.html">Editing guide</a></nav>
+</div></header>
+
+<main id="main">
+<header class="page-head"><div class="wrap">
+<p class="label">For Phil &amp; Maryia</p>
+<h1>Ask Claude</h1>
+<p class="lede">Type what you want changed on the website. Claude gets it ready, and nothing goes live until you press Publish.</p>
+</div></header>
+
+<div class="wrap"><div class="ask">
+
+<section class="panel" id="signin" hidden>
+<p>Sign in with the same GitHub account you use for the editor.</p>
+<button class="btn solid" type="button" data-sign-in>Sign in with GitHub</button>
+</section>
+
+<section class="panel" id="noaccess" hidden>
+<p>That did not let you in. Either the sign-in ran out, or your GitHub account has not been added to the website yet.</p>
+<button class="btn solid" type="button" data-sign-in>Sign in with GitHub</button>
+<p class="quiet">If it keeps happening, ask Kevin to add you.</p>
+</section>
+
+<section class="panel" id="off" hidden>
+<p>The assistant is not switched on yet.</p>
+<p class="quiet" id="off-note"></p>
+<p class="quiet">You can still make changes yourself in <a href="admin/">the editor</a>.</p>
+</section>
+
+<section class="panel" id="chat" hidden>
+<div id="log" role="log" aria-live="polite" aria-label="Conversation"></div>
+<div id="staged" hidden>
+<h2>Ready to publish</h2>
+<ul id="changes"></ul>
+<div class="row">
+<button class="btn solid" type="button" id="publish">Publish</button>
+<button class="link" type="button" id="discard">Discard these changes</button>
+</div>
+</div>
+<form id="form">
+<label class="label" for="box">What would you like changed?</label>
+<textarea id="box" name="message" rows="3" autocomplete="off"></textarea>
+<div class="row">
+<button class="btn solid" type="submit" id="send">Send</button>
+<button class="link" type="button" id="restart">Start a new conversation</button>
+</div>
+</form>
+<p class="quiet">Claude can change wording, projects and pages, and choose from photos already on the site. To add new photos, use <a href="admin/">the editor</a>. For anything about how the site looks, ask Kevin.</p>
+</section>
+
+</div></div>
+</main>
+
+<footer class="foot"><div class="wrap">
+<img src="logo.svg" alt="" width="56" height="56">
+<p>Crabbe Construction &amp; Design<br>Ask Claude</p>
+<p class="small"><a href="./">Back to the site</a> · <a href="guide.html">Editing guide</a> · <a href="admin/">Open the editor</a></p>
+</div></footer>
+<script type="module" src="ask.js"></script>
+</body>
+</html>

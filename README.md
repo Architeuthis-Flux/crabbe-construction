@@ -13,3 +13,16 @@ The company website. Static pages built from `content/*.json` by `build.py` (Pyt
 [Sveltia CMS Authenticator](https://github.com/sveltia/sveltia-cms-auth) at
 `https://crabbe-construction-auth.kevinc-af9.workers.dev`. Redeploy it with `auth/deploy.sh`
 (needs `wrangler login`). Only hostnames listed under `ALLOWED_DOMAINS` in `auth/wrangler.toml` can use it.
+
+## Ask Claude
+
+`ask.html` + `ask.js` are a chat page where a signed-in editor asks Claude to change the site's
+content. `chat/` is its server, a Cloudflare Worker at
+`https://crabbe-construction-chat.kevinc-af9.workers.dev` that holds the Anthropic API key and fixes
+the model, effort, instructions and tools (`chat/wrangler.toml`, `chat/src/prompt.js`). Reading files
+and publishing happen in the browser with the editor's own GitHub access; nothing is committed until
+Publish is pressed. Only people who can write to this repo get an answer.
+
+- **Deploy:** `cd chat && npm install && npx wrangler deploy`
+- **API key (once):** `cd chat && wrangler secret put ANTHROPIC_API_KEY`
+- **Check the rules:** `cd chat && node test.mjs`
