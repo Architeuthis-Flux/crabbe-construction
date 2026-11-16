@@ -67,6 +67,7 @@ const state = {
   messages: [],           // the conversation exactly as the API returned it; only ever appended to
   staged: new Map(),      // path -> new JSON text, or null for a deletion
   seen: new Map(),        // path -> git blob sha when Claude read it (null if it did not exist)
+  titles: new Map(),      // path -> title, so a removal can be listed by name
   note: "",               // what happened to the last staged changes, told to Claude with the next message
   lastAsk: "",
   busy: false,
@@ -158,9 +159,11 @@ async function runTool(call) {
     if (!run) throw new Error("There is no tool with that name.");
     const input = call.input && typeof call.input === "object" ? call.input : {};
     result.content = await run(input);
-    if (call.name === "read_file") status(`Read: ${label(input.path, titleOf(result.content))}`);
-    if (call.name === "write_file") status(`Prepared: ${label(input.path, titleOf(input.content))}`);
-    if (call.name === "delete_file") status(`Prepared to remove: ${label(input.path)}`);
+    if (call.name === "read_file") state.titles.set(input.path, titleOf(result.content));
+    if (call.name === "write_file") state.titles.set(input.path, titleOf(input.content));
+    if (call.name === "read_file") status(`Read: ${label(input.path, state.titles.get(input.path))}`);
+    if (call.name === "write_file") status(`Prepared: ${label(input.path, state.titles.get(input.path))}`);
+    if (call.name === "delete_file") status(`Prepared to remove: ${label(input.path, state.titles.get(input.path))}`);
   } catch (e) {
     if (e instanceof ChatError && e.code === "signin") throw e;
     result.content = String(e.message || e);
@@ -374,7 +377,7 @@ function showStaged() {
   list.replaceChildren();
   for (const [path, text] of state.staged) {
     const item = document.createElement("li");
-    item.textContent = text === null ? `Remove ${label(path)}` : label(path, titleOf(text));
+    item.textContent = text === null ? `Remove ${label(path, state.titles.get(path))}` : label(path, titleOf(text));
     list.append(item);
   }
   $("staged").hidden = state.staged.size === 0;

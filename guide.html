@@ -51,7 +51,7 @@ kbd { padding: .1em .45em; border: 1px solid rgba(25, 42, 61, .3); border-radius
 <header class="top"><div class="wrap">
 <a class="brand" href="./"><img src="logo.svg" alt="" width="44" height="44"><span>Crabbe Construction &amp; Design</span></a>
 <a class="tel" href="admin/">Open the editor</a>
-<nav aria-label="Guide"><a href="./">The site</a><a href="#project">Add a project</a><a href="#help">Help</a></nav>
+<nav aria-label="Guide"><a href="./">The site</a><a href="ask.html">Ask Claude</a><a href="#help">Help</a></nav>
 </div></header>
 
 <main id="main">
@@ -68,6 +68,7 @@ kbd { padding: .1em .45em; border: 1px solid rgba(25, 42, 61, .3); border-radius
 <p class="addr">architeuthis-flux.github.io/crabbe-construction/admin/</p>
 <a class="btn" href="admin/">Open the editor</a>
 <p>It works in the browser on a computer or a phone. There is nothing to install.</p>
+<p>Rather just say what you want? <a href="#ask">Ask Claude</a> can make many of these changes for you.</p>
 </div>
 
 <ol class="toc">
@@ -79,6 +80,7 @@ kbd { padding: .1em .45em; border: 1px solid rgba(25, 42, 61, .3); border-radius
 <li><a href="#home">Change the words on the home page</a></li>
 <li><a href="#page">Add a new page</a></li>
 <li><a href="#delete">Delete something</a></li>
+<li><a href="#ask">Or ask Claude to do it</a></li>
 <li><a href="#help">If something goes wrong</a></li>
 </ol>
 
@@ -232,6 +234,29 @@ kbd { padding: .1em .45em; border: 1px solid rgba(25, 42, 61, .3); border-radius
 <details class="why">
 <summary>Is it gone forever?</summary>
 <p>No. GitHub keeps the history of every change, including deletions, so anything removed by mistake can be brought back. Ask Kevin and say roughly when it was deleted.</p>
+</details>
+</section>
+
+<section id="ask">
+<h2><small>The quick way</small>Or ask Claude to do it</h2>
+<p>Claude is an AI assistant. On the <a href="ask.html">Ask Claude</a> page you type what you want changed, in your own words, and it gets the change ready for you.</p>
+<ol class="steps">
+<li>Open <a href="ask.html">Ask Claude</a> and click <strong>Sign in with GitHub</strong>, the same account as the editor.</li>
+<li>Type what you want. For example: "Change the phone number to (831) 555-0100", "Shorten the description of the Deer Flats project", or "Add a page called Our Process that says…" and then the words.</li>
+<li>Claude looks at the site, gets the change ready and tells you what it will do.
+<figure class="shot"><img src="guide/ask-claude.jpg" width="800" height="640" loading="lazy" alt="The Ask Claude page. A request to change a project's description, Claude's reply saying what will change, and a box titled Ready to publish with a Publish button and a Discard these changes link."><figcaption>A request, Claude's answer, and the change waiting to be published.</figcaption></figure></li>
+<li>If that is what you meant, press <strong>Publish</strong>. If it is not, press <strong>Discard these changes</strong> and say it again another way.</li>
+<li>Give it a minute, then open the site and look.</li>
+</ol>
+<p>Claude can change wording, projects and pages, and pick from photos already on the site. It cannot add new photos, so put those in through the editor first. It cannot change how the site looks; that is still Kevin.</p>
+<details class="why">
+<summary>What is Claude actually doing?</summary>
+<p>It reads the same small files the editor works with, writes new versions of the ones that need changing, and holds them until you decide. Nothing changes on the site while it is working.</p>
+<p>Publish saves those files the same way the editor's Save button does, with your name on the change. So the same one-minute wait applies, and the same history means a mistake can be undone.</p>
+</details>
+<details class="why">
+<summary>Does it cost anything?</summary>
+<p>Each request costs a few cents, which Kevin covers. Use it whenever it saves you time on a real change.</p>
 </details>
 </section>
 
