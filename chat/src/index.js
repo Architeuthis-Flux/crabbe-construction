@@ -9,7 +9,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { canPush } from "./access.js";
 import { SYSTEM, TOOLS, VERSION } from "./prompt.js";
 
-const MAX_BODY = 4_000_000;   // characters of JSON; a long conversation is far below this
+const MAX_BODY = 12_000_000;  // characters of JSON; room for a conversation with a few rounds of small photo copies
 const MAX_TOKENS = 64_000;    // room for Fable's thinking plus a rewritten file; streamed, so no HTTP timeout
 const PING_MS = 15_000;       // keeps the connection to the browser alive while Claude thinks
 

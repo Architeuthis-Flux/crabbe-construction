@@ -143,6 +143,7 @@ ${signoff}
 <link rel="icon" href="logo-navy.png">
 <link rel="preload" href="fonts/eb-garamond.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="site.css?v=${version}">
+<link rel="stylesheet" href="design.css?v=${version}">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>

@@ -18,8 +18,9 @@ import { fileURLToPath } from "node:url";
 import { buildSite, esc, num, paras, rich, slugify, tel } from "./render.js";
 
 const SRC = dirname(fileURLToPath(import.meta.url));
-const ASSETS = ["admin", "fonts", "photos", "guide", "guide.html", "ask.html", "ask.js",
-  "site.css", "site.js", "logo.svg", "logo-navy.png"];   // published as they are
+const ASSETS = ["admin", "fonts", "photos", "guide", "guide.html", "ask.html", "ask.js", "studio.html", "studio.js",
+  "render.js", "site.css", "site.js", "logo.svg", "logo-navy.png"];   // published as they are
+const DESIGN = "content/design.css";   // design overrides, published as design.css next to site.css
 
 // The content files: content/site.json and every .json directly inside content/projects and content/pages.
 function readContent() {
@@ -37,7 +38,7 @@ function readContent() {
 // Hash of the stylesheet and script, appended as ?v= so a changed file is never served stale.
 function version() {
   const hash = createHash("sha1");
-  for (const name of ["site.css", "site.js"]) hash.update(readFileSync(join(SRC, name)));
+  for (const name of ["site.css", "site.js", DESIGN]) hash.update(readFileSync(join(SRC, name)));
   return hash.digest("hex").slice(0, 8);
 }
 
@@ -49,6 +50,7 @@ function copyAssets(out) {
     if (statSync(from).isDirectory()) cpSync(from, join(out, name), { recursive: true });
     else copyFileSync(from, join(out, name));
   }
+  copyFileSync(join(SRC, DESIGN), join(out, "design.css"));
 }
 
 const unescape = (text) => text.replaceAll("&quot;", '"').replaceAll("&#x27;", "'").replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&amp;", "&");
@@ -61,7 +63,7 @@ function brokenLinks(out) {
       const ref = unescape(raw).split("#")[0].split("?")[0];
       if (!ref || /^[a-z]+:/.test(ref) || ref.startsWith("//")) continue;
       const target = join(out, ref);
-      if (!(existsSync(target) || existsSync(join(SRC, ref)))) bad.push(`${page} -> ${ref}`);
+      if (!(existsSync(target) || existsSync(join(SRC, ref)) || ref === "design.css")) bad.push(`${page} -> ${ref}`);
     }
   }
   return bad;
