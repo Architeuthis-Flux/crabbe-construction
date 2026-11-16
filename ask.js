@@ -224,9 +224,12 @@ async function ask(text) {
       working.remove();
       if (!bubble.textContent) bubble.remove();
     }
-    state.messages.push({ role: "assistant", content: message.content });
+    // A refused, cut-off or empty reply is left out of the conversation: it can end on a tool call
+    // that never gets an answer, and the next request would then be rejected.
     if (message.stop_reason === "refusal") return notice("Claude declined that request. Try asking in a different way.");
     if (message.stop_reason === "max_tokens") return notice("That answer got cut off. Try asking for one thing at a time.");
+    if (!Array.isArray(message.content) || message.content.length === 0) return notice("Claude did not answer. Try asking again.");
+    state.messages.push({ role: "assistant", content: message.content });
     const calls = message.content.filter((block) => block.type === "tool_use");
     if (message.stop_reason !== "tool_use" || calls.length === 0) return;
     // Every tool call must get an answer, or the conversation cannot continue. If one cannot run
@@ -269,6 +272,10 @@ async function publish() {
   const message = `Ask Claude: ${state.lastAsk.replace(/\s+/g, " ").slice(0, 60)}`;
   const commit = await gh("/git/commits", { method: "POST", body: JSON.stringify({ message, tree: made.sha, parents: [ref.object.sha] }) });
   await gh(`/git/refs/heads/${CFG.branch}`, { method: "PATCH", body: JSON.stringify({ sha: commit.sha, force: false }) });
+  // Claude wrote these versions, so they count as read: a second change in the same conversation
+  // can build on them without reading the files again.
+  const after = new Map((await gh(`/git/trees/${made.sha}?recursive=1`)).tree.map((entry) => [entry.path, entry.sha]));
+  for (const path of state.staged.keys()) state.seen.set(path, after.get(path) ?? null);
 }
 
 /* ------------------------------------------------------------------ signing in */
@@ -376,7 +383,7 @@ function showStaged() {
 function explain(e) {
   const plain = {
     signin: "Your sign-in ran out. Sign in again and carry on.",
-    access: "Your GitHub account has not been added to the website yet. Ask Kevin.",
+    access: "Your sign-in has run out, or your GitHub account has not been added to the website yet. Sign in again; if that does not help, ask Kevin.",
     off: "The assistant is not switched on yet.",
     key: "The assistant's key is not working. Tell Kevin.",
     busy: "Claude is busy right now. Give it a minute and try again.",
@@ -399,15 +406,15 @@ function fresh() {
 
 async function handle(e) {
   console.error(e);
-  notice(explain(e));
-  if (e.code === "signin") {
+  if (e.code === "signin" || e.code === "access") {
     signOut();
-    show("signin");
+    show("noaccess");            // offers the sign-in button again; the conversation is kept for afterwards
   }
   if (e.code === "updated") {
     state.version = e.detail?.version || state.version;
     fresh();
   }
+  notice(explain(e));            // after the panel switch, so it lands where it can be seen
 }
 
 async function start() {
@@ -471,7 +478,6 @@ function wire() {
     try {
       await publish();
       state.staged.clear();
-      state.seen.clear();
       state.note = "[The changes you prepared were published to the site.]";
       notice("Published. The site will show it in about a minute.");
     } catch (e) {
@@ -488,9 +494,8 @@ function wire() {
   });
   $("discard").addEventListener("click", () => {
     if (state.busy) return;
-    state.staged.clear();
-    state.seen.clear();
-    state.note = "[The person discarded the changes you prepared. Nothing was published.]";
+    state.staged.clear();          // what Claude has read still matches the site, so keep that record
+    state.note = "[The person discarded the changes you prepared. Nothing was published. The files are as you last read them.]";
     notice("Discarded. Nothing was changed.");
     showStaged();
   });
