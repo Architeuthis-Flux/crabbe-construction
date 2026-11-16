@@ -6,7 +6,7 @@ backend:
   name: github
   repo: Architeuthis-Flux/crabbe-construction
   branch: main
-  # Sign-in server (see auth/): makes the "Sign In with GitHub" button work.
+  # Sign-in server (shared, deployed from the friend-sites kit): makes the "Sign In with GitHub" button work.
   base_url: https://crabbe-construction-auth.kevinc-af9.workers.dev
 
 site_url: https://architeuthis-flux.github.io/crabbe-construction/

@@ -4,6 +4,6 @@
   "type": "module",
   "scripts": {
     "build": "node build.js _site",
-    "test": "node build.js --test && node chat/test.mjs"
+    "test": "node build.js --test && node ask.site.test.mjs"
   }
 }

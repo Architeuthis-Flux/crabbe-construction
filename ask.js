@@ -1,53 +1,55 @@
 // Ask Claude, with the site beside it.
 //
-// Left: a live preview of the site, built in the browser by the same render.js that publishes
-// it, from the repo's content plus whatever Claude has prepared. Right: the chat.
+// THIS FILE IS THE SAME ON EVERY SITE. It comes from the friend-sites kit (panel/ask.js); change
+// it there and copy it out with tools/sync.mjs. Everything that differs between sites lives in
+// ask.site.js (which files Claude may touch, how the preview is made) and ask.site.css (colours).
+//
+// Left: a live preview of the site, made from the repo's content plus whatever Claude has
+// prepared. Right: the chat.
 //
 // The person signs in with GitHub (same sign-in server as the editor). Claude runs behind the
-// chat server (chat/), which only holds the API key. Everything that touches the site's files
-// happens here with the signed-in person's own GitHub access: Claude's tools read files and stage
+// chat server, which only holds the API key. Everything that touches the site's files happens
+// here with the signed-in person's own GitHub access: Claude's tools read files and stage
 // changes, photos are shrunk and staged in the page, and nothing is committed until Publish.
 
-import { buildSite, slugify } from "./render.js";
+import SITE from "./ask.site.js";
 
-const CFG = {
-  chat: "https://crabbe-construction-chat.kevinc-af9.workers.dev",
-  auth: "https://crabbe-construction-auth.kevinc-af9.workers.dev",
-  repo: "Architeuthis-Flux/crabbe-construction",
-  branch: "main",
-};
+const CFG = SITE;                         // repo, branch, and the chat and sign-in servers
 const MAX_ROUNDS = 12;                    // tool rounds per message, so a confused reply cannot loop
 const MAX_PHOTOS = 8;                     // per message; Claude is sent a small copy of each
-const STORE = "crabbe-ask-session";
+const KEEP = SITE.store ?? "ask-" + SITE.id;   // what this page keeps in the browser is named after the site
+const STORE = KEEP + "-session";
+const ASK = "?site=" + encodeURIComponent(SITE.id);   // tells the chat server which site this is
 
 /* ------------------------------------------------------------------ rules
-   Pure functions, also exercised by chat/test.mjs. Claude's tool input is untrusted output: it may
-   write the content JSON files and the design overrides, and nothing else. Never code, never the
-   editor's settings, never the deploy workflow: those run with the editor's sign-in. */
+   Pure functions, also exercised by the site's own test. Claude's tool input is untrusted output:
+   it may write the site's content files and the design overrides, and nothing else. Never code,
+   never the editor's settings, never the deploy workflow: those run with the editor's sign-in.
+   Which paths count as content, and what a content file must look like, is the site's to say
+   (ask.site.js); the rest is the same everywhere. */
 
-const CONTENT_JSON = /^content\/(site\.json|(projects|pages)\/[a-z0-9]+(-[a-z0-9]+)*\.json)$/;
-const RESERVED = new Set(["index", "work", "guide", "ask"]);
-export const DESIGN = "content/design.css";
-export const READ_ONLY = "site.css";
+const isContent = (path) => typeof path === "string" && SITE.isContent(path);
+export const DESIGN = SITE.design ?? null;          // the design overrides Claude may write, if the site has them
+export const READ_ONLY = SITE.readOnly ?? null;     // a stylesheet Claude may read but not change
+const PHOTOS = SITE.photos ?? null;                 // the repo folder photos go in, e.g. "photos/"; null = no photos
 export const TOOL_NAMES = ["list_site_files", "read_file", "write_file", "delete_file"];
+
+const slugify = (name) => String(name).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 
 export function checkPath(path, { reading = false, deleting = false } = {}) {
   if (typeof path !== "string") return "The path must be text.";
-  if (reading && path === READ_ONLY) return "";
-  if (path === DESIGN) return deleting ? "The design file cannot be deleted. Write it with the rule removed instead." : "";
-  if (!CONTENT_JSON.test(path)) {
-    return `That path cannot be ${reading ? "read" : "changed"} here. Use content/site.json, content/projects/<slug>.json, content/pages/<slug>.json or ${DESIGN}` +
-      (reading ? `, or ${READ_ONLY} to read the main stylesheet.` : ".");
+  if (reading && READ_ONLY && path === READ_ONLY) return "";
+  if (DESIGN && path === DESIGN) return deleting ? "The design file cannot be deleted. Write it with the rule removed instead." : "";
+  if (!isContent(path)) {
+    return `That path cannot be ${reading ? "read" : "changed"} here. Use ${SITE.pathHelp}${DESIGN ? " or " + DESIGN : ""}` +
+      (reading && READ_ONLY ? `, or ${READ_ONLY} to read the main stylesheet.` : ".");
   }
-  const slug = path.split("/").pop().replace(/\.json$/, "");
-  if (path !== "content/site.json" && RESERVED.has(slug)) return `The name "${slug}" is used by the site itself. Pick another.`;
-  if (deleting && path === "content/site.json") return "The home page file cannot be deleted.";
-  return "";
+  return SITE.checkPath?.(path, { reading, deleting }) ?? "";
 }
 
 export function checkContent(path, text) {
   if (typeof text !== "string") return "The content must be text.";
-  if (path === DESIGN) return checkCss(text);
+  if (DESIGN && path === DESIGN) return checkCss(text);
   let data;
   try {
     data = JSON.parse(text);
@@ -55,8 +57,7 @@ export function checkContent(path, text) {
     return "The content is not valid JSON: " + e.message;
   }
   if (data === null || typeof data !== "object" || Array.isArray(data)) return "The content must be a JSON object.";
-  if (path !== "content/site.json" && (typeof data.title !== "string" || !data.title.trim())) return 'A project or page needs a "title".';
-  return "";
+  return SITE.checkContent?.(path, data) ?? "";
 }
 
 // Design overrides are plain CSS that only styles what is already on the page.
@@ -76,11 +77,9 @@ export function checkCss(text) {
 }
 
 export function label(path, title) {
-  if (path === "content/site.json") return "Home page";
-  if (path === DESIGN) return "Design";
-  if (path === READ_ONLY) return "Main stylesheet";
-  const kind = path.startsWith("content/projects/") ? "Project" : "Page";
-  return `${kind}: ${title || path.split("/").pop().replace(/\.json$/, "")}`;
+  if (DESIGN && path === DESIGN) return "Design";
+  if (READ_ONLY && path === READ_ONLY) return "Main stylesheet";
+  return SITE.label(path, title);
 }
 
 // Photo file names a content file or the design file points at.
@@ -88,11 +87,8 @@ export function photoRefs(text) {
   return [...new Set([...String(text).matchAll(/photos\/([^"'\s)\\<>]+)/g)].map((m) => m[1]))];
 }
 
-// Which preview page shows a given content file.
-export function pageFor(path) {
-  if (CONTENT_JSON.test(path) && path !== "content/site.json") return path.split("/").pop().replace(/\.json$/, ".html");
-  return path === "content/site.json" ? "index.html" : "";
-}
+// Which preview page shows a given content file ("" = stay on the page that is showing).
+export const pageFor = (path) => (isContent(path) ? SITE.pageFor(path) : "");
 
 // A file name for an uploaded photo that nothing else is using.
 export function uniqueName(original, ext, taken) {
@@ -122,7 +118,7 @@ const state = {
   attach: [],             // photos waiting to go with the next message: {name, b64}
   chips: [],              // things pointed at, waiting to go with the next message: {show, tell}
   pages: new Map(),       // the preview: page name -> html
-  page: "index.html",
+  page: SITE.home,
   view: "site",
   picking: false,
   note: "",               // what happened to the last staged changes, told to Claude with the next message
@@ -227,7 +223,8 @@ async function siteTree(at = CFG.branch) {
   return new Map(tree.tree.filter((entry) => entry.type === "blob").map((entry) => [entry.path, entry.sha]));
 }
 
-const isText = (path) => CONTENT_JSON.test(path) || path === DESIGN;
+const isText = (path) => isContent(path) || (DESIGN !== null && path === DESIGN);
+const inRepo = (name) => PHOTOS !== null && state.repo.tree.has(PHOTOS + name);     // is this photo already on the site?
 
 // Read the site as it is in the repo right now (not the published copy, which lags by a minute).
 async function loadRepo(at = CFG.branch) {
@@ -251,24 +248,24 @@ function currentText(path) {
 }
 
 function contentFiles() {
-  const files = new Map([...state.repo.text].filter(([path]) => CONTENT_JSON.test(path)));
+  const files = new Map([...state.repo.text].filter(([path]) => isContent(path)));
   for (const [path, text] of state.staged) {
-    if (!CONTENT_JSON.test(path)) continue;
+    if (!isContent(path)) continue;
     if (text === null) files.delete(path);
     else files.set(path, text);
   }
   return files;
 }
 
-function render() {
+// The site makes its own preview pages (ask.site.js): built in the browser by the site's own
+// renderer, or the published pages refilled from the content (fill.js).
+async function render() {
   try {
-    state.pages = buildSite({
+    state.pages = await SITE.preview({
       files: contentFiles(),
-      hasPhoto: (name) => state.photos.has(name) || state.repo.tree.has("photos/" + name),
+      hasPhoto: (name) => state.photos.has(name) || inRepo(name),
       photoUrl: (name) => state.photos.get(name)?.url ?? "photos/" + name,
-      version: "preview",
-      preview: true,
-    }).pages;
+    });
     return true;
   } catch (e) {
     console.error(e);
@@ -279,23 +276,26 @@ function render() {
 // Put a page in the preview frame. The frame cannot run scripts (it shares this page's origin,
 // where the sign-in is stored, and page text is raw HTML), so everything it does is driven from here.
 function showPage(name = state.page, hash = "") {
-  if (!state.pages.has(name)) name = "index.html";
+  if (!state.pages.has(name)) name = SITE.home;
+  if (!state.pages.has(name)) return;
   const same = name === state.page;
   const keep = same && !hash ? frame().contentWindow?.scrollY ?? 0 : 0;
   state.page = name;
-  $("page-name").textContent = name === "index.html" ? "Home page" : name.replace(/\.html$/, "").replaceAll("-", " ");
+  $("page-name").textContent = SITE.pageTitle(name);
   const html = state.pages.get(name)
-    .replace("<head>", `<head><base href="${base()}">`)
-    .replace(/<script[^>]*><\/script>/g, "");
+    .replace(/<head[^>]*>/, (head) => `${head}<base href="${base()}">`)
+    .replace(/<script\b[\s\S]*?<\/script>/gi, "");
   const f = frame();
   f.onload = () => {
     const doc = f.contentDocument;
     if (!doc) return;
     // Design overrides go in as text, never spliced into the page's HTML.
-    doc.querySelector('link[href^="design.css"]')?.remove();
-    const design = doc.createElement("style");
-    design.textContent = currentText(DESIGN) ?? "";
-    doc.head.append(design);
+    if (DESIGN) {
+      doc.querySelector('link[href*="design.css"]')?.remove();
+      const design = doc.createElement("style");
+      design.textContent = currentText(DESIGN) ?? "";
+      doc.head.append(design);
+    }
     const pick = doc.createElement("style");
     pick.textContent = "html.picking,html.picking *{cursor:crosshair !important}[data-pick]{outline:3px solid #d81b60 !important;outline-offset:2px !important}";
     doc.head.append(pick);
@@ -308,8 +308,8 @@ function showPage(name = state.page, hash = "") {
   f.srcdoc = html;
 }
 
-function refreshPreview(path = "") {
-  if (!render()) return;
+async function refreshPreview(path = "") {
+  if (!(await render())) return;
   const page = pageFor(path);
   showPage(page && state.pages.has(page) ? page : state.page);
 }
@@ -334,9 +334,9 @@ function onPreviewClick(event) {
   const href = el.closest("a[href]")?.getAttribute("href");
   if (!href) return;
   const [path, hash = ""] = href.split("#");
-  const name = path === "./" || path === "" ? (path === "" ? state.page : "index.html") : path;
-  if (state.pages.has(name)) showPage(name, hash);
-  else if (name === "guide.html") setView("guide");
+  const name = SITE.pageOfLink(path, state.page);
+  if (name && state.pages.has(name)) showPage(name, hash);
+  else if (path.replace(/^\//, "") === "guide.html") setView("guide");
 }
 
 // What was pointed at, in words for the person and in detail for Claude.
@@ -345,18 +345,23 @@ function describe(el) {
   const style = doc.defaultView.getComputedStyle(el);
   const text = (el.tagName === "IMG" ? "" : el.textContent).replace(/\s+/g, " ").trim().slice(0, 120);
   const source = el.closest("[data-edit]")?.getAttribute("data-edit") ?? "";
-  const photoName = el.tagName === "IMG" ? decodeURIComponent((el.getAttribute("src") || "").split("/").pop().split("?")[0]) : "";
-  const staged = photoName && [...state.photos].find(([, p]) => p.url === el.getAttribute("src"));
+  const src = el.tagName === "IMG" ? el.getAttribute("src") || "" : "";
+  const photoName = decodeURIComponent(src.split("/").pop().split("?")[0]);
+  const staged = src && [...state.photos].find(([, p]) => p.url === src);
   const photo = staged ? staged[0] : photoName;
+  // A photo from the photos folder is named the way the content files name it; any other picture by its address.
+  const photoPath = staged || /(^|\/)photos\//.test(src) ? `/photos/${photo}` : src;
   const path = [];
   for (let node = el; node && node.tagName !== "BODY" && path.length < 4; node = node.parentElement) {
     const cls = [...node.classList].filter((c) => c !== "picking")[0];
-    path.unshift(node.tagName.toLowerCase() + (node.id ? "#" + node.id : cls ? "." + cls : ""));
+    const twins = node.parentElement ? [...node.parentElement.children].filter((c) => c.tagName === node.tagName) : [];
+    const nth = !node.id && twins.length > 1 ? `:nth-of-type(${twins.indexOf(node) + 1})` : "";
+    path.unshift(node.tagName.toLowerCase() + (node.id ? "#" + CSS.escape(node.id) : cls ? "." + CSS.escape(cls) : "") + nth);
   }
   const what = el.tagName === "IMG" ? `the photo ${photo}` : text ? `“${text.slice(0, 50)}${text.length > 50 ? "…" : ""}”` : `a ${el.tagName.toLowerCase()} element`;
   const details = [
     `on the page ${state.page}`,
-    el.tagName === "IMG" ? `the photo /photos/${photo}` : text ? `the text "${text}"` : "",
+    el.tagName === "IMG" ? `the photo ${photoPath}` : text ? `the text "${text}"` : "",
     source ? `it comes from ${source.replace("#", ", field ")}` : "",
     `CSS selector: ${path.join(" > ")}`,
     `it currently looks like: font ${style.fontSize} ${style.fontFamily.split(",")[0].replaceAll('"', "")}, weight ${style.fontWeight}, colour ${style.color}` +
@@ -433,12 +438,13 @@ async function addPhoto(file) {
   const look = await shrink(picture, 768, "image/jpeg", 0.7);
   picture.close?.();
   if (!blob || !look) throw new ChatError("photo", file.name);
-  const name = uniqueName(file.name, ext, (n) => state.photos.has(n) || state.repo.tree.has("photos/" + n));
+  const name = uniqueName(file.name, ext, (n) => state.photos.has(n) || inRepo(n));
   state.photos.set(name, { blob, url: URL.createObjectURL(blob), published: false });
   state.attach.push({ name, b64: toBase64(await look.arrayBuffer()) });
 }
 
 async function addPhotos(fileList) {
+  if (PHOTOS === null) return;                 // this site has nowhere to put photos
   const files = [...fileList].filter((f) => f.type.startsWith("image/") || /\.(heic|heif)$/i.test(f.name));
   for (const file of files) {
     if (state.attach.length >= MAX_PHOTOS) {
@@ -466,56 +472,65 @@ function dropAttachment(name) {
 
 // Photos added here that some page (or the design) will actually use.
 function usedPhotos() {
-  const all = [...contentFiles().values(), currentText(DESIGN) ?? ""].join("\n");
+  const all = [...contentFiles().values(), (DESIGN && currentText(DESIGN)) ?? ""].join("\n");
   return [...state.photos].filter(([name, photo]) => !photo.published && all.includes("photos/" + name));
 }
 
 /* ------------------------------------------------------------------ Claude's tools */
 
 function listSiteFiles() {
-  const content = new Set([...state.repo.text.keys()].filter((p) => CONTENT_JSON.test(p)));
+  const content = new Set([...state.repo.text.keys()].filter((p) => isContent(p)));
   for (const [path, text] of state.staged) {
-    if (!CONTENT_JSON.test(path)) continue;
+    if (!isContent(path)) continue;
     if (text === null) content.delete(path);
     else content.add(path);
   }
-  const photos = new Set([...state.repo.tree.keys()].filter((p) => p.startsWith("photos/")).map((p) => "/" + p));
-  for (const name of state.photos.keys()) photos.add("/photos/" + name);
-  return JSON.stringify({ content_files: [...content].sort(), design_file: DESIGN, main_stylesheet_read_only: READ_ONLY, photos: [...photos].sort() });
+  const list = { content_files: [...content].sort() };
+  if (DESIGN) list.design_file = DESIGN;
+  if (READ_ONLY) list.main_stylesheet_read_only = READ_ONLY;
+  if (PHOTOS !== null) {
+    const photos = new Set([...state.repo.tree.keys()].filter((p) => p.startsWith(PHOTOS)).map((p) => "/photos/" + p.slice(PHOTOS.length)));
+    for (const name of state.photos.keys()) photos.add("/photos/" + name);
+    list.photos = [...photos].sort();
+  }
+  return JSON.stringify(list);
 }
 
 async function readFile({ path }) {
   const problem = checkPath(path, { reading: true });
   if (problem) throw new Error(problem);
-  if (path === READ_ONLY) return decode((await gh(`/git/blobs/${state.repo.tree.get(READ_ONLY)}`)).content);
+  if (READ_ONLY && path === READ_ONLY) return decode((await gh(`/git/blobs/${state.repo.tree.get(READ_ONLY)}`)).content);
   const text = currentText(path);
   if (text === null) {
-    if (path === DESIGN) return "/* No design changes yet. */";
+    if (DESIGN && path === DESIGN) return "/* No design changes yet. */";
     throw new Error(state.staged.has(path) ? "That file is set to be removed in the changes you prepared." : "There is no such file yet.");
   }
   return text;
 }
 
-function writeFile({ path, content }) {
+async function writeFile({ path, content }) {
   const problem = checkPath(path) || checkContent(path, content);
   if (problem) throw new Error(problem);
   // A photo that was attached and then discarded, or a name that was never real, would be left
   // out of the page without a word and the dead reference published. Refuse it instead.
-  const missing = photoRefs(content).filter((name) => !state.photos.has(name) && !state.repo.tree.has("photos/" + name));
+  const missing = PHOTOS === null ? [] : photoRefs(content).filter((name) => !state.photos.has(name) && !inRepo(name));
   if (missing.length) {
     throw new Error(`These photos are not on the site: ${missing.map((n) => "/photos/" + n).join(", ")}. ` +
       "If the person attached them earlier and then discarded the changes, ask them to attach the photos again. list_site_files shows the photos that exist.");
   }
   state.staged.set(path, content);
-  refreshPreview(path);
+  await refreshPreview(path);
+  // Some sites have content the preview cannot show (ask.site.js says which). Claude has to
+  // know, or it tells the person to look at something that is not there.
+  if (SITE.unseen?.(path)) return "Prepared. Most of what this file holds does NOT show in the person's preview; it will be on the real site after they press Publish. Tell them so, and spell out what you changed.";
   return "Prepared, and showing in the person's preview now. It goes live when they press Publish.";
 }
 
-function deleteFile({ path }) {
+async function deleteFile({ path }) {
   const problem = checkPath(path, { deleting: true });
   if (problem) throw new Error(problem);
   state.staged.set(path, null);
-  refreshPreview();
+  await refreshPreview();
   return "Prepared for removal, and gone from the person's preview now. It goes live when they press Publish.";
 }
 
@@ -528,7 +543,7 @@ async function runTool(call) {
     if (!run) throw new Error("There is no tool with that name.");
     const input = call.input && typeof call.input === "object" ? call.input : {};
     result.content = await run(input);
-    const title = (text) => (CONTENT_JSON.test(input.path) ? titleOf(text) : undefined);
+    const title = (text) => (isContent(input.path) ? titleOf(text) : undefined);
     if (call.name === "read_file") status(`Read: ${label(input.path, title(result.content))}`);
     if (call.name === "write_file") status(`Prepared: ${label(input.path, title(input.content))}`);
     if (call.name === "delete_file") status(`Prepared to remove: ${label(input.path, title(state.repo.text.get(input.path) ?? ""))}`);
@@ -543,7 +558,7 @@ async function runTool(call) {
 /* ------------------------------------------------------------------ talking to Claude */
 
 async function callClaude(onText, retried = false) {
-  const response = await fetch(`${CFG.chat}/chat`, {
+  const response = await fetch(`${CFG.chat}/chat${ASK}`, {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${state.session.token}` },
     body: JSON.stringify({ version: state.version, messages: state.messages }),
@@ -655,13 +670,13 @@ async function publish() {
     if ((now.get(path) ?? null) !== (state.repo.tree.get(path) ?? null)) throw new ChatError("moved");
   }
   const photos = usedPhotos();
-  for (const [name] of photos) if (now.has("photos/" + name)) throw new ChatError("moved");
+  for (const [name] of photos) if (now.has(PHOTOS + name)) throw new ChatError("moved");
   const tree = [...state.staged].map(([path, text]) =>
     text === null ? { path, mode: "100644", type: "blob", sha: null } : { path, mode: "100644", type: "blob", content: text },
   );
   for (const [name, photo] of photos) {
     const blob = await gh("/git/blobs", { method: "POST", body: JSON.stringify({ content: toBase64(await photo.blob.arrayBuffer()), encoding: "base64" }) });
-    tree.push({ path: "photos/" + name, mode: "100644", type: "blob", sha: blob.sha });
+    tree.push({ path: PHOTOS + name, mode: "100644", type: "blob", sha: blob.sha });
   }
   if (!tree.length) return;
   const made = await gh("/git/trees", { method: "POST", body: JSON.stringify({ base_tree: tip.tree.sha, tree }) });
@@ -699,7 +714,7 @@ function discard() {
 
    Claude's side can be dragged wider or narrower, or hidden. The choice is kept in this browser. */
 
-const LAYOUT = "crabbe-ask-layout";
+const LAYOUT = KEEP + "-layout";
 
 function loadLayout() {
   try {
@@ -770,7 +785,7 @@ function wireLayout() {
 function signIn() {
   // Same popup the editor uses. The sign-in server only hands a token to pages on allowed sites.
   const origin = new URL(CFG.auth).origin;
-  const popup = window.open(`${CFG.auth}/auth?provider=github&site_id=${location.hostname}`, "crabbe-sign-in", "width=620,height=720");
+  const popup = window.open(`${CFG.auth}/auth?provider=github&site_id=${location.hostname}`, KEEP + "-sign-in", "width=620,height=720");
   if (!popup) return notice("Your browser blocked the sign-in window. Allow pop-ups for this page and try again.");
   const listen = (event) => {
     if (event.origin !== origin || typeof event.data !== "string") return;
@@ -901,7 +916,7 @@ function showStaged() {
   list.replaceChildren();
   for (const [path, text] of state.staged) {
     const item = document.createElement("li");
-    const title = CONTENT_JSON.test(path) ? titleOf(text ?? state.repo.text.get(path) ?? "") : undefined;
+    const title = isContent(path) ? titleOf(text ?? state.repo.text.get(path) ?? "") : undefined;
     item.textContent = text === null ? `Remove ${label(path, title)}` : label(path, title);
     list.append(item);
   }
@@ -954,20 +969,20 @@ async function handle(e) {
     discard();
     state.note = "[The changes you prepared were not published, because the site changed in the meantime. The files have been reloaded. Read them again before preparing anything.]";
     await loadRepo().catch(() => {});
-    refreshPreview();
+    await refreshPreview();
   }
   notice(explain(e));            // after the panel switch, so it lands where it can be seen
 }
 
 async function start(justSignedIn = false, renewed = false) {
   try {
-    const here = await (await fetch(`${CFG.chat}/status`)).json();
+    const here = await (await fetch(`${CFG.chat}/status${ASK}`)).json();
     state.version = here.version;
     if (!state.session) {
       showPublished();
       return show("signin");
     }
-    const access = await (await fetch(`${CFG.chat}/access`, { headers: { Authorization: `Bearer ${state.session.token}` } })).json();
+    const access = await (await fetch(`${CFG.chat}/access${ASK}`, { headers: { Authorization: `Bearer ${state.session.token}` } })).json();
     if (!access.allowed) {
       // A remembered sign-in has usually just run out: renew it quietly and check again.
       if (!justSignedIn && !renewed && (await renew())) return start(false, true);
@@ -1010,6 +1025,10 @@ async function run(job) {
 }
 
 function wire() {
+  document.title = `Ask Claude | ${SITE.name}`;
+  if (SITE.icon) document.head.append(Object.assign(document.createElement("link"), { rel: "icon", href: SITE.icon }));
+  $("log").dataset.hint = SITE.hint;
+  $("add-photos").hidden = PHOTOS === null;
   wireLayout();
   state.session = loadSession();
   for (const button of document.querySelectorAll("[data-sign-in]")) button.addEventListener("click", signIn);
@@ -1044,7 +1063,7 @@ function wire() {
     }
   });
   $("box").addEventListener("paste", (event) => {
-    if (event.clipboardData?.files.length) {
+    if (PHOTOS !== null && event.clipboardData?.files.length) {
       event.preventDefault();
       addPhotos(event.clipboardData.files);
     }
@@ -1066,7 +1085,7 @@ function wire() {
     run(async () => {
       await publish();
       state.note = "[The changes you prepared were published to the site.]";
-      notice("Published. The site will show it in about a minute.");
+      notice(`Published. The site will show it in ${SITE.wait ?? "about a minute"}.`);
       refreshPreview();
     }),
   );
@@ -1094,7 +1113,11 @@ function wire() {
       const href = link?.getAttribute("href");
       if (!href || href.startsWith("#")) return;        // moving around inside the guide is fine
       event.preventDefault();
-      if (href === "./" || href.split("#")[0] === "ask.html") setView("site");
+      const to = new URL(link.href);
+      const here = new URL(".", location.href);
+      const bare = (path) => path.replace(/\.html$/, "");      // some hosts serve ask.html as /ask
+      const mine = to.origin === location.origin && (to.pathname === here.pathname || bare(to.pathname) === bare(location.pathname));
+      if (mine) setView("site");               // the site's home page, or this page itself
       else window.open(link.href, "_blank", "noopener");
     }, true);
   });

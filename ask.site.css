@@ -1,0 +1,14 @@
+/* The Ask Claude panel (ask.html) in this site's colours and typefaces. */
+@font-face { font-family: "EB Garamond"; font-style: normal; font-weight: 400 600; font-display: swap; src: url(fonts/eb-garamond.woff2) format("woff2"); }
+@font-face { font-family: "Reem Kufi"; font-style: normal; font-weight: 400 700; font-display: swap; src: url(fonts/reem-kufi.woff2) format("woff2"); }
+:root {
+  --ink: #192a3d;
+  --deep: #23383f;
+  --slate: #597882;
+  --sand: #cdbda2;
+  --sand-pale: #f4f1ea;
+  --paper: #fafbfc;
+  --muted: #56616b;
+  --serif: "EB Garamond", Garamond, "Iowan Old Style", Georgia, serif;
+  --sans: "Reem Kufi", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+}
