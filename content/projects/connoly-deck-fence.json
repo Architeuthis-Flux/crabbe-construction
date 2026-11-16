@@ -1,0 +1,16 @@
+{
+  "title": "Connoly Deck & Fence",
+  "kind": "Residential",
+  "summary": "All of the exterior decking and fencing",
+  "cover": "/photos/connoly-01.webp",
+  "photos": [
+    "/photos/connoly-02.webp",
+    "/photos/connoly-03.webp",
+    "/photos/connoly-04.webp",
+    "/photos/connoly-05.webp",
+    "/photos/connoly-06.webp"
+  ],
+  "body": "",
+  "featured": true,
+  "order": 2
+}
