@@ -308,7 +308,7 @@ function signIn() {
       } catch {
         // private window: the sign-in just will not be remembered
       }
-      start();
+      start(true);
     } else {
       notice("Sign-in did not work. " + (payload.error || "Please try again."));
     }
@@ -420,16 +420,19 @@ async function handle(e) {
   notice(explain(e));            // after the panel switch, so it lands where it can be seen
 }
 
-async function start() {
+async function start(justSignedIn = false) {
   try {
     const here = await (await fetch(`${CFG.chat}/status`)).json();
     state.version = here.version;
     if (!state.session) return show("signin");
     const access = await (await fetch(`${CFG.chat}/access`, { headers: { Authorization: `Bearer ${state.session.token}` } })).json();
     if (!access.allowed) {
-      // An expired sign-in looks the same as no access, so offer the sign-in button again too.
       signOut();
-      return show("noaccess");
+      // Straight after signing in, a refusal means the account has not been added to the site.
+      if (justSignedIn) return show("noaccess");
+      // Otherwise it is a remembered sign-in that has run out (they last about eight hours).
+      show("signin");
+      return notice("Your sign-in ran out. Sign in again to carry on.");
     }
     show(access.ready ? "chat" : "off");
     $("off-note").textContent = access.ready ? "" : "Your sign-in works. The assistant itself is not switched on yet.";
