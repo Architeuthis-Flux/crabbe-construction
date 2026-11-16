@@ -61,7 +61,7 @@ function titleOf(text) {
 /* ------------------------------------------------------------------ state */
 
 const state = {
-  session: null,          // {token} from the GitHub sign-in
+  session: null,          // {token, refreshToken} from the GitHub sign-in
   user: "",
   version: "",            // the chat server's prompt version this conversation started with
   messages: [],           // the conversation exactly as the API returned it; only ever appended to
@@ -81,9 +81,60 @@ class ChatError extends Error {
   }
 }
 
+/* ------------------------------------------------------------------ the saved sign-in */
+
+function loadSession() {
+  try {
+    return JSON.parse(localStorage.getItem(STORE));
+  } catch {
+    return null;
+  }
+}
+
+function saveSession() {
+  try {
+    localStorage.setItem(STORE, JSON.stringify(state.session));
+  } catch {
+    // private window: the sign-in just will not be remembered
+  }
+}
+
+// A GitHub sign-in lasts about eight hours. The sign-in server swaps the renewal token it came
+// with for a new pair, so the person does not have to click the sign-in button every day.
+// A renewal token works once, so only one renewal runs at a time and the new pair is saved at once.
+let renewing = null;
+function renew() {
+  renewing ??= (async () => {
+    try {
+      const saved = loadSession();
+      if (saved?.token && saved.token !== state.session?.token) {
+        state.session = saved;              // another tab already renewed it
+        return true;
+      }
+      const refreshToken = state.session?.refreshToken;
+      if (!refreshToken) return false;
+      const response = await fetch(`${CFG.auth}/auth`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ grant_type: "refresh_token", refresh_token: refreshToken }),
+      });
+      const fresh = await response.json();
+      if (!response.ok || !fresh.access_token) return false;
+      state.session = { token: fresh.access_token, refreshToken: fresh.refresh_token || refreshToken };
+      saveSession();
+      return true;
+    } catch {
+      return false;
+    } finally {
+      renewing = null;
+    }
+  })();
+  return renewing;
+}
+
 /* ------------------------------------------------------------------ GitHub */
 
-async function gh(path, init = {}) {
+async function gh(path, init = {}, retried = false) {
   const response = await fetch(`https://api.github.com/repos/${CFG.repo}${path}`, {
     ...init,
     headers: {
@@ -92,7 +143,10 @@ async function gh(path, init = {}) {
       ...(init.body ? { "Content-Type": "application/json" } : {}),
     },
   });
-  if (response.status === 401) throw new ChatError("signin");
+  if (response.status === 401) {
+    if (!retried && (await renew())) return gh(path, init, true);
+    throw new ChatError("signin");
+  }
   if (!response.ok) throw new ChatError("github", `${response.status} on ${path}`);
   return response.json();
 }
@@ -174,7 +228,7 @@ async function runTool(call) {
 
 /* ------------------------------------------------------------------ talking to Claude */
 
-async function callClaude(onText) {
+async function callClaude(onText, retried = false) {
   const response = await fetch(`${CFG.chat}/chat`, {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${state.session.token}` },
@@ -182,6 +236,8 @@ async function callClaude(onText) {
   });
   if (!response.ok) {
     const problem = await response.json().catch(() => ({}));
+    // The server cannot tell a sign-in that ran out from an account without access. Try renewing once.
+    if ((problem.error === "access" || problem.error === "signin") && !retried && (await renew())) return callClaude(onText, true);
     throw new ChatError(problem.error || "failed", problem);
   }
   // The reply is JSON lines: pings while Claude thinks, text as it writes, then the whole message.
@@ -302,12 +358,8 @@ function signIn() {
       // fall through to the generic message
     }
     if (done[1] === "success" && payload.token) {
-      state.session = { token: payload.token };
-      try {
-        localStorage.setItem(STORE, JSON.stringify(state.session));
-      } catch {
-        // private window: the sign-in just will not be remembered
-      }
+      state.session = { token: payload.token, refreshToken: payload.refreshToken };
+      saveSession();
       start(true);
     } else {
       notice("Sign-in did not work. " + (payload.error || "Please try again."));
@@ -420,17 +472,18 @@ async function handle(e) {
   notice(explain(e));            // after the panel switch, so it lands where it can be seen
 }
 
-async function start(justSignedIn = false) {
+async function start(justSignedIn = false, renewed = false) {
   try {
     const here = await (await fetch(`${CFG.chat}/status`)).json();
     state.version = here.version;
     if (!state.session) return show("signin");
     const access = await (await fetch(`${CFG.chat}/access`, { headers: { Authorization: `Bearer ${state.session.token}` } })).json();
     if (!access.allowed) {
+      // A remembered sign-in has usually just run out: renew it quietly and check again.
+      if (!justSignedIn && !renewed && (await renew())) return start(false, true);
       signOut();
-      // Straight after signing in, a refusal means the account has not been added to the site.
-      if (justSignedIn) return show("noaccess");
-      // Otherwise it is a remembered sign-in that has run out (they last about eight hours).
+      // With a brand-new or freshly renewed sign-in, a refusal means the account has not been added.
+      if (justSignedIn || renewed) return show("noaccess");
       show("signin");
       return notice("Your sign-in ran out. Sign in again to carry on.");
     }
@@ -445,12 +498,14 @@ async function start(justSignedIn = false) {
 }
 
 function wire() {
-  try {
-    state.session = JSON.parse(localStorage.getItem(STORE));
-  } catch {
-    state.session = null;
-  }
+  state.session = loadSession();
   for (const button of document.querySelectorAll("[data-sign-in]")) button.addEventListener("click", signIn);
+  $("signout").addEventListener("click", () => {
+    if (state.busy) return;
+    signOut();
+    fresh();
+    show("signin");
+  });
 
   $("form").addEventListener("submit", async (event) => {
     event.preventDefault();
