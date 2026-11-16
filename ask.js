@@ -339,6 +339,13 @@ function status(text) {
 }
 
 function notice(text) {
+  // The conversation is only on screen once the chat is open. Before that (signing in), say it
+  // in the line under the panels, or the message would land where nobody can see it.
+  if ($("chat").hidden) {
+    $("say").textContent = text;
+    $("say").hidden = false;
+    return;
+  }
   const line = document.createElement("p");
   line.className = "notice";
   line.textContent = text;
@@ -352,6 +359,7 @@ function scrollDown() {
 
 function show(panel) {
   for (const id of ["off", "signin", "noaccess", "chat"]) $(id).hidden = id !== panel;
+  $("say").hidden = true;
 }
 
 function showStaged() {

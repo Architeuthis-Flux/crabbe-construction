@@ -25,6 +25,7 @@
 .step { color: var(--muted); }
 .step::before { content: "· "; }
 .notice { padding: .6rem .9rem; border: 1px solid var(--sand); background: #fff; }
+#say { margin-top: 1rem; }
 #form { display: grid; gap: .75rem; }
 #box { width: 100%; min-height: 5.5rem; padding: .8rem 1rem; border: 1px solid rgba(25, 42, 61, .35); border-radius: 0; background: #fff; color: var(--ink); font: 400 1.0625rem/1.5 var(--sans); resize: vertical; }
 #box:focus-visible { outline: 2px solid var(--slate); outline-offset: 1px; }
@@ -94,6 +95,8 @@ button.btn:disabled { opacity: .5; cursor: default; }
 </form>
 <p class="quiet">Claude can change wording, projects and pages, and choose from photos already on the site. To add new photos, use <a href="admin/">the editor</a>. For anything about how the site looks, ask Kevin.</p>
 </section>
+
+<p class="notice" id="say" role="status" hidden></p>
 
 </div></div>
 </main>
