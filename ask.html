@@ -13,7 +13,7 @@
    in a panel down the right side. On a phone the two become tabs. */
 html, body { height: 100%; }
 [hidden] { display: none !important; }   /* the panels set display themselves, which would otherwise beat hidden */
-body { display: grid; grid-template-columns: minmax(0, 1fr) .5rem var(--panel-w, min(26rem, 42vw)); grid-template-rows: minmax(0, 1fr); background: var(--deep); overflow: hidden; }
+body { display: grid; grid-template-columns: minmax(0, 1fr) .5rem min(var(--panel-w, min(26rem, 42vw)), 70vw);   /* a width saved on a big window never crowds a small one */ grid-template-rows: minmax(0, 1fr); background: var(--deep); overflow: hidden; }
 body.collapsed { grid-template-columns: minmax(0, 1fr); }
 body.collapsed #split, body.collapsed #panel { display: none; }
 /* The bar between the site and Claude: drag it, or use the arrow keys, to change Claude's width. */
