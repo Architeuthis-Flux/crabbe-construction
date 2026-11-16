@@ -18,7 +18,9 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - run: node --version && node build.js --test && node build.js _site
+      # Build only. The self-check (npm test) is for whoever changes the code: it fails on a dead
+      # link in the content, and content must never be able to stop a deploy.
+      - run: node --version && node build.js _site
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

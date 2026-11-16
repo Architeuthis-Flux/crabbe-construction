@@ -83,6 +83,11 @@ export function label(path, title) {
   return `${kind}: ${title || path.split("/").pop().replace(/\.json$/, "")}`;
 }
 
+// Photo file names a content file or the design file points at.
+export function photoRefs(text) {
+  return [...new Set([...String(text).matchAll(/photos\/([^"'\s)\\<>]+)/g)].map((m) => m[1]))];
+}
+
 // Which preview page shows a given content file.
 export function pageFor(path) {
   if (CONTENT_JSON.test(path) && path !== "content/site.json") return path.split("/").pop().replace(/\.json$/, ".html");
@@ -489,6 +494,13 @@ async function readFile({ path }) {
 function writeFile({ path, content }) {
   const problem = checkPath(path) || checkContent(path, content);
   if (problem) throw new Error(problem);
+  // A photo that was attached and then discarded, or a name that was never real, would be left
+  // out of the page without a word and the dead reference published. Refuse it instead.
+  const missing = photoRefs(content).filter((name) => !state.photos.has(name) && !state.repo.tree.has("photos/" + name));
+  if (missing.length) {
+    throw new Error(`These photos are not on the site: ${missing.map((n) => "/photos/" + n).join(", ")}. ` +
+      "If the person attached them earlier and then discarded the changes, ask them to attach the photos again. list_site_files shows the photos that exist.");
+  }
   state.staged.set(path, content);
   refreshPreview(path);
   return "Prepared, and showing in the person's preview now. It goes live when they press Publish.";

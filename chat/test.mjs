@@ -109,4 +109,9 @@ assert.equal(studio.uniqueName("", "jpg", () => false), "photo.jpg");
 const used = new Set(["deck.webp", "deck-2.webp"]);
 assert.equal(studio.uniqueName("deck.png", "webp", (n) => used.has(n)), "deck-3.webp");
 
+// Finding the photos a file points at, so a write that names a missing one can be refused.
+assert.deepEqual(studio.photoRefs('{"cover": "/photos/a.webp", "photos": ["/photos/b-2.jpg", "/photos/a.webp"], "body": "<img src=\\"/photos/c.png\\">"}'), ["a.webp", "b-2.jpg", "c.png"]);
+assert.deepEqual(studio.photoRefs(".hero { background: url(photos/d.webp) } .x { background: url('photos/e.webp') }"), ["d.webp", "e.webp"]);
+assert.deepEqual(studio.photoRefs('{"title": "No photos here"}'), []);
+
 console.log("ok (side panel)");
