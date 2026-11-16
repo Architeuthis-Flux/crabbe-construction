@@ -11,4 +11,4 @@ compatibility_date = "2026-11-11"
 # authenticator allows every site when it is. Add the real domain once the site is served there.
 ALLOWED_DOMAINS = "architeuthis-flux.github.io"
 # Client ID of the GitHub App (public, it appears in the sign-in address).
-GITHUB_CLIENT_ID = ""
+GITHUB_CLIENT_ID = "Iv23ligQeYTnVXySBHtP"
