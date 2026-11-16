@@ -695,6 +695,71 @@ function discard() {
   state.attach = [];
 }
 
+/* ------------------------------------------------------------------ the panel's width
+
+   Claude's side can be dragged wider or narrower, or hidden. The choice is kept in this browser. */
+
+const LAYOUT = "crabbe-ask-layout";
+
+function loadLayout() {
+  try {
+    return JSON.parse(localStorage.getItem(LAYOUT)) || {};
+  } catch {
+    return {};
+  }
+}
+
+function saveLayout(change) {
+  try {
+    localStorage.setItem(LAYOUT, JSON.stringify({ ...loadLayout(), ...change }));
+  } catch {
+    // private window: the layout just will not be remembered
+  }
+}
+
+function setPanelWidth(px) {
+  const width = Math.round(Math.max(280, Math.min(px, window.innerWidth * 0.7)));
+  document.body.style.setProperty("--panel-w", width + "px");
+  return width;
+}
+
+function setCollapsed(collapsed) {
+  document.body.classList.toggle("collapsed", collapsed);
+  $("expand").hidden = !collapsed;
+  saveLayout({ collapsed });
+}
+
+function wireLayout() {
+  const saved = loadLayout();
+  if (saved.width) setPanelWidth(saved.width);
+  setCollapsed(Boolean(saved.collapsed));
+  const split = $("split");
+  const shield = $("shield");
+  const drag = (event) => setPanelWidth(window.innerWidth - event.clientX);
+  const stop = (event) => {
+    shield.hidden = true;
+    document.body.classList.remove("dragging");
+    window.removeEventListener("pointermove", drag);
+    window.removeEventListener("pointerup", stop);
+    saveLayout({ width: setPanelWidth(window.innerWidth - event.clientX) });
+  };
+  split.addEventListener("pointerdown", (event) => {
+    event.preventDefault();
+    shield.hidden = false;                       // keeps the website frame from swallowing the drag
+    document.body.classList.add("dragging");
+    window.addEventListener("pointermove", drag);
+    window.addEventListener("pointerup", stop);
+  });
+  split.addEventListener("keydown", (event) => {
+    const step = event.key === "ArrowLeft" ? 24 : event.key === "ArrowRight" ? -24 : 0;
+    if (!step) return;
+    event.preventDefault();
+    saveLayout({ width: setPanelWidth($("panel").offsetWidth + step) });
+  });
+  $("collapse").addEventListener("click", () => setCollapsed(true));
+  $("expand").addEventListener("click", () => setCollapsed(false));
+}
+
 /* ------------------------------------------------------------------ signing in */
 
 function signIn() {
@@ -783,6 +848,7 @@ function show(panel) {
 
 function addChip(chip) {
   state.chips.push(chip);
+  setCollapsed(false);
   document.body.dataset.tab = "chat";
   showComposer();
   $("box").focus();
@@ -937,6 +1003,7 @@ async function run(job) {
 }
 
 function wire() {
+  wireLayout();
   state.session = loadSession();
   for (const button of document.querySelectorAll("[data-sign-in]")) button.addEventListener("click", signIn);
   $("signout").addEventListener("click", () => {
