@@ -217,16 +217,18 @@ function toBase64(buffer) {
   return btoa(binary);
 }
 
-async function siteTree() {
-  const tree = await gh(`/git/trees/${CFG.branch}?recursive=1`);
+// The files at a given point: the branch as it is now, or one exact tree. Right after a commit the
+// branch name can still answer with the tree from before it, so ask for the new tree by its id.
+async function siteTree(at = CFG.branch) {
+  const tree = await gh(`/git/trees/${at}?recursive=1`);
   return new Map(tree.tree.filter((entry) => entry.type === "blob").map((entry) => [entry.path, entry.sha]));
 }
 
 const isText = (path) => CONTENT_JSON.test(path) || path === DESIGN;
 
 // Read the site as it is in the repo right now (not the published copy, which lags by a minute).
-async function loadRepo() {
-  const tree = await siteTree();
+async function loadRepo(at = CFG.branch) {
+  const tree = await siteTree(at);
   const text = new Map();
   await Promise.all([...tree].filter(([path]) => isText(path)).map(async ([path, sha]) => {
     text.set(path, state.repo.tree.get(path) === sha && state.repo.text.has(path) ? state.repo.text.get(path) : decode((await gh(`/git/blobs/${sha}`)).content));
@@ -645,7 +647,7 @@ async function publish() {
   // editor after this page read a file, stop instead of overwriting their change.
   const ref = await gh(`/git/ref/heads/${CFG.branch}`);
   const tip = await gh(`/git/commits/${ref.object.sha}`);
-  const now = await siteTree();
+  const now = await siteTree(tip.tree.sha);        // exactly the commit this one goes on top of
   for (const path of state.staged.keys()) {
     if ((now.get(path) ?? null) !== (state.repo.tree.get(path) ?? null)) throw new ChatError("moved");
   }
@@ -673,7 +675,7 @@ async function publish() {
     }
   }
   state.staged.clear();
-  await loadRepo();
+  await loadRepo(made.sha);
 }
 
 function discard() {
