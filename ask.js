@@ -681,6 +681,9 @@ async function publish() {
   await loadRepo(made.sha);
 }
 
+// Is anything prepared and waiting for Publish?
+const pending = () => state.staged.size > 0 || usedPhotos().length > 0;
+
 function discard() {
   state.staged.clear();
   for (const [name, photo] of [...state.photos]) {
@@ -938,6 +941,7 @@ function wire() {
   for (const button of document.querySelectorAll("[data-sign-in]")) button.addEventListener("click", signIn);
   $("signout").addEventListener("click", () => {
     if (state.busy) return;
+    if (pending()) return notice("You have changes ready to publish. Publish or discard them first.");
     signOut();
     fresh();
     show("signin");
@@ -1002,7 +1006,23 @@ function wire() {
     refreshPreview();
   });
   $("restart").addEventListener("click", () => {
-    if (!state.busy) fresh();
+    if (state.busy) return;
+    if (pending()) return notice("You have changes ready to publish. Publish or discard them first.");
+    fresh();
+  });
+
+  // The guide in the left pane is the real guide page. Its links to Ask Claude and to the site
+  // would otherwise open a second copy of this panel inside the pane; send those back to the Site
+  // view, and open anything else (the editor, GitHub) in its own tab.
+  $("guide").addEventListener("load", () => {
+    $("guide").contentDocument?.addEventListener("click", (event) => {
+      const link = event.target.closest?.("a[href]");
+      const href = link?.getAttribute("href");
+      if (!href || href.startsWith("#")) return;        // moving around inside the guide is fine
+      event.preventDefault();
+      if (href === "./" || href.split("#")[0] === "ask.html") setView("site");
+      else window.open(link.href, "_blank", "noopener");
+    }, true);
   });
 
   $("pick").addEventListener("click", () => setPicking(!state.picking));
