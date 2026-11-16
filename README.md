@@ -16,12 +16,20 @@ The company website. Static pages built from `content/*.json` by `build.js` (Nod
 
 ## Ask Claude
 
-`ask.html` + `ask.js` are a chat page where a signed-in editor asks Claude to change the site's
-content. `chat/` is its server, a Cloudflare Worker at
+`ask.html` + `ask.js` put a live preview of the site next to a chat with Claude. A signed-in editor
+says what to change (wording, projects, pages, photos, or how something looks), can point at things
+in the preview, and sees every prepared change there at once. The preview is built in the browser
+by `render.js` from the repo's content plus the staged changes, inside a frame that cannot run scripts.
+
+`chat/` is the chat's server, a Cloudflare Worker at
 `https://crabbe-construction-chat.kevinc-af9.workers.dev` that holds the Anthropic API key and fixes
 the model, effort, instructions and tools (`chat/wrangler.toml`, `chat/src/prompt.js`). Reading files
 and publishing happen in the browser with the editor's own GitHub access; nothing is committed until
-Publish is pressed. Only people who can write to this repo get an answer.
+Publish is pressed, and then as one commit. Only people who can write to this repo get an answer.
+
+Claude may write the content JSON files and `content/design.css` (design overrides, published as
+`design.css` after `site.css`), and may read `site.css`. Nothing else: not code, not the editor's
+settings, not the workflow.
 
 - **Deploy:** `cd chat && npm install && npx wrangler deploy`
 - **API key (once):** `cd chat && wrangler secret put ANTHROPIC_API_KEY`

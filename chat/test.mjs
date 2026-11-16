@@ -54,8 +54,8 @@ assert.ok(SYSTEM.includes("Publish"));
 
 console.log("ok");
 
-// ---- The side-panel page (studio.js): same rules, plus the design file and photo names.
-const studio = await import("../studio.js");
+// ---- The design file, the read-only stylesheet, and photo names.
+const studio = await import("../ask.js");
 assert.deepEqual(TOOLS.map((tool) => tool.name).sort(), [...studio.TOOL_NAMES].sort());
 
 for (const ok of ["content/site.json", "content/projects/deer-flats-exterior.json", "content/pages/our-process.json", studio.DESIGN]) {

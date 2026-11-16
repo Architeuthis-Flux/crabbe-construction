@@ -18,8 +18,8 @@ import { fileURLToPath } from "node:url";
 import { buildSite, esc, num, paras, rich, slugify, tel } from "./render.js";
 
 const SRC = dirname(fileURLToPath(import.meta.url));
-const ASSETS = ["admin", "fonts", "photos", "guide", "guide.html", "ask.html", "ask.js", "studio.html", "studio.js",
-  "render.js", "site.css", "site.js", "logo.svg", "logo-navy.png"];   // published as they are
+const ASSETS = ["admin", "fonts", "photos", "guide", "guide.html", "ask.html", "ask.js", "render.js",
+  "site.css", "site.js", "logo.svg", "logo-navy.png"];   // published as they are
 const DESIGN = "content/design.css";   // design overrides, published as design.css next to site.css
 
 // The content files: content/site.json and every .json directly inside content/projects and content/pages.
