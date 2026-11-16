@@ -1,0 +1,9 @@
+{
+  "name": "crabbe-construction",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.js _site",
+    "test": "node build.js --test && node chat/test.mjs"
+  }
+}

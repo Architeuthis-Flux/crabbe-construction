@@ -1,11 +1,11 @@
 # Crabbe Construction & Design
 
-The company website. Static pages built from `content/*.json` by `build.py` (Python standard library only) and published with GitHub Pages on every push.
+The company website. Static pages built from `content/*.json` by `build.js` (Node, no dependencies) and published with GitHub Pages on every push. The pages themselves come from `render.js`, which Ask Claude also runs in the browser to preview changes.
 
 - **Edit the site:** open `admin/` on the live site (Sveltia CMS). Saving there commits to this repo and the site updates in about a minute.
 - **Guide for Phil and Maryia:** `guide.html` (screenshots in `guide/`), linked from the site's footer.
-- **Preview locally:** `python3 build.py _site && python3 -m http.server -d _site 8001`
-- **Check the build:** `python3 build.py --test`
+- **Preview locally:** `node build.js _site && python3 -m http.server -d _site 8001`
+- **Check the build:** `npm test` (runs `node build.js --test` and `node chat/test.mjs`)
 
 ## Sign-in server
 

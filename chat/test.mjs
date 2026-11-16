@@ -1,18 +1,9 @@
 // Self-check for the chat:  cd chat && node test.mjs
 // Covers the two rules that keep it safe: who may use it, and which files Claude may touch.
 import assert from "node:assert/strict";
-import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
-import { tmpdir } from "node:os";
-import { join } from "node:path";
-import { pathToFileURL } from "node:url";
+import { checkPath, checkContent, label, TOOL_NAMES } from "../ask.js";
 import { hasPush } from "./src/access.js";
 import { SYSTEM, TOOLS, VERSION } from "./src/prompt.js";
-
-// ask.js is the browser's module. Node treats a bare .js outside a package as CommonJS, so load a
-// copy with the .mjs extension instead of adding a package.json to the site's root.
-const copy = join(mkdtempSync(join(tmpdir(), "ask-")), "ask.mjs");
-writeFileSync(copy, readFileSync(new URL("../ask.js", import.meta.url)));
-const { checkPath, checkContent, label, TOOL_NAMES } = await import(pathToFileURL(copy));
 
 // Access: only an explicit push permission counts.
 assert.equal(hasPush({ permissions: { admin: false, push: true, pull: true } }), true);
