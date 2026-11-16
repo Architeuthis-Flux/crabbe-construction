@@ -19,7 +19,7 @@ import tempfile
 from pathlib import Path
 
 SRC = Path(__file__).resolve().parent
-RESERVED = {"index", "work"}       # page names the site itself uses
+RESERVED = {"index", "work", "guide"}       # page names the site itself uses
 ASSETS = ["admin", "fonts", "photos", "guide", "guide.html", "site.css", "site.js", "logo.svg", "logo-navy.png"]   # published as they are
 
 
