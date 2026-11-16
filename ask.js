@@ -735,20 +735,25 @@ function wireLayout() {
   setCollapsed(Boolean(saved.collapsed));
   const split = $("split");
   const shield = $("shield");
-  const drag = (event) => setPanelWidth(window.innerWidth - event.clientX);
+  let grab = 0;                                  // where on the bar it was taken hold of, so it does not jump
+  const drag = (event) => setPanelWidth(window.innerWidth - event.clientX + grab);
   const stop = (event) => {
+    if (event.type === "pointerup") drag(event);
     shield.hidden = true;
     document.body.classList.remove("dragging");
     window.removeEventListener("pointermove", drag);
     window.removeEventListener("pointerup", stop);
-    saveLayout({ width: setPanelWidth(window.innerWidth - event.clientX) });
+    window.removeEventListener("pointercancel", stop);
+    saveLayout({ width: $("panel").offsetWidth });
   };
   split.addEventListener("pointerdown", (event) => {
     event.preventDefault();
+    grab = $("panel").offsetWidth - (window.innerWidth - event.clientX);
     shield.hidden = false;                       // keeps the website frame from swallowing the drag
     document.body.classList.add("dragging");
     window.addEventListener("pointermove", drag);
     window.addEventListener("pointerup", stop);
+    window.addEventListener("pointercancel", stop);   // a touch the browser took over (a scroll, a call)
   });
   split.addEventListener("keydown", (event) => {
     const step = event.key === "ArrowLeft" ? 24 : event.key === "ArrowRight" ? -24 : 0;
@@ -842,6 +847,7 @@ function scrollDown() {
 
 function show(panel) {
   for (const id of ["off", "signin", "noaccess", "chat"]) $(id).hidden = id !== panel;
+  if (panel !== "chat") setCollapsed(false);     // the sign-in button must never sit in a hidden side
   $("say").hidden = true;
   setView(state.view);
 }
@@ -998,6 +1004,7 @@ async function run(job) {
     await handle(e);
   }
   showStaged();
+  setCollapsed(false);                           // a reply, a problem or Publish is waiting to be seen
   state.busy = false;
   for (const id of ["send", "publish"]) $(id).disabled = false;
 }
