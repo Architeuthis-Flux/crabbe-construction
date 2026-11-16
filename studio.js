@@ -379,6 +379,19 @@ function setView(view) {
   $("page-name").hidden = view !== "site";
 }
 
+// Before anyone has signed in there is nothing to build a preview from, so show the published
+// home page as it is, with its links switched off.
+async function showPublished() {
+  try {
+    const html = await (await fetch("./")).text();
+    const f = frame();
+    f.onload = () => f.contentDocument?.addEventListener("click", (event) => event.preventDefault(), true);
+    f.srcdoc = html.replace("<head>", `<head><base href="${base()}">`).replace(/<script[^>]*><\/script>/g, "");
+  } catch {
+    // the left side just stays empty
+  }
+}
+
 /* ------------------------------------------------------------------ photos */
 
 async function shrink(source, longest, type, quality) {
@@ -858,7 +871,10 @@ async function start(justSignedIn = false, renewed = false) {
   try {
     const here = await (await fetch(`${CFG.chat}/status`)).json();
     state.version = here.version;
-    if (!state.session) return show("signin");
+    if (!state.session) {
+      showPublished();
+      return show("signin");
+    }
     const access = await (await fetch(`${CFG.chat}/access`, { headers: { Authorization: `Bearer ${state.session.token}` } })).json();
     if (!access.allowed) {
       // A remembered sign-in has usually just run out: renew it quietly and check again.
@@ -877,7 +893,6 @@ async function start(justSignedIn = false, renewed = false) {
     // Signed in: swap the published site in the left pane for a preview built from the repo.
     await loadRepo();
     show("chat");
-    frame().removeAttribute("src");
     refreshPreview();
     $("box").focus();
   } catch (e) {
@@ -909,7 +924,7 @@ function wire() {
     signOut();
     fresh();
     show("signin");
-    frame().src = "./";
+    showPublished();
   });
 
   $("form").addEventListener("submit", (event) => {

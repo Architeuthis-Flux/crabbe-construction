@@ -12,6 +12,7 @@
 /* Ask Claude. Layout: the site on the left, as large as the window allows, and the conversation
    in a panel down the right side. On a phone the two become tabs. */
 html, body { height: 100%; }
+[hidden] { display: none !important; }   /* the panels set display themselves, which would otherwise beat hidden */
 body { display: grid; grid-template-columns: minmax(0, 1fr) min(26rem, 42vw); grid-template-rows: minmax(0, 1fr); background: var(--deep); overflow: hidden; }
 
 /* ---------- left: the site ---------- */
@@ -97,7 +98,7 @@ button.btn:disabled { opacity: .5; cursor: default; }
 <span id="page-name">Home page</span>
 <button type="button" class="tool" id="pick" aria-pressed="false" hidden>Point at something</button>
 </div>
-<iframe id="preview" title="The website, with any prepared changes" sandbox="allow-same-origin" src="./"></iframe>
+<iframe id="preview" title="The website, with any prepared changes" sandbox="allow-same-origin"></iframe>
 <iframe id="guide" title="The editing guide" hidden></iframe>
 </div>
 
