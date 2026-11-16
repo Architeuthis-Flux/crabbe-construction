@@ -1,9 +1,0 @@
-{
-  "title": "Test Page",
-  "menu": false,
-  "intro": "A quick test of the editor.",
-  "body": "<p>This page checks that saving from the editor works. It will be deleted in a few minutes.</p>",
-  "photos": [
-    "/photos/editor-test-photo.webp"
-  ]
-}
