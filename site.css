@@ -97,7 +97,7 @@ p, figure, blockquote { margin: 0; }
 .approach:has(+ .intro), .services:has(+ .intro) { padding-bottom: clamp(2rem, 5vw, 3.5rem); }
 /* Under Services the box sits on About's cream with only its top edge lapping up onto the teal. */
 .services + .intro { padding-bottom: clamp(2.5rem, 6vw, 4.5rem); }
-.services + .intro::after { background: linear-gradient(to bottom, rgba(36, 70, 83, .84) var(--lap), rgba(244, 241, 234, .78) var(--lap)); }
+.services + .intro::after { background: linear-gradient(to bottom, rgba(35, 56, 63, .9) var(--lap), rgba(244, 241, 234, .78) var(--lap)); }
 .services + .intro .intro-box { top: 0; }
 .services:has(+ .intro) { padding-bottom: var(--band); }
 
@@ -120,7 +120,8 @@ p, figure, blockquote { margin: 0; }
 .still > .bg { position: fixed; top: 0; left: 0; z-index: -2; width: 100%; height: 100vh; height: 100lvh; object-fit: cover; }
 .still > .has-bg { position: relative; isolation: isolate; background: none; }
 .has-bg::after { content: ""; position: absolute; inset: 0; z-index: -1; }
-.services.has-bg::after, .work.has-bg::after { background: rgba(36, 70, 83, .84); }
+.services.has-bg::after { background: rgba(35, 56, 63, .9); }   /* the dark slate of the top bar, with the photo just showing through */
+.work.has-bg::after { background: rgba(36, 70, 83, .84); }
 /* The teal of Services and Recent Works runs a little way into About at the top and bottom, and the
    Philosophy and Experience boxes sit flush with About's edges, so each box laps onto its neighbour. */
 .about.has-bg { --lap: clamp(2rem, 4vw, 3.25rem); padding-block: 0; }
@@ -132,12 +133,11 @@ p, figure, blockquote { margin: 0; }
 .work.has-bg .section-head, .work.has-bg .section-head .label, .work.has-bg .more { color: #fff; }
 .work.has-bg .more .btn:hover { background: var(--sand); border-color: var(--sand); color: var(--ink); }
 .ghost { transform: translateX(var(--drift, 0)); margin-bottom: -.2em; overflow: hidden; font: 400 clamp(2.6rem, 11vw, 8rem)/1 var(--sans); letter-spacing: .18em; text-transform: uppercase; text-align: right; color: rgba(255, 255, 255, .07); user-select: none; }
-.services h2 { color: var(--sand); }
-.service-grid { display: grid; gap: 3rem clamp(2.5rem, 6vw, 5rem); margin-top: 2.5rem; }
-.service { padding-top: 1.6rem; border-top: 1px solid rgba(205, 189, 162, .55); }
+.services-title { margin-right: -.3em; font: 500 clamp(2.2rem, 6vw, 4rem)/1 var(--sans); letter-spacing: .3em; text-transform: uppercase; text-align: center; color: var(--slate); }
+.service-grid { display: grid; gap: 3rem clamp(2rem, 4vw, 3.5rem); margin-top: clamp(2.5rem, 6vw, 4.5rem); }
 .service .icon { display: block; margin-bottom: 1.1rem; color: var(--sand); }
-.service h3 { margin-bottom: .9rem; font-size: clamp(1.5rem, 2.4vw, 1.9rem); }
-.service p { max-width: 60ch; font-size: 1rem; color: rgba(255, 255, 255, .84); }
+.service h3 { margin-bottom: .9rem; font-size: clamp(1.5rem, 2.2vw, 1.8rem); line-height: 1.2; color: var(--sand); }
+.service p { max-width: 60ch; font-size: 1rem; line-height: 1.65; color: #e4ecee; }
 .service p + p { margin-top: .9rem; }
 
 /* ---------- home: philosophy, portrait, experience ---------- */
@@ -313,3 +313,5 @@ p, figure, blockquote { margin: 0; }
 .point p { font-size: .9375rem; line-height: 1.55; color: #e4ecee; }
 @media (min-width: 34rem) { .points { grid-template-columns: 1fr 1fr; } }
 @media (min-width: 60rem) { .clients .wrap { grid-template-columns: 1fr 1fr; } }
+
+@media (min-width: 72rem) { .service-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }

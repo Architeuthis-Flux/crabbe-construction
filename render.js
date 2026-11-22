@@ -375,8 +375,7 @@ ${hero}
 ${still ? `<div class="still">${backdrop(site.services_photo, "services_photo")}` : ""}
 ${approach}
 <section id="services" class="services${still ? " has-bg" : ""}"><div class="wrap">
-<p class="ghost" aria-hidden="true">Services</p>
-<h2 class="label">Services</h2>
+<h2 class="services-title">Services</h2>
 <div class="service-grid">${services}</div>
 </div></section>
 ${intro}
