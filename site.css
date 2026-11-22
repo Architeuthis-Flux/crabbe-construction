@@ -59,7 +59,7 @@ p, figure, blockquote { margin: 0; }
 .top .tel:hover { background: var(--sand); color: var(--ink); }
 
 /* ---------- home: hero ---------- */
-.hero { position: relative; isolation: isolate; display: grid; align-items: end; min-height: min(82vh, 46rem); background: var(--deep); color: #fff; }
+.hero { position: relative; isolation: isolate; display: grid; align-items: center; min-height: min(82vh, 46rem); text-align: center; background: var(--deep); color: #fff; }
 /* The photo stays put while the page scrolls over it: it is pinned to the screen and the band
    is a window onto it (clip-path), which unlike background-attachment also works on phones. */
 .hero { clip-path: inset(0); }
@@ -71,11 +71,12 @@ p, figure, blockquote { margin: 0; }
 .hero-nav .dot { position: relative; width: 1.5rem; }
 .hero-nav .dot::before { content: ""; position: absolute; inset: 50% auto auto 50%; width: .5rem; height: .5rem; margin: -.25rem; border: 1px solid #fff; border-radius: 50%; }
 .hero-nav .dot[aria-current]::before { background: var(--sand); border-color: var(--sand); }
-.hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(to top, rgba(35, 56, 63, .92), rgba(35, 56, 63, .34) 50%, rgba(35, 56, 63, 0) 85%); }
+.hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: rgba(35, 56, 63, .58); }   /* an even wash: the words sit in the middle of the photo */
 .hero .wrap { padding-block: clamp(3rem, 8vw, 5.5rem); }
 .hero h1 { font-weight: 400; font-size: clamp(1.9rem, 5.4vw, 4.25rem); letter-spacing: .14em; text-transform: uppercase; }
-.hero h1 small { display: block; margin-top: .9rem; font: 400 clamp(.8rem, 1.5vw, 1.05rem)/1 var(--sans); letter-spacing: .55em; color: var(--sand); }
-.hero .lede { max-width: 26ch; margin-top: 1.75rem; font: italic 400 clamp(1.3rem, 2.4vw, 1.8rem)/1.35 var(--serif); }
+.hero h1 { margin-right: -.14em; }   /* the last letter's spacing would push the name off centre */
+.hero h1 small { display: block; margin: .9rem -.55em 0 0; font: 400 clamp(.8rem, 1.5vw, 1.05rem)/1 var(--sans); letter-spacing: .55em; color: var(--sand); }
+.hero .lede { max-width: 26ch; margin: 1.75rem auto 0; font: italic 400 clamp(1.3rem, 2.4vw, 1.8rem)/1.35 var(--serif); }
 .actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2.25rem; }
 
 /* ---------- home: intro ---------- */
@@ -240,3 +241,5 @@ p, figure, blockquote { margin: 0; }
   html { scroll-behavior: auto; }
   * { transition: none !important; }
 }
+
+.hero .actions { justify-content: center; }
