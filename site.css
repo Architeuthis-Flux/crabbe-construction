@@ -179,11 +179,11 @@ p, figure, blockquote { margin: 0; }
 /* ---------- project cards (home and Works) ---------- */
 .work { padding-block: var(--band); background: var(--sand-pale); }
 .section-head { margin-bottom: clamp(2rem, 5vw, 3.5rem); text-align: center; }
-.section-head::before, .section-head::after { content: ""; display: block; width: 1px; height: clamp(2.5rem, 5vw, 3.75rem); margin-inline: auto; background: currentColor; opacity: .45; }   /* a short upright line above and below the title */
-.section-head::before { margin-bottom: clamp(1.5rem, 3vw, 2.25rem); }
-.section-head::after { margin-top: clamp(1.5rem, 3vw, 2.25rem); }
-.section-head .label { font-weight: 400; font-size: clamp(.9rem, 1.5vw, 1.1rem); letter-spacing: .5em; text-indent: .5em; color: var(--title); }   /* the lighter word over the heavier one */
-.section-head h2 { margin-top: .5rem; font-weight: 400; font-size: clamp(2.1rem, 4.4vw, 3rem); line-height: 1.1; letter-spacing: .16em; text-indent: .16em; text-transform: uppercase; }
+.section-head::before, .section-head::after { content: ""; display: block; width: 1px; height: clamp(2rem, 4vw, 3rem); margin-inline: auto; background: currentColor; opacity: .45; }   /* a short upright line above and below the title */
+.section-head::before { margin-bottom: clamp(1.25rem, 2.4vw, 1.75rem); }
+.section-head::after { margin-top: clamp(1.25rem, 2.4vw, 1.75rem); }
+.section-head .label { font-weight: 400; font-size: clamp(.8rem, 1.2vw, .9rem); letter-spacing: .5em; text-indent: .5em; color: var(--title); }   /* the lighter word over the heavier one */
+.section-head h2 { margin-top: .5rem; font-weight: 400; font-size: clamp(1.75rem, 3.4vw, 2.3rem); line-height: 1.1; letter-spacing: .16em; text-indent: .16em; text-transform: uppercase; }
 .cards { display: grid; gap: clamp(2rem, 5vw, 3.5rem); }
 .card { display: grid; background: var(--sand-light); box-shadow: 0 24px 48px -32px rgba(25, 42, 61, .45); }
 .card-photo { display: block; min-height: 12rem; background: var(--sand); }
