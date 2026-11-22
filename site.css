@@ -168,10 +168,7 @@ p, figure, blockquote { margin: 0; }
 .card-text > p:not(.label) { max-width: 32ch; color: var(--muted); }
 .more { margin-top: clamp(2rem, 5vw, 3.5rem); text-align: center; }
 
-/* ---------- home: where we build ---------- */
-.area { padding-block: var(--band); background: #d9cdb8; text-align: center; }   /* the same light sand as the "Years in the trade" box */
-.area .label { color: var(--ink); }
-.area-lede { max-width: 30ch; margin: 1rem auto 0; font: 400 clamp(1.5rem, 3vw, 2.1rem)/1.3 var(--serif); text-wrap: balance; }
+/* ---------- town chips (in the intro box) ---------- */
 .towns { display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem; max-width: 52rem; margin: 2.25rem auto 0; padding: 0; list-style: none; }
 .towns li { padding: .7rem 1.2rem; border: 1px solid rgba(25, 42, 61, .45); font: 500 .75rem/1 var(--sans); letter-spacing: .22em; text-transform: uppercase; }
 

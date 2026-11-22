@@ -151,7 +151,7 @@ function selftest() {
   assert.ok(!second.includes("application/ld+json"));
   assert.equal(jsonLd({ a: "</script>" }), '{"a":"\\u003c/script>"}');
   files.set("content/site.json", JSON.stringify({ name: "Test & Co", url: "https://example.com/", phone: "(831) 220-2362", license: "123", city: "Pacific Grove",
-    towns: ["Monterey", " ", "Carmel <x>"], seo_title: "Test & Co | Builder", seo_description: "Short.", approach: "One.\n\nTwo.", hero_photo: "/photos/a.webp" }));
+    towns: ["Monterey", " ", "Carmel <x>"], intro: "Hi.", seo_title: "Test & Co | Builder", seo_description: "Short.", approach: "One.\n\nTwo.", hero_photo: "/photos/a.webp" }));
   files.set("content/projects/b-second.json", JSON.stringify({ title: "Second", location: "Monterey, CA", kind: "Residential", cover: "/photos/a.webp", summary: "A deck." }));
   files.set("content/site.json", files.get("content/site.json").replace('"hero_photo":"/photos/a.webp"', '"hero_photo":"/photos/a.webp","hero_photos":["/photos/b.webp","/photos/a.webp","/photos/gone.webp"]'));
   const live = buildSite({ files, hasPhoto: (name) => name !== "gone.webp", version: "v1", year: 2026 });

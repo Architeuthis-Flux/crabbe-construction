@@ -327,13 +327,6 @@ ${kind}
 <div class="approach-text"${mark(SITE, "approach")}>${paras(site.approach)}</div>
 </div></section>`
       : "";
-    const area = towns.length
-      ? `<section id="area" class="area"><div class="wrap">
-<h2 class="label">Where we build</h2>
-<p class="area-lede"${mark(SITE, "area_lead")}>${esc(site.area_lead || `Serving the ${site.area || ""}`.trim())}</p>
-<ul class="towns"${mark(SITE, "towns")}>${towns.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>
-</div></section>`
-      : "";
     const work = featured.length
       ? `<section class="work${still ? " has-bg" : ""}"><div class="wrap">
 <header class="section-head"><p class="label">Recent</p><h2>Works</h2></header>
@@ -368,8 +361,7 @@ ${portrait}
 <div class="experience"${mark(SITE, "about")}><h2${mark(SITE, "about_title")}>${esc(site.about_title)}</h2>${paras(site.about)}</div>
 </div></section>
 ${work}
-${still ? "</div>" : ""}
-${area}`;
+${still ? "</div>" : ""}`;
   };
 
   const workPage = () => `${pageHead("Portfolio", "Works", "")}
