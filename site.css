@@ -264,7 +264,7 @@ p, figure, blockquote { margin: 0; }
   .card:nth-child(even) .card-photo { order: 2; }
 }
 @media (min-width: 60rem) {
-  .approach + .intro .intro-box { width: 68%; margin-left: clamp(2rem, 6vw, 5rem); }
+  .approach + .intro .intro-box { width: 58%; margin-left: clamp(1rem, 2.5vw, 2rem); padding-block: clamp(2.5rem, 5vw, 4rem); }
   .approach:has(+ .intro) { padding-bottom: .5rem; }   /* brings the box up close to the text (a negative margin here would stack the two cream washes into a pale stripe) */   /* on the left, held in from the page margin */
   .about-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0; align-items: start; }
   .philosophy { grid-area: 1 / 1 / 2 / 9; padding: clamp(4rem, 8vw, 7rem) calc(25% + clamp(2rem, 4vw, 3.5rem)) clamp(11rem, 17vw, 15rem) clamp(2.5rem, 5vw, 4.5rem); }   /* the big slate box: two-thirds of the row, the portrait laps over its right side */
