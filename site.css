@@ -266,6 +266,9 @@ p, figure, blockquote { margin: 0; }
 }
 @media (min-width: 60rem) {
   .approach + .intro .intro-box { width: 58%; margin-left: clamp(1rem, 2.5vw, 2rem); padding-block: clamp(2.5rem, 5vw, 4rem); }
+  .approach + .intro .wrap:has(.clients) { display: grid; grid-template-columns: 54fr 46fr; gap: clamp(1.25rem, 2.5vw, 2rem); align-items: start; }   /* cream box left, clients box right, a step lower */
+  .approach + .intro .wrap:has(.clients) .intro-box { width: auto; }
+  .approach + .intro .clients.boxed { margin-top: clamp(2.5rem, 5vw, 4rem); }
   .approach:has(+ .intro) { padding-bottom: .5rem; }   /* brings the box up close to the text (a negative margin here would stack the two cream washes into a pale stripe) */   /* on the left, held in from the page margin */
   .about-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0; align-items: start; }
   .philosophy { grid-area: 1 / 1 / 2 / 9; padding: clamp(4rem, 8vw, 7rem) calc(25% + clamp(2rem, 4vw, 3.5rem)) clamp(11rem, 17vw, 15rem) clamp(2.5rem, 5vw, 4.5rem); }   /* the big slate box: two-thirds of the row, the portrait laps over its right side */
@@ -336,6 +339,15 @@ p, figure, blockquote { margin: 0; }
 .point h3 { margin-bottom: .5rem; font: 400 1.4rem/1.2 var(--serif); color: var(--sand); }
 .point p { font-size: .9375rem; line-height: 1.55; color: var(--light); }
 @media (min-width: 34rem) { .points { grid-template-columns: 1fr 1fr; } }
+/* Inside Design-and-build it is a dark box beside the cream one, and laps down onto Services with it. */
+.clients.boxed { position: relative; top: var(--lap); margin-top: 1.25rem; padding: clamp(1.75rem, 4vw, 2.75rem); border: 1px solid rgba(205, 189, 162, .3); box-shadow: 0 1.25rem 2.5rem -1rem rgba(25, 42, 61, .45); text-align: left; scroll-margin-top: 6rem; }
+.clients.boxed .clients-title { margin: .75rem 0 1rem; font-size: clamp(1.6rem, 2.6vw, 2.1rem); }
+.clients.boxed .clients-text > p:not(.clients-title):not(.soon) { font-size: 1rem; }
+.clients.boxed .btn, .clients.boxed .soon { margin-top: 1.25rem; }
+.clients.boxed .points { margin-top: 1.75rem; padding-top: 1.5rem; border-top: 1px solid rgba(205, 189, 162, .25); gap: 1.25rem 1.5rem; }
+.clients.boxed .point { padding: 0; background: none; }
+.clients.boxed .point h3 { margin-bottom: .3rem; font-size: 1.2rem; }
+.clients.boxed .point p { font-size: .875rem; }
 @media (min-width: 60rem) { .clients .wrap { grid-template-columns: 1fr 1fr; } }
 
 

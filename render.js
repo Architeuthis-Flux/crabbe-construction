@@ -341,9 +341,6 @@ ${kind}
 <p class="more"><a class="btn" href="work.html">See portfolio</a></p>
 </div></section>`
       : "";
-    // The intro sits in a box just under Design-and-build, on the left, lapping down onto Services.
-    const chips = towns.length ? `<ul class="towns"${mark(SITE, "towns")}>${towns.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : "";
-    const intro = site.intro ? `<div class="intro"><div class="wrap"><div class="intro-box"><p${mark(SITE, "intro")}>${esc(site.intro)}</p>${chips}</div></div></div>` : "";
     // What clients get: their own project page. The login button appears once the portal has an
     // address (content/site.json "portal_url"); until then the band says it is on its way.
     const points = (site.clients_points || []).filter((c) => c && c.title)
@@ -351,8 +348,11 @@ ${kind}
     const login = /^https?:\/\//.test(site.portal_url || "")
       ? `<a class="btn solid" href="${esc(site.portal_url)}">Client login</a>`
       : `<p class="soon">Client login coming soon</p>`;
+    // With the intro box on the page it sits beside it as a box of its own, inside Design-and-build;
+    // without one it is a band of its own further down.
+    const boxed = !!site.intro;
     const clients = site.clients_title
-      ? `<section id="clients" class="clients"><div class="wrap">
+      ? `<section id="clients" class="clients${boxed ? " boxed" : ""}"><div class="${boxed ? "clients-in" : "wrap"}">
 <div class="clients-text">
 <h2 class="label"${mark(SITE, "clients_label")}>${esc(site.clients_label || "For our clients")}</h2>
 <p class="clients-title"${mark(SITE, "clients_title")}>${esc(site.clients_title)}</p>
@@ -362,6 +362,9 @@ ${login}
 ${points ? `<div class="points">${points}</div>` : ""}
 </div></section>`
       : "";
+    // The intro sits in a box just under Design-and-build, on the left, lapping down onto Services.
+    const chips = towns.length ? `<ul class="towns"${mark(SITE, "towns")}>${towns.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : "";
+    const intro = site.intro ? `<div class="intro"><div class="wrap"><div class="intro-box"><p${mark(SITE, "intro")}>${esc(site.intro)}</p>${chips}</div>${clients}</div></div>` : "";
     return `<section class="hero">
 <div class="hero-photos">
 ${hero}
@@ -389,7 +392,7 @@ ${portrait}
 </div></section>
 ${work}
 ${still ? "</div>" : ""}
-${clients}`;
+${site.intro ? "" : clients}`;
   };
 
   const workPage = () => `${pageHead("Portfolio", "Works", "")}
