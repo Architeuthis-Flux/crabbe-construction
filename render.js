@@ -147,7 +147,7 @@ export function buildSite({ files, hasPhoto, hasThumb = () => false, photoUrl = 
   const contact = () => {
     const { phone, email, owner } = site;
     const lines = [];
-    if (phone) lines.push(`<p class="label">Call us directly</p><a class="phone" href="tel:${tel(phone)}"${mark(SITE, "phone")}>${esc(phone)}</a>`);
+    if (phone) lines.push(`<p class="label">${site.form_key ? "Or call us directly" : "Call us directly"}</p><a class="phone" href="tel:${tel(phone)}"${mark(SITE, "phone")}>${esc(phone)}</a>`);
     if (email) lines.push(`<p class="label">Or write</p><a class="email" href="mailto:${esc(email)}"${mark(SITE, "email")}>${esc(email)}</a>`);
     // A Google map behind the section, under a wash of sand. Decorative: it cannot be clicked or
     // tabbed into, loads only when scrolled near, and is left out of the Ask Claude preview.
@@ -164,7 +164,7 @@ export function buildSite({ files, hasPhoto, hasThumb = () => false, photoUrl = 
 <input type="hidden" name="subject" value="New inquiry from the ${esc(name)} website">
 <input type="hidden" name="from_name" value="${esc(name)} website">
 <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-<p class="label">Or send a message</p>
+<p class="label">Send us a message</p>
 <div class="fields">
 <label><span>Your name</span><input type="text" name="name" autocomplete="name" required></label>
 <label><span>Your email</span><input type="email" name="email" autocomplete="email" required></label>
@@ -180,8 +180,8 @@ export function buildSite({ files, hasPhoto, hasThumb = () => false, photoUrl = 
     return `<section id="contact" class="contact${map ? " has-map" : ""}">${map}<div class="wrap">
 <p class="lead"${mark(SITE, "contact_lead")}>${esc(site.contact_lead)}</p>
 <h2>Contact us</h2>
-${lines.join("")}
 ${form}
+${lines.join("")}
 ${signoff}
 </div></section>`;
   };
