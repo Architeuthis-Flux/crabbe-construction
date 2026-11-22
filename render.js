@@ -382,9 +382,9 @@ ${approach}
 </div></section>
 ${intro}
 <section id="about" class="about${still ? " has-bg" : ""}"><div class="wrap about-grid">
-<div class="philosophy"><h2 class="label">Philosophy</h2><blockquote${mark(SITE, "philosophy")}><p>&ldquo;${esc(site.philosophy)}&rdquo;</p></blockquote>${by}</div>
+<div class="philosophy"><h2>Philosophy</h2><blockquote${mark(SITE, "philosophy")}><p>&ldquo;${esc(site.philosophy)}&rdquo;</p></blockquote>${by}</div>
 ${portrait}
-<div class="experience"${mark(SITE, "about")}><h2${mark(SITE, "about_title")}>${esc(site.about_title)}</h2>${paras(site.about)}</div>
+<div class="experience"${mark(SITE, "about")}><h2${mark(SITE, "about_title")}>${esc(site.about_title)}</h2>${paras(site.about)}<p class="more-link"><a class="btn" href="work.html">View portfolio</a></p></div>
 </div></section>
 ${work}
 ${still ? "</div>" : ""}

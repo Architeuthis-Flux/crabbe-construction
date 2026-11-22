@@ -155,21 +155,21 @@ p, figure, blockquote { margin: 0; }
 
 /* ---------- home: philosophy, portrait, experience ---------- */
 .about { padding-block: var(--band); background: var(--sand-pale); }   /* same ground as the design-and-build band */
+/* After the old template: a tall slate Philosophy box with a hairline inside its edge; the portrait
+   laps over the box's side; the sand Experience box laps over the portrait's foot and hangs below. */
 .about-grid { display: grid; gap: 2.75rem; }
-.philosophy { position: relative; padding-block: clamp(2.25rem, 5vw, 4rem); color: #fff; }
-.philosophy::before { content: ""; position: absolute; z-index: -1; inset: 0; background: var(--slate); }   /* stops at the page margin, like the photo on the other side */
-.philosophy { padding-inline: clamp(1.5rem, 4vw, 3.5rem); }
 .about-grid > * { position: relative; z-index: 0; }
-.philosophy blockquote { margin-top: 1.5rem; font: italic 400 clamp(1.25rem, 2vw, 1.55rem)/1.5 var(--serif); }
-.by { margin-top: 1.5rem; font: 500 .8125rem/1 var(--sans); letter-spacing: .3em; text-transform: uppercase; }   /* white, like the rest of the slate box: sand is too faint on it */
-.by::before { content: ""; display: inline-block; width: 2.5rem; height: 1px; margin-right: 1rem; vertical-align: middle; background: var(--sand); }
-.portrait { z-index: 1; width: min(92%, 26rem); margin: -2.75rem auto; box-shadow: 0 1.25rem 2.5rem rgba(25, 42, 61, .22); }   /* laps over the box above and the box below */
-.philosophy { padding-bottom: calc(clamp(2.25rem, 5vw, 4rem) + 2.75rem); }
-.experience { padding-top: calc(clamp(1.75rem, 4vw, 3rem) + 2.75rem); }
+.philosophy { padding: clamp(2.25rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3.5rem) calc(clamp(2.25rem, 5vw, 4rem) + 2.75rem); background: var(--slate); color: #fff; outline: 1px solid rgba(255, 255, 255, .16); outline-offset: -.75rem; }
+.philosophy h2 { font-size: clamp(1.9rem, 3vw, 2.5rem); }
+.philosophy blockquote { margin-top: 1.75rem; font: 400 clamp(1rem, 1.5vw, 1.125rem)/1.8 var(--sans); color: var(--light); }
+.by { margin-top: 1.75rem; font: 500 .9375rem/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; }   /* white, like the rest of the slate box: sand is too faint on it */
+.by::after { content: ""; display: block; width: 3rem; height: 1px; margin-top: 1.75rem; background: rgba(255, 255, 255, .5); }
+.portrait { z-index: 1; width: min(92%, 26rem); margin: -2.75rem auto; box-shadow: 0 1.25rem 2.5rem rgba(25, 42, 61, .28); }   /* laps over the box above and the box below */
 .portrait img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%; }
-.experience { padding: clamp(1.75rem, 4vw, 3rem); background: var(--sand-light); }
-.experience h2 { margin-bottom: 1rem; font-size: clamp(1.7rem, 3vw, 2.2rem); }
+.experience { padding: calc(clamp(1.75rem, 4vw, 3rem) + 2.75rem) clamp(1.75rem, 4vw, 3rem) clamp(1.75rem, 4vw, 3rem); background: var(--sand-light); box-shadow: 0 1.25rem 2.5rem -1rem rgba(25, 42, 61, .3); }
+.experience h2 { margin-bottom: 1.25rem; font-size: clamp(1.9rem, 3vw, 2.5rem); }
 .experience p { font-size: 1rem; }
+.experience .more-link { margin-top: 1.75rem; }
 
 /* ---------- project cards (home and Works) ---------- */
 .work { padding-block: var(--band); background: var(--sand-pale); }
@@ -255,14 +255,14 @@ p, figure, blockquote { margin: 0; }
   .card:nth-child(even) .card-photo { order: 2; }
 }
 @media (min-width: 60rem) {
-  .about-grid { grid-template-columns: 6fr 5fr; gap: 0; align-items: start; }
-  .philosophy { grid-area: 1 / 1; padding-bottom: 7rem; padding-right: clamp(5rem, 8vw, 7rem); padding-left: clamp(2rem, 4vw, 3.5rem); }
-  .portrait { grid-area: 1 / 2 / span 2; align-self: center; width: calc(100% + 3rem); margin: 2rem 0 2rem -3rem; }   /* its left edge laps over both text boxes */
-  .experience { grid-area: 2 / 1; margin: -4rem 0 0 clamp(2rem, 6vw, 5rem); padding-top: clamp(1.75rem, 4vw, 3rem); padding-right: clamp(5rem, 8vw, 7rem); }
+  .about-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); grid-template-rows: clamp(3rem, 6vw, 5rem) auto auto; gap: 0; align-items: start; }
+  .philosophy { grid-area: 1 / 6 / 4 / 13; align-self: stretch; display: grid; align-content: center; margin-bottom: clamp(4rem, 8vw, 7rem); padding: clamp(3rem, 6vw, 5rem) clamp(2rem, 5vw, 4.5rem) clamp(3rem, 6vw, 5rem) calc(100% / 7 + clamp(2rem, 4vw, 3.5rem)); }   /* its left padding clears the one column the portrait and Experience box lap over */
+  .portrait { grid-area: 2 / 1 / 3 / 7; z-index: 1; width: 100%; margin: 0; }
+  .experience { grid-area: 3 / 2 / 4 / 7; z-index: 2; margin-top: clamp(-7rem, -8vw, -4rem); padding: clamp(2rem, 4vw, 3.25rem); }
 }
 
 /* ---------- phones ---------- */
-@media (max-width: 61.99rem) {
+@media (max-width: 67.99rem) {
   .top { position: static; }
   .top .wrap { gap: .25rem 1rem; }
   .brand { flex: 1; min-width: 0; }
