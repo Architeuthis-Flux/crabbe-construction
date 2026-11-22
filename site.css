@@ -87,7 +87,11 @@ p, figure, blockquote { margin: 0; }
 .still > .intro::after { content: ""; position: absolute; inset: 0; z-index: -1; background: rgba(244, 241, 234, .8); }   /* the same cream wash as the band above */
 .intro p { position: relative; top: var(--lap); padding: clamp(1.75rem, 4vw, 3rem) clamp(1.5rem, 5vw, 4rem); background: #d9cdb8;   /* the Experience box's sand, a shade lighter */ color: var(--ink); box-shadow: 0 1.25rem 2.5rem -1rem rgba(25, 42, 61, .35); font: 400 clamp(1.25rem, 2.3vw, 1.8rem)/1.42 var(--serif); text-wrap: balance; }
 .intro + section { padding-top: calc(var(--band) + clamp(2rem, 4vw, 3.25rem)); }   /* room for the box that laps in from above */
-.approach:has(+ .intro) { padding-bottom: clamp(2rem, 5vw, 3.5rem); }
+.approach:has(+ .intro), .services:has(+ .intro) { padding-bottom: clamp(2rem, 5vw, 3.5rem); }
+/* Under Services the box stays on the teal and stops short of About, whose Philosophy box laps up from below. */
+.services + .intro { padding-bottom: clamp(2.5rem, 6vw, 4.5rem); }
+.services + .intro::after { background: rgba(36, 70, 83, .84); }
+.services + .intro p { top: 0; }
 
 /* ---------- home: design and build ---------- */
 .approach { padding-block: var(--band); background: var(--sand-pale); }
