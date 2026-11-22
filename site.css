@@ -149,7 +149,8 @@ p, figure, blockquote { margin: 0; }
 /* As on the old site: a very large, faint word set to the right, over a hairline. It slides sideways as it scrolls (site.js). */
 .services-title { padding-bottom: .12em; border-bottom: 1px solid rgba(175, 187, 209, .22); overflow: hidden; font: 400 clamp(2.6rem, 10.5vw, 6.2rem)/1 var(--sans); letter-spacing: .15em; text-transform: uppercase; text-align: right; color: rgba(175, 187, 209, .16); }
 .services-title span { display: inline-block; margin-right: -.15em; translate: var(--drift, 0) 0; }
-.work.has-bg .section-head, .work.has-bg .section-head .label { color: #fff; }   /* slides in from the side as it scrolls up the screen (site.js) */
+.work.has-bg .section-head { color: #fff; }
+.work.has-bg .section-head .label { color: var(--haze); }   /* slides in from the side as it scrolls up the screen (site.js) */
 .work.has-bg .more { color: #fff; }
 .service-grid { display: grid; gap: 3.5rem clamp(2.5rem, 8vw, 7rem); margin-top: clamp(2.5rem, 6vw, 4.5rem); }
 .service .icon { display: block; margin-bottom: 1.1rem; color: var(--sand); }
@@ -178,8 +179,11 @@ p, figure, blockquote { margin: 0; }
 /* ---------- project cards (home and Works) ---------- */
 .work { padding-block: var(--band); background: var(--sand-pale); }
 .section-head { margin-bottom: clamp(2rem, 5vw, 3.5rem); text-align: center; }
-.section-head .label { letter-spacing: .6em; }
-.section-head h2 { margin-top: .6rem; font-weight: 400; font-size: clamp(2rem, 4vw, 2.75rem); letter-spacing: .14em; text-transform: uppercase; }
+.section-head::before, .section-head::after { content: ""; display: block; width: 1px; height: clamp(3rem, 6vw, 4.75rem); margin-inline: auto; background: currentColor; opacity: .45; }   /* a short upright line above and below the title */
+.section-head::before { margin-bottom: clamp(1.75rem, 3.5vw, 2.75rem); }
+.section-head::after { margin-top: clamp(1.75rem, 3.5vw, 2.75rem); }
+.section-head .label { font-weight: 400; font-size: clamp(1rem, 1.8vw, 1.3rem); letter-spacing: .5em; text-indent: .5em; color: var(--title); }   /* the lighter word over the heavier one */
+.section-head h2 { margin-top: .5rem; font-weight: 400; font-size: clamp(2.5rem, 5.5vw, 3.75rem); line-height: 1.1; letter-spacing: .16em; text-indent: .16em; text-transform: uppercase; }
 .cards { display: grid; gap: clamp(2rem, 5vw, 3.5rem); }
 .card { display: grid; background: var(--sand-light); box-shadow: 0 24px 48px -32px rgba(25, 42, 61, .45); }
 .card-photo { display: block; min-height: 12rem; background: var(--sand); }
