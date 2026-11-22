@@ -30,3 +30,69 @@ if (shots.length && window.HTMLDialogElement) {
     if (e.key === 'ArrowRight') show(at + 1);
   });
 }
+
+// Motion on the home page. Skipped entirely for people who ask their device for less motion;
+// without JS the page is simply still, with the first photo showing.
+const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// Hero slideshow: fades to the next photo every few seconds; arrows and dots to move by hand.
+const hero = document.querySelector('.hero');
+const slides = hero ? [...hero.querySelectorAll('img.slide')] : [];
+if (slides.length > 1) {
+  const nav = document.createElement('div');
+  nav.className = 'hero-nav';
+  nav.innerHTML = '<button type="button" data-go="-1" aria-label="Previous photo">&lsaquo;</button>'
+    + slides.map((_, n) => `<button type="button" class="dot" data-to="${n}" aria-label="Photo ${n + 1} of ${slides.length}"></button>`).join('')
+    + '<button type="button" data-go="1" aria-label="Next photo">&rsaquo;</button>';
+  hero.append(nav);
+  const dots = [...nav.querySelectorAll('.dot')];
+  let on = 0;
+  let timer = 0;
+  const go = (n) => {
+    on = (n + slides.length) % slides.length;
+    slides.forEach((img, i) => img.classList.toggle('on', i === on));
+    dots.forEach((d, i) => (i === on ? d.setAttribute('aria-current', 'true') : d.removeAttribute('aria-current')));
+  };
+  const play = () => {
+    clearInterval(timer);
+    if (!calm && !document.hidden) timer = setInterval(() => go(on + 1), 5000);
+  };
+  nav.addEventListener('click', (e) => {
+    const b = e.target.closest('button');
+    if (!b) return;
+    go(b.dataset.to !== undefined ? Number(b.dataset.to) : on + Number(b.dataset.go));
+    play();                                             // a hand move restarts the clock
+  });
+  document.addEventListener('visibilitychange', play);
+  go(0);
+  play();
+}
+
+if (!calm) {
+  // Fade in: only blocks that start below the screen, so nothing already in view ever blinks.
+  if ('IntersectionObserver' in window) {
+    const seen = new IntersectionObserver((entries) => {
+      for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); seen.unobserve(e.target); }
+    }, { rootMargin: '0px 0px -10% 0px' });
+    const blocks = '.intro p, .approach .wrap > *, .services .label, .service, .philosophy, .portrait, .experience, .section-head, .card, .more, .area .wrap > *, .contact .wrap > *, .gallery > a';
+    for (const el of document.querySelectorAll(blocks)) {
+      if (el.getBoundingClientRect().top > innerHeight) { el.classList.add('reveal'); seen.observe(el); }
+    }
+  }
+
+  // Parallax: the hero photo drifts slower than the page, and the big "Services" word slides sideways.
+  const ghost = document.querySelector('.ghost');
+  if (hero || ghost) {
+    let queued = false;
+    const drift = () => {
+      queued = false;
+      if (hero && scrollY < hero.offsetHeight + hero.offsetTop) hero.style.setProperty('--drift', Math.round(scrollY * 0.3) + 'px');
+      if (ghost) {
+        const r = ghost.getBoundingClientRect();
+        if (r.bottom > 0 && r.top < innerHeight) ghost.style.setProperty('--drift', Math.round((r.top - innerHeight / 2) * 0.12) + 'px');
+      }
+    };
+    addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(drift); } }, { passive: true });
+    drift();
+  }
+}

@@ -100,6 +100,7 @@ collections:
           - { name: phone, label: Phone number, widget: string }
           - { name: email, label: Email address, widget: string, required: false, hint: "Optional. If filled in, it shows in the Contact section." }
           - { name: hero_photo, label: Big photo at the top, widget: image }
+          - { name: hero_photos, label: More photos for the top slideshow, widget: image, multiple: true, required: false, hint: "Optional. The top of the home page fades between the big photo and these, in this order. Wide photos work best." }
           - { name: hero_alt, label: What the big photo shows, widget: string, required: false, hint: "One plain sentence, for search engines and screen readers." }
           - { name: headline, label: Line under the company name, widget: string }
           - { name: intro, label: Introduction, widget: text }
@@ -111,6 +112,7 @@ collections:
             widget: list
             fields:
               - { name: title, label: Name, widget: string }
+              - { name: icon, label: Drawing, widget: select, required: false, options: [{ label: House, value: build }, { label: Floor plan, value: remodel }, { label: Cabinet, value: cabinets }, { label: Pencil and ruler, value: design }], hint: "The small line drawing above the name." }
               - { name: text, label: Description, widget: text, hint: "Leave a blank line to start a new paragraph." }
           - { name: philosophy, label: Philosophy quote, widget: text }
           - { name: owner, label: Owner name, widget: string, hint: "Signs the quote and the Contact section." }

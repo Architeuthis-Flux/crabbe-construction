@@ -136,6 +136,7 @@ function selftest() {
   assert.ok(index.includes('<a href="process.html">Our Process</a>') && !index.includes("hidden.html"));
   assert.ok(index.includes("Second &lt;i&gt;") && !index.includes(">First<"));          // featured: false stays off the home page
   assert.ok(index.includes("<p>x</p><p>y</p>") && !index.includes("data-edit"));
+  assert.ok(index.includes('<svg class="icon"') && index.includes('<img class="slide on" src="photos/a.webp"') && !index.includes('<img class="slide" '));   // one photo: no slideshow
   const second = made.pages.get("b-second.html");
   assert.ok(second.includes('alt="Second &lt;i&gt;, photo 2"') && !second.includes("gone.webp") && !second.includes("photo 3"));
   assert.ok(made.pages.get("process.html").includes('<img src="photos/b.webp">'));
@@ -151,7 +152,9 @@ function selftest() {
   files.set("content/site.json", JSON.stringify({ name: "Test & Co", url: "https://example.com/", phone: "(831) 220-2362", license: "123", city: "Pacific Grove",
     towns: ["Monterey", " ", "Carmel <x>"], seo_title: "Test & Co | Builder", seo_description: "Short.", approach: "One.\n\nTwo.", hero_photo: "/photos/a.webp" }));
   files.set("content/projects/b-second.json", JSON.stringify({ title: "Second", location: "Monterey, CA", kind: "Residential", cover: "/photos/a.webp", summary: "A deck." }));
-  const live = buildSite({ files, hasPhoto: () => true, version: "v1", year: 2026 });
+  files.set("content/site.json", files.get("content/site.json").replace('"hero_photo":"/photos/a.webp"', '"hero_photo":"/photos/a.webp","hero_photos":["/photos/b.webp","/photos/a.webp","/photos/gone.webp"]'));
+  const live = buildSite({ files, hasPhoto: (name) => name !== "gone.webp", version: "v1", year: 2026 });
+  assert.equal(live.pages.get("index.html").match(/<img class="slide/g).length, 2);          // repeats and missing photos dropped
   const liveIndex = live.pages.get("index.html");
   assert.ok(!liveIndex.includes("noindex") && liveIndex.includes('<link rel="canonical" href="https://example.com/">'));
   assert.ok(liveIndex.includes("<title>Test &amp; Co | Builder</title>") && liveIndex.includes('<meta name="description" content="Short.">'));

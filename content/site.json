@@ -11,6 +11,10 @@
   "email": "",
   "hero_photo": "/photos/deer-flats-02.webp",
   "hero_alt": "Remodeled home exterior at dusk, with a wood deck built around a mature oak tree",
+  "hero_photos": [
+    "/photos/deer-flats-01.webp",
+    "/photos/del-rey-oaks-01.webp"
+  ],
   "headline": "Design-forward building on the Monterey Peninsula",
   "intro": "A construction and design company on the Monterey Peninsula, specializing in new builds, additions, remodels and custom built-ins.",
   "approach_title": "Design and build, under one roof",
@@ -18,19 +22,23 @@
   "services": [
     {
       "title": "New Building & Addition",
-      "text": "Building from the ground up gives the best opportunity to create a space that fits your every need. Our team works closely with the client, architects, civil and structural engineers, and city planning commission to account for every detail and ensure that projects flow smoothly from planning through building to deliver a successful and beautiful project."
+      "text": "Building from the ground up gives the best opportunity to create a space that fits your every need. Our team works closely with the client, architects, civil and structural engineers, and city planning commission to account for every detail and ensure that projects flow smoothly from planning through building to deliver a successful and beautiful project.",
+      "icon": "build"
     },
     {
       "title": "Remodel & Renovation",
-      "text": "Whether it is your kitchen, bathroom, interior or exterior living space, our team can shape your existing space into the home of your dreams with creativity and intelligent design.\n\nDesigns, material selection, project feedback, budgeting, permitting, and scheduling are streamlined and tracked, making the remodeling process transparent, much simpler, more enjoyable, and easier to trust."
+      "text": "Whether it is your kitchen, bathroom, interior or exterior living space, our team can shape your existing space into the home of your dreams with creativity and intelligent design.\n\nDesigns, material selection, project feedback, budgeting, permitting, and scheduling are streamlined and tracked, making the remodeling process transparent, much simpler, more enjoyable, and easier to trust.",
+      "icon": "remodel"
     },
     {
       "title": "Custom Built-in Cabinets",
-      "text": "Some spaces need custom solutions. Our team can design and build custom built-ins for your space. Transform an unused space into a functional part of your home. Offices, entertainment centers, closets, and more."
+      "text": "Some spaces need custom solutions. Our team can design and build custom built-ins for your space. Transform an unused space into a functional part of your home. Offices, entertainment centers, closets, and more.",
+      "icon": "cabinets"
     },
     {
       "title": "Design & Consultation",
-      "text": "From color palettes to building plans, our design team can help you get your project started. Utilize our experience and expertise to select finishes and materials. Our honest opinion can help you create your ideal living space while meeting your budget needs. Work with our team on a level that suits your needs to see your project to completion."
+      "text": "From color palettes to building plans, our design team can help you get your project started. Utilize our experience and expertise to select finishes and materials. Our honest opinion can help you create your ideal living space while meeting your budget needs. Work with our team on a level that suits your needs to see your project to completion.",
+      "icon": "design"
     }
   ],
   "philosophy": "We focus on quality craftsmanship in our design forward building. With honest communication, thoughtful planning, and genuine care, we build lasting relationships with our clients creating living spaces tailored to their vision. Our ongoing pursuit of knowledge keeps us up to date on the latest building techniques and materials that, coupled with our tried and tested experience, deliver the highest quality product.",

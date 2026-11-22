@@ -51,6 +51,19 @@ export function jsonLd(data) {
   return JSON.stringify(data).replaceAll("<", "\\u003c");
 }
 
+// Line drawings above each service. A service names one ("icon"), or takes the next in this order.
+export const ICONS = {
+  build: '<path d="M6 22 24 8l18 14"/><path d="M10 19v21h28V19"/><path d="M20 40V28h8v12"/>',
+  remodel: '<rect x="8" y="8" width="32" height="32"/><path d="M8 24h13M29 24h11M24 8v9M24 31v9"/>',
+  cabinets: '<rect x="9" y="6" width="30" height="36"/><path d="M24 6v24M9 30h30M20 17v5M28 17v5M21 36h6"/>',
+  design: '<path d="M10 38 33 15l4 4-23 23h-4z"/><path d="M14 10l24 24-4 4L10 14z"/><path d="M19 15l-2 2M24 20l-2 2M29 25l-2 2"/>',
+};
+const iconSvg = (key, i) => {
+  const names = Object.keys(ICONS);
+  const shape = ICONS[key] || ICONS[names[i % names.length]];
+  return `<svg class="icon" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${shape}</svg>`;
+};
+
 const fileName = (path) => String(path).replace(/\/+$/, "").split("/").pop();
 
 /* ------------------------------------------------------------------ the site
@@ -251,7 +264,7 @@ ${kind}
     const call = phone ? `<a class="btn" href="tel:${tel(phone)}">Call ${esc(phone)}</a>` : "";
     const services = (site.services || [])
       .map((s, i) => (s && typeof s === "object" && !Array.isArray(s)
-        ? `<div class="service"${mark(SITE, `services[${i + 1}]`)}><h3>${esc(s.title)}</h3>${paras(s.text)}</div>`
+        ? `<div class="service"${mark(SITE, `services[${i + 1}]`)}>${iconSvg(s.icon, i)}<h3>${esc(s.title)}</h3>${paras(s.text)}</div>`
         : ""))
       .join("");
     const featured = projects.filter((p) => ("featured" in p ? p.featured : true));
@@ -259,7 +272,14 @@ ${kind}
     const portrait = photo(site.portrait)
       ? `<figure class="portrait framed"><img src="${photo(site.portrait)}" alt="${esc(owner)} at work" loading="lazy"${mark(SITE, "portrait")}></figure>`
       : "";
-    const hero = photo(site.hero_photo) ? `<img src="${photo(site.hero_photo)}" alt="${esc(site.hero_alt || "")}" fetchpriority="high"${mark(SITE, "hero_photo")}>` : "";
+    // The big photo, then any more to rotate through. site.js turns two or more into a slideshow;
+    // without it (and in the Ask Claude preview) the first one simply stays.
+    const slides = [...new Set([site.hero_photo, ...(Array.isArray(site.hero_photos) ? site.hero_photos : [])])].filter((s) => photo(s));
+    const hero = slides
+      .map((s, i) => (i === 0
+        ? `<img class="slide on" src="${photo(s)}" alt="${esc(site.hero_alt || "")}" fetchpriority="high"${mark(SITE, "hero_photo")}>`
+        : `<img class="slide" src="${photo(s)}" alt="" loading="lazy"${mark(SITE, "hero_photos")}>`))
+      .join("\n");
     const approach = site.approach
       ? `<section class="approach"><div class="wrap">
 <h2 class="label"${mark(SITE, "approach_title")}>${esc(site.approach_title || "Design and build")}</h2>
