@@ -80,7 +80,7 @@ p, figure, blockquote { margin: 0; }
 .actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2.25rem; }
 
 /* ---------- home: intro ---------- */
-.intro { padding-block: var(--band); background: #fff; text-align: center; }
+.intro { padding-block: var(--band); background: var(--sand-pale); text-align: center; }
 .intro p { max-width: 38ch; margin-inline: auto; font: 400 clamp(1.35rem, 2.5vw, 1.95rem)/1.42 var(--serif); text-wrap: balance; }
 
 /* ---------- home: design and build ---------- */
@@ -106,6 +106,8 @@ p, figure, blockquote { margin: 0; }
 /* The teal of Services and Recent Works runs a little way into About at the top and bottom, and the
    Philosophy and Experience boxes sit flush with About's edges, so each box laps onto its neighbour. */
 .about.has-bg { --lap: clamp(2rem, 4vw, 3.25rem); padding-block: 0; }
+.approach.has-bg::after { background: rgba(244, 241, 234, .8); }
+.approach.has-bg h2, .approach.has-bg .approach-text p:last-child { color: var(--ink); }   /* grey would be too faint over the photo */
 .about.has-bg::after { background: linear-gradient(to bottom, rgba(36, 70, 83, .84) var(--lap), rgba(244, 241, 234, .78) var(--lap), rgba(244, 241, 234, .78) calc(100% - var(--lap)), rgba(36, 70, 83, .84) calc(100% - var(--lap))); }
 .about.has-bg .experience { align-self: end; }
 .work.has-bg .section-head, .work.has-bg .section-head .label, .work.has-bg .more { color: #fff; }
@@ -249,3 +251,7 @@ p, figure, blockquote { margin: 0; }
 }
 
 .hero .actions { justify-content: center; }
+
+/* The wash runs a hair past the first and last band, so no bare line of photo shows at the group's edges. */
+.still > .bg + .has-bg::after { top: -2px; }
+.still > .has-bg:last-child::after { bottom: -2px; }

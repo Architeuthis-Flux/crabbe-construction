@@ -277,7 +277,7 @@ ${kind}
     const head = amp < 0 ? name : name.slice(0, amp);
     const small = amp < 0 ? "" : `<small>&amp; ${esc(name.slice(amp + 3))}</small>`;
     const { phone, owner } = site;
-    // One still photo behind Services, About and Recent Works together (site.css: .still).
+    // One still photo behind Design-and-build, Services, About and Recent Works together (site.css: .still).
     const still = Boolean(photo(site.services_photo));
     const call = phone ? `<a class="btn" href="tel:${tel(phone)}">Call ${esc(phone)}</a>` : "";
     const services = (site.services || [])
@@ -299,7 +299,7 @@ ${kind}
         : `<img class="slide" src="${photo(s)}" alt="" loading="lazy"${mark(SITE, "hero_photos")}>`))
       .join("\n");
     const approach = site.approach
-      ? `<section class="approach"><div class="wrap">
+      ? `<section class="approach${still ? " has-bg" : ""}"><div class="wrap">
 <h2 class="label"${mark(SITE, "approach_title")}>${esc(site.approach_title || "Design and build")}</h2>
 <div class="approach-text"${mark(SITE, "approach")}>${paras(site.approach)}</div>
 </div></section>`
@@ -327,8 +327,8 @@ ${hero}
 </div>
 </section>
 <section class="intro"><div class="wrap"><p${mark(SITE, "intro")}>${esc(site.intro)}</p></div></section>
-${approach}
 ${still ? `<div class="still">${backdrop(site.services_photo, "services_photo")}` : ""}
+${approach}
 <section id="services" class="services${still ? " has-bg" : ""}"><div class="wrap">
 <p class="ghost" aria-hidden="true">Services</p>
 <h2 class="label">Services</h2>
