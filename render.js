@@ -296,9 +296,10 @@ ${kind}
   /* ---------------------------------------------------------------- pages */
 
   const home = () => {
-    const amp = name.indexOf(" & ");
-    const head = amp < 0 ? name : name.slice(0, amp);
-    const small = amp < 0 ? "" : `<small>&amp; ${esc(name.slice(amp + 3))}</small>`;
+    // The first word stands large; the rest of the name runs small beneath it.
+    const gap = name.indexOf(" ");
+    const head = gap < 0 ? name : name.slice(0, gap);
+    const small = gap < 0 ? "" : `<small>${esc(name.slice(gap + 1))}</small>`;
     const { phone, owner } = site;
     // One still photo behind Design-and-build, Services, About and Recent Works together (site.css: .still).
     const still = Boolean(photo(site.services_photo));

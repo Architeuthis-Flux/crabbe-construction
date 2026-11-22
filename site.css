@@ -74,9 +74,9 @@ p, figure, blockquote { margin: 0; }
 .hero::after { content: ""; position: absolute; inset: 0; background: rgba(35, 56, 63, .58); }
 .hero > .wrap { position: relative; z-index: 1; }   /* above the wash */   /* an even wash: the words sit in the middle of the photo */
 .hero > .wrap { padding-block: clamp(3rem, 8vw, 5.5rem); }
-.hero h1 { font-weight: 400; font-size: clamp(1.9rem, 5.4vw, 4.25rem); letter-spacing: .14em; text-transform: uppercase; }
-.hero h1 { margin-right: -.14em; }   /* the last letter's spacing would push the name off centre */
-.hero h1 small { display: block; margin: .9rem -.55em 0 0; font: 400 clamp(.8rem, 1.5vw, 1.05rem)/1 var(--sans); letter-spacing: .55em; color: var(--sand); }
+.hero h1 { font-weight: 400; font-size: clamp(3rem, 9vw, 6.5rem); line-height: 1; letter-spacing: .2em; text-transform: uppercase; color: var(--sand); }
+.hero h1 { margin-right: -.2em; }   /* the last letter's spacing would push the name off centre */
+.hero h1 small { display: block; margin: clamp(1rem, 2.2vw, 1.75rem) calc(.2em - .32em) 0 0; font: 400 clamp(.75rem, 2.1vw, 1.4rem)/1.2 var(--sans); letter-spacing: .32em; color: #a7b8bd; }
 .hero .lede { max-width: 26ch; margin: 1.75rem auto 0; font: italic 400 clamp(1.3rem, 2.4vw, 1.8rem)/1.35 var(--serif); }
 .actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2.25rem; }
 
