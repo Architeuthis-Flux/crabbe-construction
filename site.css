@@ -72,7 +72,7 @@ p, figure, blockquote { margin: 0; }
 .hero-nav .dot::before { content: ""; position: absolute; inset: 50% auto auto 50%; width: .5rem; height: .5rem; margin: -.25rem; border: 1px solid #fff; border-radius: 50%; }
 .hero-nav .dot[aria-current]::before { background: var(--sand); border-color: var(--sand); }
 .hero::after { content: ""; position: absolute; inset: 0; background: rgba(35, 56, 63, .58); }
-.hero > .wrap, .hero > .intro { position: relative; z-index: 1; }   /* above the wash */   /* an even wash: the words sit in the middle of the photo */
+.hero > .wrap { position: relative; z-index: 1; }   /* above the wash */   /* an even wash: the words sit in the middle of the photo */
 .hero > .wrap { padding-block: clamp(3rem, 8vw, 5.5rem); }
 .hero h1 { font-weight: 400; font-size: clamp(1.9rem, 5.4vw, 4.25rem); letter-spacing: .14em; text-transform: uppercase; }
 .hero h1 { margin-right: -.14em; }   /* the last letter's spacing would push the name off centre */
@@ -81,11 +81,13 @@ p, figure, blockquote { margin: 0; }
 .actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2.25rem; }
 
 /* ---------- home: intro ---------- */
-/* A cream box at the foot of the hero, held in from both sides, whose lower edge laps onto the band below. */
-.hero { --lap: clamp(2rem, 4vw, 3.25rem); }
-.intro { margin-bottom: calc(-1 * var(--lap)); }
-.intro p { padding: clamp(1.75rem, 4vw, 3rem) clamp(1.5rem, 5vw, 4rem); background: var(--sand-pale); color: var(--ink); box-shadow: 0 1.25rem 2.5rem -1rem rgba(25, 42, 61, .35); font: 400 clamp(1.25rem, 2.3vw, 1.8rem)/1.42 var(--serif); text-wrap: balance; }
-.hero.has-intro + section, .hero.has-intro + .still > .bg + section { padding-top: calc(var(--band) + clamp(2rem, 4vw, 3.25rem)); }   /* room for the box that laps in from above */
+/* A cream box under Design-and-build, held in from both sides, whose lower edge laps onto Services. */
+.intro { --lap: clamp(2rem, 4vw, 3.25rem); position: relative; z-index: 1; background: var(--sand-pale); text-align: center; }
+.still > .intro { isolation: isolate; background: none; }
+.still > .intro::after { content: ""; position: absolute; inset: 0; z-index: -1; background: rgba(244, 241, 234, .8); }   /* the same cream wash as the band above */
+.intro p { position: relative; top: var(--lap); padding: clamp(1.75rem, 4vw, 3rem) clamp(1.5rem, 5vw, 4rem); background: var(--sand-pale); color: var(--ink); box-shadow: 0 1.25rem 2.5rem -1rem rgba(25, 42, 61, .35); font: 400 clamp(1.25rem, 2.3vw, 1.8rem)/1.42 var(--serif); text-wrap: balance; }
+.intro + section { padding-top: calc(var(--band) + clamp(2rem, 4vw, 3.25rem)); }   /* room for the box that laps in from above */
+.approach:has(+ .intro) { padding-bottom: clamp(2rem, 5vw, 3.5rem); }
 
 /* ---------- home: design and build ---------- */
 .approach { padding-block: var(--band); background: var(--sand-pale); }
