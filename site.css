@@ -256,3 +256,23 @@ p, figure, blockquote { margin: 0; }
 /* The wash runs a hair past the first and last band, so no bare line of photo shows at the group's edges. */
 .still > .bg + .has-bg::after { top: -2px; }
 .still > .has-bg:last-child::after { bottom: -2px; }
+
+/* ---------- contact form ---------- */
+.form { max-width: 40rem; margin: .5rem auto 2.5rem; text-align: left; }
+.form > .label { margin-bottom: 1.25rem; text-align: center; }
+.form .hp { position: absolute; left: -200vw; }   /* a trap for spam robots; people never see it */
+.fields { display: grid; gap: 1rem; }
+.form label { display: grid; gap: .4rem; font: 500 .75rem/1.4 var(--sans); letter-spacing: .16em; text-transform: uppercase; }
+.form label small { font-size: inherit; letter-spacing: .08em; text-transform: none; }
+.form input, .form select, .form textarea { width: 100%; padding: .8rem .9rem; border: 1px solid rgba(25, 42, 61, .35); border-radius: 0; background: rgba(255, 255, 255, .88); color: var(--ink); font: 400 1rem/1.4 var(--sans); letter-spacing: 0; text-transform: none; }
+.form textarea { resize: vertical; min-height: 8rem; }
+.form input:focus, .form select:focus, .form textarea:focus { outline: 2px solid var(--deep); outline-offset: 1px; background: #fff; }
+.form button.btn { display: block; margin: 1.5rem auto 0; cursor: pointer; background: var(--deep); border-color: var(--deep); color: #fff; }
+.form button.btn:hover { background: var(--ink); border-color: var(--ink); }
+.form button.btn[disabled] { opacity: .6; cursor: default; }
+.form-note { min-height: 1.5em; margin-top: 1rem; text-align: center; font: 400 1.1rem/1.4 var(--serif); }
+.form-note.bad { color: #7a2e30; }
+@media (min-width: 40rem) {
+  .fields { grid-template-columns: 1fr 1fr; }
+  .fields .wide { grid-column: 1 / -1; }
+}

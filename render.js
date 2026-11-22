@@ -154,11 +154,34 @@ export function buildSite({ files, hasPhoto, hasThumb = () => false, photoUrl = 
     const map = site.map_place && !preview
       ? `<iframe class="map" src="https://www.google.com/maps?q=${encodeURIComponent(site.map_place)}&amp;z=${num(site.map_zoom) || 11}&amp;output=embed" title="Map of ${esc(site.map_place)}" loading="lazy" tabindex="-1" aria-hidden="true" referrerpolicy="no-referrer-when-downgrade"></iframe>`
       : "";
+    // The message form. Shown once the site has a Web3Forms key (content/site.json "form_key"),
+    // which is what delivers each message to the owner's inbox; without one there is nowhere to
+    // send to, so no form. site.js sends it without leaving the page; without JS it posts normally.
+    const kinds = [...(site.services || []).filter((s) => s && s.title).map((s) => s.title), "Something else"];
+    const form = site.form_key
+      ? `<form class="form" action="https://api.web3forms.com/submit" method="POST">
+<input type="hidden" name="access_key" value="${esc(site.form_key)}">
+<input type="hidden" name="subject" value="New inquiry from the ${esc(name)} website">
+<input type="hidden" name="from_name" value="${esc(name)} website">
+<input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+<p class="label">Or send a message</p>
+<div class="fields">
+<label><span>Your name</span><input type="text" name="name" autocomplete="name" required></label>
+<label><span>Your email</span><input type="email" name="email" autocomplete="email" required></label>
+<label><span>Phone <small>(optional)</small></span><input type="tel" name="phone" autocomplete="tel"></label>
+<label><span>Type of project</span><select name="project">${kinds.map((k) => `<option>${esc(k)}</option>`).join("")}</select></label>
+<label class="wide"><span>Your message</span><textarea name="message" rows="5" required></textarea></label>
+</div>
+<button class="btn solid" type="submit">Send message</button>
+<p class="form-note" role="status" aria-live="polite"></p>
+</form>`
+      : "";
     const signoff = owner ? `<p class="signoff"${mark(SITE, "owner")}>Thank you,<br>${esc(owner)}</p>` : "";
     return `<section id="contact" class="contact${map ? " has-map" : ""}">${map}<div class="wrap">
 <p class="lead"${mark(SITE, "contact_lead")}>${esc(site.contact_lead)}</p>
 <h2>Contact us</h2>
 ${lines.join("")}
+${form}
 ${signoff}
 </div></section>`;
   };

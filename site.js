@@ -94,3 +94,32 @@ if (!calm) {
     drift();
   }
 }
+
+// Contact form: send the message without leaving the page, and say plainly whether it went.
+// Without JS the form posts the ordinary way and the mail service shows its own thank-you page.
+const form = document.querySelector('form.form');
+if (form) {
+  const note = form.querySelector('.form-note');
+  const button = form.querySelector('button');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    button.disabled = true;
+    note.className = 'form-note';
+    note.textContent = 'Sending…';
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(form))),
+      });
+      const out = await res.json().catch(() => ({}));
+      if (!res.ok || !out.success) throw new Error(out.message || 'not sent');
+      form.reset();
+      note.textContent = 'Thank you. Your message is on its way, and we will be in touch soon.';
+    } catch {
+      note.className = 'form-note bad';
+      note.textContent = 'Sorry, the message did not go through. Please call us instead.';
+    }
+    button.disabled = false;
+  });
+}

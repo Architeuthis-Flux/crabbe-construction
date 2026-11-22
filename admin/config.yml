@@ -99,6 +99,7 @@ collections:
           - { name: seo_description, label: Description in search results, widget: text, required: false, hint: "The two lines under the link on Google. About 155 characters." }
           - { name: phone, label: Phone number, widget: string }
           - { name: email, label: Email address, widget: string, required: false, hint: "Optional. If filled in, it shows in the Contact section." }
+          - { name: form_key, label: Contact form key, widget: string, required: false, hint: "The access key from web3forms.com for the inbox that should get messages. The contact form appears once this is filled in. Leave empty for no form." }
           - { name: hero_photo, label: Big photo at the top, widget: image }
           - { name: hero_photos, label: More photos for the top slideshow, widget: image, multiple: true, required: false, hint: "Optional. The top of the home page fades between the big photo and these, in this order. Wide photos work best." }
           - { name: services_photo, label: "Photo behind the middle of the home page", widget: image, required: false, hint: "Optional. One photo that stays still behind Design and build, Services, About and Recent Works while the page scrolls over it." }

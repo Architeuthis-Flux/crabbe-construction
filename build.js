@@ -176,6 +176,10 @@ function selftest() {
   const mapped = buildSite({ files, hasPhoto: () => true }).pages.get("work.html");
   assert.ok(mapped.includes('class="contact has-map"><iframe class="map" src="https://www.google.com/maps?q=Monterey%20Peninsula%2C%20CA&amp;z=11&amp;output=embed"'));
   assert.ok(!buildSite({ files, hasPhoto: () => true, preview: true }).pages.get("work.html").includes("<iframe"));
+  assert.ok(!mapped.includes("<form"));
+  files.set("content/site.json", files.get("content/site.json").replace('"license":"123"', '"license":"123","form_key":"k<1"'));
+  const formed = buildSite({ files, hasPhoto: () => true }).pages.get("work.html");
+  assert.ok(formed.includes('name="access_key" value="k&lt;1"') && formed.includes("<option>Something else</option>") && formed.includes('name="botcheck"'));
   assert.ok(sitemap("https://example.com", ["index.html", "work.html"]).includes("<loc>https://example.com/</loc>") );
 
   // The real site builds, and nothing it links to is missing.
