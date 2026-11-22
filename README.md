@@ -7,6 +7,14 @@ The company website. Static pages built from `content/*.json` by `build.js` (Nod
 - **Preview locally:** `node build.js _site && python3 -m http.server -d _site 8001`
 - **Check the build:** `npm test` (runs `node build.js --test` and `node ask.site.test.mjs`)
 
+## Search engines
+
+The pages ask search engines not to list them while `url` in `content/site.json` is empty, so this
+copy never competes with the old constructioncrabbe.com. When the site moves to its own domain, fill
+in `url` (Home page > Website address in the editor). From then on every page gets a canonical link,
+the home page tells search engines about the business (name, phone, licence, towns served, services)
+and the build writes `sitemap.xml` and `robots.txt`.
+
 ## The shared kit
 
 The editor's sign-in server, the Ask Claude chat server and the Ask Claude panel are shared with

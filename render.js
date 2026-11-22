@@ -46,6 +46,11 @@ export function num(value) {
   return Number.isFinite(n) ? n : 0;
 }
 
+// Text for a <script type="application/ld+json">: JSON that cannot close the script tag early.
+export function jsonLd(data) {
+  return JSON.stringify(data).replaceAll("<", "\\u003c");
+}
+
 const fileName = (path) => String(path).replace(/\/+$/, "").split("/").pop();
 
 /* ------------------------------------------------------------------ the site
@@ -91,6 +96,12 @@ export function buildSite({ files, hasPhoto, photoUrl = (name) => "photos/" + na
   const site = JSON.parse(files.get("content/site.json"));
   const SITE = "content/site.json";
   const name = site.name ?? "";
+  // The site's own address ("https://constructioncrabbe.com"), once it has one. Until it is filled
+  // in, search engines are told to stay away, so this copy never competes with the old site.
+  const base = /^https?:\/\//.test(site.url || "") ? String(site.url).replace(/\/+$/, "") : "";
+  const abs = (path) => (base ? `${base}/${path}` : "");
+  const towns = (Array.isArray(site.towns) ? site.towns : []).filter((t) => typeof t === "string" && t.trim()).map((t) => t.trim());
+  const place = (p) => (p.location ? String(p.location).trim() : "");
 
   const projects = load("projects")
     .filter((p) => !RESERVED.has(p.slug))                                  // never overwrite index/work
@@ -125,21 +136,51 @@ ${signoff}
 </div></section>`;
   };
 
-  const layout = (title, desc, body, here = "") => {
+  // What search engines read about the business: who, where, what, and the licence.
+  const business = () => {
+    const data = { "@context": "https://schema.org", "@type": "GeneralContractor", name };
+    if (base) data.url = base + "/";
+    if (site.seo_description || site.intro) data.description = site.seo_description || site.intro;
+    if (site.phone) data.telephone = tel(site.phone);
+    if (site.email) data.email = site.email;
+    if (base && photo(site.hero_photo)) data.image = abs(photo(site.hero_photo));
+    if (base) data.logo = abs("logo-navy.png");
+    if (site.city) data.address = { "@type": "PostalAddress", addressLocality: site.city, addressRegion: site.state || "CA", addressCountry: "US" };
+    if (towns.length) data.areaServed = towns.map((t) => ({ "@type": "City", name: `${t}, ${site.state || "CA"}` }));
+    if (site.owner) data.founder = { "@type": "Person", name: site.owner };
+    if (site.license) data.identifier = { "@type": "PropertyValue", name: "California contractor license (CSLB)", value: String(site.license) };
+    const offers = (site.services || []).filter((s) => s && s.title).map((s) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: s.title } }));
+    if (offers.length) data.hasOfferCatalog = { "@type": "OfferCatalog", name: "Services", itemListElement: offers };
+    return `<script type="application/ld+json">${jsonLd(data)}</script>`;
+  };
+
+  const layout = (title, desc, body, here = "", image = "") => {
     const phone = site.phone;
     const links = [["work.html", "Work"], ["./#services", "Services"], ["./#about", "About"], ...menu, ["#contact", "Contact"]];
     const nav = links.map(([h, t]) => `<a href="${esc(h)}"${h === here ? ' aria-current="page"' : ""}>${esc(t)}</a>`).join("");
     const call = phone ? `<a class="tel" href="tel:${tel(phone)}"${mark(SITE, "phone")}>${esc(phone)}</a>` : "";
-    // ponytail: noindex while this copy sits next to the live constructioncrabbe.com;
-    // delete the robots line when the site moves to Phil's own domain.
+    // noindex while this copy sits next to the live constructioncrabbe.com. Filling in the site's
+    // address (content/site.json "url") lifts it and adds the canonical link, and build.js then
+    // writes sitemap.xml and robots.txt.
+    const share = photo(image) || photo(site.hero_photo);
+    const seo = [
+      base ? `<link rel="canonical" href="${esc(abs(here === "index.html" ? "" : here))}">` : `<meta name="robots" content="noindex">`,
+      `<meta property="og:type" content="website">`,
+      `<meta property="og:site_name" content="${esc(name)}">`,
+      `<meta property="og:title" content="${esc(title)}">`,
+      `<meta property="og:description" content="${esc(desc)}">`,
+      base ? `<meta property="og:url" content="${esc(abs(here === "index.html" ? "" : here))}">` : "",
+      base && share ? `<meta property="og:image" content="${esc(abs(share))}">` : "",
+      here === "index.html" ? business() : "",
+    ].filter(Boolean).join("\n");
     return `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(desc)}">
+${seo}
 <link rel="icon" href="logo-navy.png">
 <link rel="preload" href="fonts/eb-garamond.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="site.css?v=${version}">
@@ -158,7 +199,7 @@ ${contact()}
 </main>
 <footer class="foot"><div class="wrap">
 <img src="logo.svg" alt="" width="56" height="56">
-<p>${esc(name)}<br>${esc(site.area)}</p>
+<p>${esc(name)}<br>${esc(site.area)}${site.license ? `<br><span${mark(SITE, "license")}>CA License #${esc(site.license)}</span>` : ""}</p>
 <p class="small">&copy; ${year} ${esc(name)}. All rights reserved. <a href="admin/">Owner login</a> · <a href="guide.html">Editing guide</a></p>
 </div></footer>
 <script src="site.js?v=${version}" defer></script>
@@ -169,8 +210,9 @@ ${contact()}
 
   const card = (p) => {
     const href = p.slug + ".html";
-    const img = photo(p.cover) ? `<img src="${photo(p.cover)}" alt="" loading="lazy"${mark(p.path, "cover")}>` : "";
-    const kind = p.kind ? `<p class="label"${mark(p.path, "kind")}>${esc(p.kind)}</p>` : "";
+    const img = photo(p.cover) ? `<img src="${photo(p.cover)}" alt="${esc([p.title, place(p)].filter(Boolean).join(", "))}" loading="lazy"${mark(p.path, "cover")}>` : "";
+    const where = [p.kind, place(p)].filter(Boolean).join(" · ");
+    const kind = where ? `<p class="label"${mark(p.path, "kind")}>${esc(where)}</p>` : "";
     return `<article class="card">
 <a class="card-photo" href="${href}" tabindex="-1" aria-hidden="true">${img}</a>
 <div class="card-text">
@@ -217,7 +259,20 @@ ${kind}
     const portrait = photo(site.portrait)
       ? `<figure class="portrait framed"><img src="${photo(site.portrait)}" alt="${esc(owner)} at work" loading="lazy"${mark(SITE, "portrait")}></figure>`
       : "";
-    const hero = photo(site.hero_photo) ? `<img src="${photo(site.hero_photo)}" alt="" fetchpriority="high"${mark(SITE, "hero_photo")}>` : "";
+    const hero = photo(site.hero_photo) ? `<img src="${photo(site.hero_photo)}" alt="${esc(site.hero_alt || "")}" fetchpriority="high"${mark(SITE, "hero_photo")}>` : "";
+    const approach = site.approach
+      ? `<section class="approach"><div class="wrap">
+<h2 class="label"${mark(SITE, "approach_title")}>${esc(site.approach_title || "Design and build")}</h2>
+<div class="approach-text"${mark(SITE, "approach")}>${paras(site.approach)}</div>
+</div></section>`
+      : "";
+    const area = towns.length
+      ? `<section id="area" class="area"><div class="wrap">
+<h2 class="label">Where we build</h2>
+<p class="area-lede"${mark(SITE, "area_lead")}>${esc(site.area_lead || `Serving the ${site.area || ""}`.trim())}</p>
+<ul class="towns"${mark(SITE, "towns")}>${towns.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>
+</div></section>`
+      : "";
     const work = featured.length
       ? `<section class="work"><div class="wrap">
 <header class="section-head"><p class="label">Recent</p><h2>Works</h2></header>
@@ -230,10 +285,11 @@ ${hero}
 <div class="wrap">
 <h1${mark(SITE, "name")}>${esc(head)}${small}</h1>
 <p class="lede"${mark(SITE, "headline")}>${esc(site.headline)}</p>
-<p class="actions"><a class="btn solid" href="work.html">See our work</a>${call}</p>
+<p class="actions"><a class="btn solid" href="#contact">Start a project</a><a class="btn" href="work.html">See our work</a>${call}</p>
 </div>
 </section>
 <section class="intro"><div class="wrap"><p${mark(SITE, "intro")}>${esc(site.intro)}</p></div></section>
+${approach}
 <section id="services" class="services"><div class="wrap">
 <p class="ghost" aria-hidden="true">Services</p>
 <h2 class="label">Services</h2>
@@ -244,7 +300,8 @@ ${hero}
 ${portrait}
 <div class="experience"${mark(SITE, "about")}><h2${mark(SITE, "about_title")}>${esc(site.about_title)}</h2>${paras(site.about)}</div>
 </div></section>
-${work}`;
+${work}
+${area}`;
   };
 
   const workPage = () => `${pageHead("Portfolio", "Works", "")}
@@ -258,7 +315,7 @@ ${work}`;
       : "";
     const body = p.body ? `<div class="prose"${mark(p.path, "body")}>${rich(p.body)}</div>` : "";
     const following = next ? `<a href="${next.slug}.html">Next: ${esc(next.title)} &rarr;</a>` : "";
-    return `${pageHead(p.kind, p.title, p.summary, p.path)}
+    return `${pageHead([p.kind, place(p)].filter(Boolean).join(" · "), p.title, p.summary, p.path)}
 <article class="project"><div class="wrap">
 ${cover}
 ${body}
@@ -279,11 +336,12 @@ ${gallery([...(g.photos || [])], g.title, 1, g.path)}
   /* ---------------------------------------------------------------- every page */
 
   const pages = new Map();
-  pages.set("index.html", layout(name, site.intro, home(), "index.html"));
-  pages.set("work.html", layout(`Works | ${name}`, `Projects by ${name}.`, workPage(), "work.html"));
+  pages.set("index.html", layout(site.seo_title || name, site.seo_description || site.intro, home(), "index.html"));
+  pages.set("work.html", layout(`Portfolio | ${name}`, `Recent building, remodeling and addition projects by ${name}${site.area ? " on the " + site.area : ""}.`, workPage(), "work.html"));
   projects.forEach((p, i) => {
     const next = projects.length > 1 ? projects[(i + 1) % projects.length] : null;
-    pages.set(p.slug + ".html", layout(`${p.title} | ${name}`, p.summary || p.title, projectPage(p, next), p.slug + ".html"));
+    const titled = [p.title, place(p)].filter(Boolean).join(", ");
+    pages.set(p.slug + ".html", layout(`${titled} | ${name}`, [p.summary || p.title, place(p)].filter(Boolean).join(". ").replace(/\.\. /, ". "), projectPage(p, next), p.slug + ".html", p.cover));
   });
   for (const g of extraPages) {
     pages.set(g.slug + ".html", layout(`${g.title} | ${name}`, g.intro || g.title, contentPage(g), g.slug + ".html"));

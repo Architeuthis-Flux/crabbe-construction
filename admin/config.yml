@@ -39,6 +39,7 @@ collections:
     fields:
       - { name: title, label: Project name, widget: string, hint: 'For example "Deer Flats Exterior". The page address comes from this name.' }
       - { name: kind, label: Type, widget: select, options: [Residential, Commercial], default: Residential }
+      - { name: location, label: Town, widget: string, required: false, hint: 'For example "Carmel Valley, CA". Helps people searching for a builder in that town find this project.' }
       - { name: summary, label: One-line description, widget: string, required: false, hint: "Shown on the card and under the title." }
       - { name: cover, label: Main photo, widget: image, hint: "The photo on the card and at the top of the project page." }
       - { name: photos, label: More photos, widget: image, multiple: true, required: false, hint: "Pick as many as you like. They show as a gallery in this order." }
@@ -90,11 +91,20 @@ collections:
         fields:
           - { name: name, label: Company name, widget: string }
           - { name: area, label: Where you work, widget: string, hint: "Shown in the footer." }
+          - { name: city, label: Home town, widget: string, required: false, hint: "Where the business is based. Told to search engines; not shown on the page." }
+          - { name: state, label: State, widget: string, required: false, default: CA }
+          - { name: license, label: Contractor license number, widget: string, required: false, hint: "Shown in the footer." }
+          - { name: url, label: Website address, widget: string, required: false, hint: 'Leave empty until the site is live on its own domain, then fill in for example "https://constructioncrabbe.com". While empty, search engines are asked not to list the site.' }
+          - { name: seo_title, label: Title in search results, widget: string, required: false, hint: "The blue link people see on Google. About 60 characters." }
+          - { name: seo_description, label: Description in search results, widget: text, required: false, hint: "The two lines under the link on Google. About 155 characters." }
           - { name: phone, label: Phone number, widget: string }
           - { name: email, label: Email address, widget: string, required: false, hint: "Optional. If filled in, it shows in the Contact section." }
           - { name: hero_photo, label: Big photo at the top, widget: image }
+          - { name: hero_alt, label: What the big photo shows, widget: string, required: false, hint: "One plain sentence, for search engines and screen readers." }
           - { name: headline, label: Line under the company name, widget: string }
           - { name: intro, label: Introduction, widget: text }
+          - { name: approach_title, label: Design and build heading, widget: string, required: false }
+          - { name: approach, label: Design and build text, widget: text, required: false, hint: "Leave a blank line to start a new paragraph. Leave empty to hide the section." }
           - name: services
             label: Services
             label_singular: Service
@@ -108,3 +118,5 @@ collections:
           - { name: about_title, label: About heading, widget: string }
           - { name: about, label: About text, widget: text, hint: "Leave a blank line to start a new paragraph." }
           - { name: contact_lead, label: Line above "Contact us", widget: string }
+          - { name: area_lead, label: Line above the list of towns, widget: string, required: false }
+          - { name: towns, label: Towns you work in, label_singular: Town, widget: list, required: false, hint: "Shown near the bottom of the home page and told to search engines." }

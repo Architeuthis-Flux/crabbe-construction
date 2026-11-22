@@ -1,11 +1,20 @@
 {
   "name": "Crabbe Construction & Design",
   "area": "Monterey Peninsula, California",
+  "city": "Pacific Grove",
+  "state": "CA",
+  "license": "1088781",
+  "url": "",
+  "seo_title": "Crabbe Construction & Design | General Contractor on the Monterey Peninsula",
+  "seo_description": "Licensed general contractor on the Monterey Peninsula: new homes, additions, remodels, custom built-ins and design in Monterey, Pacific Grove and Carmel.",
   "phone": "(831) 220-2362",
   "email": "",
   "hero_photo": "/photos/deer-flats-02.webp",
+  "hero_alt": "Remodeled home exterior at dusk, with a wood deck built around a mature oak tree",
   "headline": "Design-forward building on the Monterey Peninsula",
-  "intro": "Construction & Design company on Monterey Peninsula with design services, specializing in new build, remodels, additions, built-ins, and more.",
+  "intro": "A construction and design company on the Monterey Peninsula, specializing in new builds, additions, remodels and custom built-ins.",
+  "approach_title": "Design and build, under one roof",
+  "approach": "No two homes are alike, and no project stands still. Markets shift, tastes change, schedules move and plans evolve along the way. We have the experience to steer through those moving parts and still deliver the home you pictured, finished with care.\n\nTaking a project from in-house design straight through construction is the most direct path to that home. One team means no communication gaps and no timing gaps. We design it, and we build it.\n\nYears in the trade have given us an eye for homes that are as comfortable as they are beautiful.",
   "services": [
     {
       "title": "New Building & Addition",
@@ -29,5 +38,16 @@
   "portrait": "/photos/phil-crabbe.webp",
   "about_title": "Experience",
   "about": "Phillip Crabbe has over 15 years of hands on building and high end construction management on Monterey Peninsula. During his journey from a laborer to project manager, Phil has always gravitated towards craftsmanship and quality in building projects. Over the years he has gained trusting relationships with his clients by ensuring clear communications and commitment to their vision while being mindful of the projects' budget. Phil's drive to providing service of the highest quality in construction, paying particular attention to working efficiently while keeping the lines of communication with clients clear and concise pushed him to start his own company in 2022. Today Crabbe Construction & Design is a family owned business that is eager to cater to your project's specific needs in a timely manner.",
-  "contact_lead": "We would like to hear from you and make your vision come true"
+  "contact_lead": "We would like to hear from you and make your vision come true",
+  "area_lead": "Building and remodeling homes across the Monterey Peninsula",
+  "towns": [
+    "Monterey",
+    "Pacific Grove",
+    "Carmel-by-the-Sea",
+    "Carmel Valley",
+    "Pebble Beach",
+    "Seaside",
+    "Del Rey Oaks",
+    "Marina"
+  ]
 }

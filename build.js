@@ -15,7 +15,7 @@ import { cpSync, copyFileSync, existsSync, mkdirSync, mkdtempSync, readdirSync, 
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { buildSite, esc, num, paras, rich, slugify, tel } from "./render.js";
+import { buildSite, esc, jsonLd, num, paras, rich, slugify, tel } from "./render.js";
 
 const SRC = dirname(fileURLToPath(import.meta.url));
 const ASSETS = ["admin", "fonts", "photos", "guide", "guide.html", "ask.html", "ask.js", "ask.site.js", "ask.site.css",
@@ -69,6 +69,21 @@ function brokenLinks(out) {
   return bad;
 }
 
+function siteUrl() {
+  try {
+    const url = JSON.parse(readFileSync(join(SRC, "content", "site.json"), "utf8")).url || "";
+    return /^https?:\/\//.test(url) ? url.replace(/\/+$/, "") : "";
+  } catch {
+    return "";
+  }
+}
+
+export function sitemap(url, names) {
+  const today = new Date().toISOString().slice(0, 10);
+  const rows = names.map((n) => `<url><loc>${esc(`${url}/${n === "index.html" ? "" : n}`)}</loc><lastmod>${today}</lastmod></url>`);
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${rows.join("\n")}\n</urlset>\n`;
+}
+
 function build(out) {
   const { pages, projects, extraPages } = buildSite({
     files: readContent(),
@@ -78,6 +93,12 @@ function build(out) {
   });
   mkdirSync(out, { recursive: true });
   for (const [name, html] of pages) writeFileSync(join(out, name), html);
+  // Once the site has its own address (content/site.json "url"), tell search engines what is on it.
+  const url = siteUrl();
+  if (url) {
+    writeFileSync(join(out, "sitemap.xml"), sitemap(url, [...pages.keys()]));
+    writeFileSync(join(out, "robots.txt"), `User-agent: *\nAllow: /\nDisallow: /admin/\nDisallow: /ask.html\nDisallow: /guide.html\n\nSitemap: ${url}/sitemap.xml\n`);
+  }
   const bad = brokenLinks(out);
   for (const b of bad) console.error("crabbe: missing file:", b);
   console.log(`crabbe: built ${pages.size} pages (${projects.length} projects, ${extraPages.length} pages)`);
@@ -121,6 +142,26 @@ function selftest() {
   const preview = buildSite({ files, hasPhoto: () => true, photoUrl: (name) => "blob:" + name, preview: true });
   assert.ok(preview.pages.get("index.html").includes('data-edit="content/site.json#headline"'));
   assert.ok(preview.pages.get("b-second.html").includes('src="blob:a.webp"'));
+
+  // Search engines: kept out until the site has its own address, then given everything.
+  assert.ok(index.includes('<meta name="robots" content="noindex">') && !index.includes('rel="canonical"'));
+  assert.ok(index.includes('"@type":"GeneralContractor"') && !index.includes('class="area"') && !index.includes('class="approach"'));
+  assert.ok(!second.includes("application/ld+json"));
+  assert.equal(jsonLd({ a: "</script>" }), '{"a":"\\u003c/script>"}');
+  files.set("content/site.json", JSON.stringify({ name: "Test & Co", url: "https://example.com/", phone: "(831) 220-2362", license: "123", city: "Pacific Grove",
+    towns: ["Monterey", " ", "Carmel <x>"], seo_title: "Test & Co | Builder", seo_description: "Short.", approach: "One.\n\nTwo.", hero_photo: "/photos/a.webp" }));
+  files.set("content/projects/b-second.json", JSON.stringify({ title: "Second", location: "Monterey, CA", kind: "Residential", cover: "/photos/a.webp", summary: "A deck." }));
+  const live = buildSite({ files, hasPhoto: () => true, version: "v1", year: 2026 });
+  const liveIndex = live.pages.get("index.html");
+  assert.ok(!liveIndex.includes("noindex") && liveIndex.includes('<link rel="canonical" href="https://example.com/">'));
+  assert.ok(liveIndex.includes("<title>Test &amp; Co | Builder</title>") && liveIndex.includes('<meta name="description" content="Short.">'));
+  assert.ok(liveIndex.includes('"areaServed":[{"@type":"City","name":"Monterey, CA"},{"@type":"City","name":"Carmel \\u003cx>, CA"}]'));
+  assert.ok(liveIndex.includes("<li>Monterey</li><li>Carmel &lt;x&gt;</li>") && liveIndex.includes("CA License #123") && liveIndex.includes("<p>One.</p><p>Two.</p>"));
+  assert.ok(liveIndex.includes('og:image" content="https://example.com/photos/a.webp"') && liveIndex.includes('alt="Second, Monterey, CA"'));
+  const liveSecond = live.pages.get("b-second.html");
+  assert.ok(liveSecond.includes("<title>Second, Monterey, CA | Test &amp; Co</title>") && liveSecond.includes('href="https://example.com/b-second.html"'));
+  assert.ok(liveSecond.includes("Residential · Monterey, CA") && liveSecond.includes('content="A deck. Monterey, CA"'));
+  assert.ok(sitemap("https://example.com", ["index.html", "work.html"]).includes("<loc>https://example.com/</loc>") );
 
   // The real site builds, and nothing it links to is missing.
   const tmp = mkdtempSync(join(tmpdir(), "crabbe-"));
