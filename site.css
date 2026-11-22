@@ -165,14 +165,14 @@ p, figure, blockquote { margin: 0; }
 .about-grid > * { position: relative; z-index: 0; }
 .philosophy { padding: clamp(2.25rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3.5rem) calc(clamp(2.25rem, 5vw, 4rem) + 2.75rem); background: var(--slate); color: #fff; }
 .philosophy h2 { font-size: clamp(1.9rem, 3vw, 2.5rem); }
-.philosophy blockquote { margin-top: 1.75rem; font: 400 clamp(1rem, 1.5vw, 1.125rem)/1.8 var(--sans); color: var(--light); }
+.philosophy blockquote { margin-top: 1.75rem; font: 400 1rem/1.75 var(--sans); color: var(--light); }
 .by { margin-top: 1.75rem; font: 500 .9375rem/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; }   /* white, like the rest of the slate box: sand is too faint on it */
 .by::after { content: ""; display: block; width: 3rem; height: 1px; margin-top: 1.75rem; background: rgba(255, 255, 255, .5); }
 .portrait { z-index: 1; width: min(92%, 26rem); margin: -2.75rem auto; box-shadow: 0 1.25rem 2.5rem rgba(25, 42, 61, .28); }   /* laps over the box above and the box below */
 .portrait img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%; }
 .experience { padding: calc(clamp(1.75rem, 4vw, 3rem) + 2.75rem) clamp(1.75rem, 4vw, 3rem) clamp(1.75rem, 4vw, 3rem); background: var(--sand-light); box-shadow: 0 1.25rem 2.5rem -1rem rgba(25, 42, 61, .3); }
 .experience h2 { margin-bottom: 1.25rem; font-size: clamp(1.9rem, 3vw, 2.5rem); }
-.experience p { font-size: 1rem; }
+.experience p { font-size: 1rem; line-height: 1.75; }   /* same size and line spacing as the Philosophy quote */
 .experience .more-link { margin-top: 1.75rem; }
 
 /* ---------- project cards (home and Works) ---------- */
@@ -333,4 +333,4 @@ p, figure, blockquote { margin: 0; }
 
 /* Straight edges on both sides for the running text in Services, Philosophy and Experience.
    Words may break with a hyphen, which keeps the gaps between words from opening up in narrow columns. */
-.service p, .philosophy blockquote, .experience p:not(.more-link) { text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
+.service p, .philosophy blockquote, .experience p:not(.more-link) { text-align: justify; hyphens: manual; -webkit-hyphens: manual; }   /* whole words only: nothing is split across lines */
