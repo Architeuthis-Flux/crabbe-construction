@@ -326,3 +326,7 @@ p, figure, blockquote { margin: 0; }
 @media (min-width: 60rem) { .clients .wrap { grid-template-columns: 1fr 1fr; } }
 
 @media (min-width: 72rem) { .service-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+/* Straight edges on both sides for the running text in Services, Philosophy and Experience.
+   Words may break with a hyphen, which keeps the gaps between words from opening up in narrow columns. */
+.service p, .philosophy blockquote, .experience p:not(.more-link) { text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
