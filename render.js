@@ -369,8 +369,9 @@ ${hero}
 <div class="wrap">
 <h1${mark(SITE, "name")}>${esc(head)}${small}</h1>
 </div>
+<a class="down" href="#welcome" aria-label="Scroll down"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></a>
 </section>
-<div class="hero-foot"><div class="wrap">
+<div id="welcome" class="hero-foot"><div class="wrap">
 <p class="lede"${mark(SITE, "headline")}>${esc(site.headline)}</p>
 <p class="actions"><a class="btn solid" href="#contact">Start a project</a><a class="btn" href="work.html">See our work</a>${call}</p>
 </div></div>
