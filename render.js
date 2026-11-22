@@ -149,8 +149,13 @@ export function buildSite({ files, hasPhoto, hasThumb = () => false, photoUrl = 
     const lines = [];
     if (phone) lines.push(`<p class="label">Call us directly</p><a class="phone" href="tel:${tel(phone)}"${mark(SITE, "phone")}>${esc(phone)}</a>`);
     if (email) lines.push(`<p class="label">Or write</p><a class="email" href="mailto:${esc(email)}"${mark(SITE, "email")}>${esc(email)}</a>`);
+    // A Google map behind the section, under a wash of sand. Decorative: it cannot be clicked or
+    // tabbed into, loads only when scrolled near, and is left out of the Ask Claude preview.
+    const map = site.map_place && !preview
+      ? `<iframe class="map" src="https://www.google.com/maps?q=${encodeURIComponent(site.map_place)}&amp;z=${num(site.map_zoom) || 11}&amp;output=embed" title="Map of ${esc(site.map_place)}" loading="lazy" tabindex="-1" aria-hidden="true" referrerpolicy="no-referrer-when-downgrade"></iframe>`
+      : "";
     const signoff = owner ? `<p class="signoff"${mark(SITE, "owner")}>Thank you,<br>${esc(owner)}</p>` : "";
-    return `<section id="contact" class="contact"><div class="wrap">
+    return `<section id="contact" class="contact${map ? " has-map" : ""}">${map}<div class="wrap">
 <p class="lead"${mark(SITE, "contact_lead")}>${esc(site.contact_lead)}</p>
 <h2>Contact us</h2>
 ${lines.join("")}

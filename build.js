@@ -170,6 +170,11 @@ function selftest() {
   const thumbed = buildSite({ files, hasPhoto: (name) => name !== "gone.webp", hasThumb: (name) => name === "a.webp", version: "v1" });
   assert.ok(thumbed.pages.get("index.html").includes('srcset="thumbs/a.webp 900w, photos/a.webp 1800w"'));
   assert.ok(thumbed.pages.get("index.html").includes('class="services has-bg"><img class="bg" src="photos/b.webp"') && thumbed.pages.get("index.html").includes('<section class="work">'));
+  assert.ok(!liveIndex.includes("<iframe"));
+  files.set("content/site.json", files.get("content/site.json").replace('"license":"123"', '"license":"123","map_place":"Monterey Peninsula, CA"'));
+  const mapped = buildSite({ files, hasPhoto: () => true }).pages.get("work.html");
+  assert.ok(mapped.includes('class="contact has-map"><iframe class="map" src="https://www.google.com/maps?q=Monterey%20Peninsula%2C%20CA&amp;z=11&amp;output=embed"'));
+  assert.ok(!buildSite({ files, hasPhoto: () => true, preview: true }).pages.get("work.html").includes("<iframe"));
   assert.ok(sitemap("https://example.com", ["index.html", "work.html"]).includes("<loc>https://example.com/</loc>") );
 
   // The real site builds, and nothing it links to is missing.

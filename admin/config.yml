@@ -122,5 +122,7 @@ collections:
           - { name: about_title, label: About heading, widget: string }
           - { name: about, label: About text, widget: text, hint: "Leave a blank line to start a new paragraph." }
           - { name: contact_lead, label: Line above "Contact us", widget: string }
+          - { name: map_place, label: Map behind "Contact us", widget: string, required: false, hint: 'A place name Google Maps knows, for example "Monterey, CA". A town works best: it shows one pin. Leave empty for no map.' }
+          - { name: map_zoom, label: Map zoom, widget: number, value_type: int, min: 3, max: 18, default: 11, required: false, hint: "Higher is closer. 11 shows the whole peninsula, 13 one town." }
           - { name: area_lead, label: Line above the list of towns, widget: string, required: false }
           - { name: towns, label: Towns you work in, label_singular: Town, widget: list, required: false, hint: "Shown near the bottom of the home page and told to search engines." }
