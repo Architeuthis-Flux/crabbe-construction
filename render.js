@@ -341,15 +341,19 @@ ${kind}
 <p class="more"><a class="btn" href="work.html">See portfolio</a></p>
 </div></section>`
       : "";
-    return `<section class="hero">
+    // The intro sits in a box at the foot of the hero and laps onto the band below it.
+    const intro = site.intro ? `<div class="intro"><div class="wrap"><p${mark(SITE, "intro")}>${esc(site.intro)}</p></div></div>` : "";
+    return `<section class="hero${intro ? " has-intro" : ""}">
+<div class="hero-photos">
 ${hero}
+</div>
 <div class="wrap">
 <h1${mark(SITE, "name")}>${esc(head)}${small}</h1>
 <p class="lede"${mark(SITE, "headline")}>${esc(site.headline)}</p>
 <p class="actions"><a class="btn solid" href="#contact">Start a project</a><a class="btn" href="work.html">See our work</a>${call}</p>
 </div>
+${intro}
 </section>
-<section class="intro"><div class="wrap"><p${mark(SITE, "intro")}>${esc(site.intro)}</p></div></section>
 ${still ? `<div class="still">${backdrop(site.services_photo, "services_photo")}` : ""}
 ${approach}
 <section id="services" class="services${still ? " has-bg" : ""}"><div class="wrap">
