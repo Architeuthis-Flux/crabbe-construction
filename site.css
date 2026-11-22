@@ -121,7 +121,7 @@ p, figure, blockquote { margin: 0; }
 /* ---------- home: design and build ---------- */
 .approach { padding-block: var(--band); background: var(--sand-pale); }
 .approach .wrap { display: grid; gap: 1.5rem clamp(2.5rem, 6vw, 5rem); }
-.approach h2 { padding-top: 1.6rem; border-top: 1px solid var(--sand); color: var(--ink); font-size: clamp(.9rem, 1.4vw, 1.0625rem); line-height: 1.8; }
+.approach h2 { padding-top: 1.6rem; padding-bottom: 1.4rem; border-top: 1px solid var(--sand); border-bottom: 2px solid var(--slate);   /* a slightly heavier rule under the heading, running across above the text */ color: var(--ink); font-size: clamp(.9rem, 1.4vw, 1.0625rem); line-height: 1.8; }
 .approach-text { max-width: none; }   /* fills its column, so it ends at the page margin like the heading starts at one */
 @media (min-width: 40rem) { .approach-text { text-align: justify; } }   /* straight edges both sides; on a phone that would open gaps between words */
 .approach-text p { font: 400 clamp(1rem, 1.7vw, 1.2rem)/1.6 var(--sans); }   /* the same as the line under the name on the hammer photo */
@@ -256,8 +256,8 @@ p, figure, blockquote { margin: 0; }
 /* ---------- wider screens ---------- */
 @media (min-width: 46rem) {
   .service-grid { grid-template-columns: 1fr 1fr; }
-  .approach .wrap { grid-template-columns: 1fr 2fr; row-gap: .75rem; }
-  .approach h2 { grid-area: 1 / 1; }
+  .approach .wrap { grid-template-columns: 1fr 2fr; row-gap: 1.75rem; }
+  .approach h2 { grid-area: 1 / 1 / 2 / 3; }   /* spans both columns so its rule runs over the text on the right */
   .approach-text { grid-area: 2 / 2; }   /* on the right, starting just below the heading */
   .card { grid-template-columns: 1.2fr 1fr; }
   .card:nth-child(even) .card-photo { order: 2; }
