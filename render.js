@@ -342,7 +342,8 @@ ${kind}
 </div></section>`
       : "";
     // The intro sits in a box under Design-and-build and laps onto Services below it.
-    const intro = site.intro ? `<div class="intro"><div class="wrap"><p${mark(SITE, "intro")}>${esc(site.intro)}</p></div></div>` : "";
+    const chips = towns.length ? `<ul class="towns"${mark(SITE, "towns")}>${towns.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : "";
+    const intro = site.intro ? `<div class="intro"><div class="wrap"><div class="intro-box"><p${mark(SITE, "intro")}>${esc(site.intro)}</p>${chips}</div></div></div>` : "";
     return `<section class="hero">
 <div class="hero-photos">
 ${hero}

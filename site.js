@@ -74,7 +74,7 @@ if (!calm) {
     const seen = new IntersectionObserver((entries) => {
       for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); seen.unobserve(e.target); }
     }, { rootMargin: '0px 0px -10% 0px' });
-    const blocks = '.intro p, .approach .wrap > *, .services .label, .service, .philosophy, .portrait, .experience, .section-head, .card, .more, .area .wrap > *, .contact .wrap > *, .gallery > a';
+    const blocks = '.intro-box, .approach .wrap > *, .services .label, .service, .philosophy, .portrait, .experience, .section-head, .card, .more, .area .wrap > *, .contact .wrap > *, .gallery > a';
     for (const el of document.querySelectorAll(blocks)) {
       if (el.getBoundingClientRect().top > innerHeight) { el.classList.add('reveal'); seen.observe(el); }
     }
