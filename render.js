@@ -277,6 +277,8 @@ ${kind}
     const head = amp < 0 ? name : name.slice(0, amp);
     const small = amp < 0 ? "" : `<small>&amp; ${esc(name.slice(amp + 3))}</small>`;
     const { phone, owner } = site;
+    // One still photo behind Services, About and Recent Works together (site.css: .still).
+    const still = Boolean(photo(site.services_photo));
     const call = phone ? `<a class="btn" href="tel:${tel(phone)}">Call ${esc(phone)}</a>` : "";
     const services = (site.services || [])
       .map((s, i) => (s && typeof s === "object" && !Array.isArray(s)
@@ -310,7 +312,7 @@ ${kind}
 </div></section>`
       : "";
     const work = featured.length
-      ? `<section class="work${photo(site.work_photo) ? " has-bg" : ""}">${backdrop(site.work_photo, "work_photo")}<div class="wrap">
+      ? `<section class="work${still ? " has-bg" : ""}"><div class="wrap">
 <header class="section-head"><p class="label">Recent</p><h2>Works</h2></header>
 <div class="cards">${featured.map(card).join("")}</div>
 <p class="more"><a class="btn" href="work.html">See portfolio</a></p>
@@ -326,17 +328,19 @@ ${hero}
 </section>
 <section class="intro"><div class="wrap"><p${mark(SITE, "intro")}>${esc(site.intro)}</p></div></section>
 ${approach}
-<section id="services" class="services${photo(site.services_photo) ? " has-bg" : ""}">${backdrop(site.services_photo, "services_photo")}<div class="wrap">
+${still ? `<div class="still">${backdrop(site.services_photo, "services_photo")}` : ""}
+<section id="services" class="services${still ? " has-bg" : ""}"><div class="wrap">
 <p class="ghost" aria-hidden="true">Services</p>
 <h2 class="label">Services</h2>
 <div class="service-grid">${services}</div>
 </div></section>
-<section id="about" class="about${photo(site.services_photo) ? " has-bg" : ""}">${backdrop(site.services_photo, "services_photo")}<div class="wrap about-grid">
+<section id="about" class="about${still ? " has-bg" : ""}"><div class="wrap about-grid">
 <div class="philosophy"><h2 class="label">Philosophy</h2><blockquote${mark(SITE, "philosophy")}><p>&ldquo;${esc(site.philosophy)}&rdquo;</p></blockquote>${by}</div>
 ${portrait}
 <div class="experience"${mark(SITE, "about")}><h2${mark(SITE, "about_title")}>${esc(site.about_title)}</h2>${paras(site.about)}</div>
 </div></section>
 ${work}
+${still ? "</div>" : ""}
 ${area}`;
   };
 

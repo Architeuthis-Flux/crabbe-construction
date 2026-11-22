@@ -166,10 +166,11 @@ function selftest() {
   assert.ok(liveSecond.includes("<title>Second, Monterey, CA | Test &amp; Co</title>") && liveSecond.includes('href="https://example.com/b-second.html"'));
   assert.ok(liveSecond.includes("Residential · Monterey, CA") && liveSecond.includes('content="A deck. Monterey, CA"'));
   assert.ok(!liveIndex.includes("thumbs/") && !liveIndex.includes('class="bg"'));                                  // no small copies, no backdrops: nothing extra
-  files.set("content/site.json", files.get("content/site.json").replace('"license":"123"', '"license":"123","services_photo":"/photos/b.webp","work_photo":"/photos/gone.webp"'));
+  files.set("content/site.json", files.get("content/site.json").replace('"license":"123"', '"license":"123","services_photo":"/photos/b.webp"'));
   const thumbed = buildSite({ files, hasPhoto: (name) => name !== "gone.webp", hasThumb: (name) => name === "a.webp", version: "v1" });
   assert.ok(thumbed.pages.get("index.html").includes('srcset="thumbs/a.webp 900w, photos/a.webp 1800w"'));
-  assert.ok(thumbed.pages.get("index.html").includes('class="services has-bg"><img class="bg" src="photos/b.webp"') && thumbed.pages.get("index.html").includes('<section class="work">'));
+  assert.ok(thumbed.pages.get("index.html").includes('<div class="still"><img class="bg" src="photos/b.webp"') && thumbed.pages.get("index.html").includes('class="work has-bg"'));
+  assert.ok(!thumbed.pages.get("work.html").includes("has-bg") && !liveIndex.includes('class="still"'));
   assert.ok(!liveIndex.includes("<iframe"));
   files.set("content/site.json", files.get("content/site.json").replace('"license":"123"', '"license":"123","map_place":"Monterey Peninsula, CA"'));
   const mapped = buildSite({ files, hasPhoto: () => true }).pages.get("work.html");
