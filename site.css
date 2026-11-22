@@ -149,6 +149,7 @@ h3, .experience h2 { font-size: clamp(1.5rem, 2.2vw, 1.8rem); line-height: 1.2; 
 .about.has-bg .experience { align-self: end; }
 .intro + .about.has-bg::after { background: linear-gradient(to bottom, var(--wash-cream) calc(100% - var(--lap)), var(--wash-dark) calc(100% - var(--lap))); }
 .services .title, .work.has-bg .title, .clients .title { color: var(--title); }
+.services .title { translate: var(--drift, 0) 0; }   /* slides in from the side as it scrolls up the screen (site.js) */
 .work.has-bg .more { color: #fff; }
 .service-grid { display: grid; gap: 3rem clamp(2rem, 4vw, 3.5rem); margin-top: clamp(2.5rem, 6vw, 4.5rem); }
 .service .icon { display: block; margin-bottom: 1.1rem; color: var(--sand); }

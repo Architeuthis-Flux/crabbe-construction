@@ -74,7 +74,7 @@ if (!calm) {
     const seen = new IntersectionObserver((entries) => {
       for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); seen.unobserve(e.target); }
     }, { rootMargin: '0px 0px -10% 0px' });
-    const blocks = '.intro-box, .clients-text, .point, .approach .wrap > *, .title, .service, .philosophy, .portrait, .experience, .section-head, .card, .more, .area .wrap > *, .contact .wrap > *, .gallery > a';
+    const blocks = '.intro-box, .clients-text, .point, .approach .wrap > *, .title:not(.services .title), .service, .philosophy, .portrait, .experience, .section-head, .card, .more, .area .wrap > *, .contact .wrap > *, .gallery > a';
     for (const el of document.querySelectorAll(blocks)) {
       if (el.getBoundingClientRect().top > innerHeight) { el.classList.add('reveal'); seen.observe(el); }
     }
@@ -82,13 +82,13 @@ if (!calm) {
 
   // Parallax: the big "Services" word slides sideways as it passes. (The photos behind the hero and
   // Services stay still while the page moves over them; that is done in site.css, not here.)
-  const ghost = document.querySelector('.ghost');
+  const ghost = document.querySelector('.services .title');
   if (ghost) {
     let queued = false;
     const drift = () => {
       queued = false;
       const r = ghost.getBoundingClientRect();
-      if (r.bottom > 0 && r.top < innerHeight) ghost.style.setProperty('--drift', Math.round((r.top - innerHeight / 2) * 0.12) + 'px');
+      if (r.bottom > 0 && r.top < innerHeight) ghost.style.setProperty('--drift', Math.round((r.top - innerHeight / 2) * 0.22) + 'px');
     };
     addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(drift); } }, { passive: true });
     drift();
