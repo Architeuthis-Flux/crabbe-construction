@@ -85,9 +85,10 @@ p, figure, blockquote { margin: 0; }
 
 /* ---------- home: design and build ---------- */
 .approach { padding-block: var(--band); background: var(--sand-pale); }
-.approach .wrap { display: grid; gap: 1.5rem clamp(2.5rem, 6vw, 5rem); }
-.approach h2 { padding-top: 1.6rem; border-top: 1px solid var(--sand); color: var(--muted); line-height: 1.9; }
-.approach-text { max-width: 60ch; }
+.approach .wrap { display: grid; gap: 1.75rem; justify-items: center; }
+.approach h2 { padding-bottom: 1.1rem; border-bottom: 1px solid var(--sand); color: var(--muted); line-height: 1.9; text-align: center; }
+.approach-text { max-width: 46rem; }   /* a centred block with the same room on both sides */
+@media (min-width: 40rem) { .approach-text { text-align: justify; } }   /* straight edges both sides; on a phone that would open gaps between words */
 .approach-text p { font: 400 clamp(1.3rem, 2.2vw, 1.6rem)/1.45 var(--serif); }
 .approach-text p + p { margin-top: 1.1rem; }
 
@@ -220,7 +221,6 @@ p, figure, blockquote { margin: 0; }
 /* ---------- wider screens ---------- */
 @media (min-width: 46rem) {
   .service-grid { grid-template-columns: 1fr 1fr; }
-  .approach .wrap { grid-template-columns: 1fr 2fr; }
   .card { grid-template-columns: 1.2fr 1fr; }
   .card:nth-child(even) .card-photo { order: 2; }
 }
