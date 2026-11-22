@@ -101,7 +101,7 @@ collections:
           - { name: email, label: Email address, widget: string, required: false, hint: "Optional. If filled in, it shows in the Contact section." }
           - { name: hero_photo, label: Big photo at the top, widget: image }
           - { name: hero_photos, label: More photos for the top slideshow, widget: image, multiple: true, required: false, hint: "Optional. The top of the home page fades between the big photo and these, in this order. Wide photos work best." }
-          - { name: services_photo, label: Photo behind Services, widget: image, required: false, hint: "Optional. Shows faintly behind the Services band and stays still as the page scrolls." }
+          - { name: services_photo, label: Photo behind Services and About, widget: image, required: false, hint: "Optional. Shows faintly behind the Services and About bands and stays still as the page scrolls." }
           - { name: work_photo, label: Photo behind Recent Works, widget: image, required: false, hint: "Optional. Shows behind the project cards on the home page." }
           - { name: hero_alt, label: What the big photo shows, widget: string, required: false, hint: "One plain sentence, for search engines and screen readers." }
           - { name: headline, label: Line under the company name, widget: string }

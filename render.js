@@ -331,7 +331,7 @@ ${approach}
 <h2 class="label">Services</h2>
 <div class="service-grid">${services}</div>
 </div></section>
-<section id="about" class="about"><div class="wrap about-grid">
+<section id="about" class="about${photo(site.services_photo) ? " has-bg" : ""}">${backdrop(site.services_photo, "services_photo")}<div class="wrap about-grid">
 <div class="philosophy"><h2 class="label">Philosophy</h2><blockquote${mark(SITE, "philosophy")}><p>&ldquo;${esc(site.philosophy)}&rdquo;</p></blockquote>${by}</div>
 ${portrait}
 <div class="experience"${mark(SITE, "about")}><h2${mark(SITE, "about_title")}>${esc(site.about_title)}</h2>${paras(site.about)}</div>

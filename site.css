@@ -95,15 +95,14 @@ p, figure, blockquote { margin: 0; }
 /* ---------- home: services ---------- */
 .services { position: relative; isolation: isolate; padding-block: var(--band); background: var(--deep); color: #fff; }
 
-/* A photo behind a band, under a wash of the band's own colour. Pinned behind Services, as on the old site. */
-.has-bg { position: relative; isolation: isolate; }
-.has-bg > .bg { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
+/* A photo behind a band, under a wash of colour. The photo is pinned to the screen and each band is
+   a window onto it, so Services, About and Recent Works read as one still picture the page slides
+   over: teal over Services and Recent Works, cream over About. */
+.has-bg { position: relative; isolation: isolate; clip-path: inset(0); }
+.has-bg > .bg { position: fixed; top: 0; left: 0; z-index: -2; width: 100%; height: 100vh; height: 100lvh; object-fit: cover; }
 .has-bg::after { content: ""; position: absolute; inset: 0; z-index: -1; }
-.services.has-bg { clip-path: inset(0); }
-.services.has-bg > .bg { position: fixed; top: 0; left: 0; height: 100vh; height: 100lvh; }
-.services.has-bg::after { background: rgba(36, 70, 83, .84); }
-.work.has-bg > .bg { object-position: 24% 54%; }
-.work.has-bg::after { background: rgba(35, 56, 63, .5); }
+.services.has-bg::after, .work.has-bg::after { background: rgba(36, 70, 83, .84); }
+.about.has-bg::after { background: rgba(244, 241, 234, .78); }
 .work.has-bg .section-head, .work.has-bg .section-head .label, .work.has-bg .more { color: #fff; }
 .work.has-bg .more .btn:hover { background: var(--sand); border-color: var(--sand); color: var(--ink); }
 .ghost { transform: translateX(var(--drift, 0)); margin-bottom: -.2em; overflow: hidden; font: 400 clamp(2.6rem, 11vw, 8rem)/1 var(--sans); letter-spacing: .18em; text-transform: uppercase; text-align: right; color: rgba(255, 255, 255, .07); user-select: none; }
