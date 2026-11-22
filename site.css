@@ -102,7 +102,11 @@ p, figure, blockquote { margin: 0; }
 .has-bg > .bg { position: fixed; top: 0; left: 0; z-index: -2; width: 100%; height: 100vh; height: 100lvh; object-fit: cover; }
 .has-bg::after { content: ""; position: absolute; inset: 0; z-index: -1; }
 .services.has-bg::after, .work.has-bg::after { background: rgba(36, 70, 83, .84); }
-.about.has-bg::after { background: rgba(244, 241, 234, .78); }
+/* The teal of Services and Recent Works runs a little way into About at the top and bottom, and the
+   Philosophy and Experience boxes sit flush with About's edges, so each box laps onto its neighbour. */
+.about.has-bg { --lap: clamp(2rem, 4vw, 3.25rem); padding-block: 0; }
+.about.has-bg::after { background: linear-gradient(to bottom, rgba(36, 70, 83, .84) var(--lap), rgba(244, 241, 234, .78) var(--lap), rgba(244, 241, 234, .78) calc(100% - var(--lap)), rgba(36, 70, 83, .84) calc(100% - var(--lap))); }
+.about.has-bg .experience { align-self: end; }
 .work.has-bg .section-head, .work.has-bg .section-head .label, .work.has-bg .more { color: #fff; }
 .work.has-bg .more .btn:hover { background: var(--sand); border-color: var(--sand); color: var(--ink); }
 .ghost { transform: translateX(var(--drift, 0)); margin-bottom: -.2em; overflow: hidden; font: 400 clamp(2.6rem, 11vw, 8rem)/1 var(--sans); letter-spacing: .18em; text-transform: uppercase; text-align: right; color: rgba(255, 255, 255, .07); user-select: none; }
