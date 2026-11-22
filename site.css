@@ -121,7 +121,7 @@ p, figure, blockquote { margin: 0; }
 /* ---------- home: design and build ---------- */
 .approach { padding-block: var(--band); background: var(--sand-pale); }
 .approach .wrap { display: grid; gap: 1.5rem clamp(2.5rem, 6vw, 5rem); }
-.approach h2 { padding-top: 1.6rem; padding-bottom: 1.4rem; border-top: 1px solid var(--sand); border-bottom: 2px solid var(--sand);   /* a slightly heavier rule under the heading, running across above the text */ overflow: hidden; color: rgba(25, 42, 61, .5); font-size: clamp(1.3rem, 3vw, 2.2rem); line-height: 1.4; }
+.approach h2 { padding-bottom: 1.4rem; border-bottom: 2px solid var(--sand);   /* a slightly heavier rule under the heading, running across above the text */ overflow: hidden; color: rgba(25, 42, 61, .5); font-size: clamp(1.3rem, 3vw, 2.2rem); line-height: 1.4; }
 .approach h2 span { display: inline-block; translate: var(--drift, 0) 0; }   /* slides in from the left as it scrolls up the screen (site.js) */
 .approach-text { max-width: none; }   /* fills its column, so it ends at the page margin like the heading starts at one */
 @media (min-width: 40rem) { .approach-text { text-align: justify; } }   /* straight edges both sides; on a phone that would open gaps between words */
