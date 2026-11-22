@@ -368,12 +368,12 @@ ${hero}
 </div>
 <div class="wrap">
 <h1${mark(SITE, "name")}>${esc(head)}${small}</h1>
-<div class="hero-foot">
-<p class="lede"${mark(SITE, "headline")}>${esc(site.headline)}</p>
-<p class="actions"><a class="btn solid" href="#contact">Start a project</a><a class="btn" href="work.html">See our work</a>${call}</p>
-</div>
 </div>
 </section>
+<div class="hero-foot"><div class="wrap">
+<p class="lede"${mark(SITE, "headline")}>${esc(site.headline)}</p>
+<p class="actions"><a class="btn solid" href="#contact">Start a project</a><a class="btn" href="work.html">See our work</a>${call}</p>
+</div></div>
 ${still ? `<div class="still">${backdrop(site.services_photo, "services_photo")}` : ""}
 ${approach}
 <section id="services" class="services${still ? " has-bg" : ""}"><div class="wrap">
