@@ -211,7 +211,7 @@ ${signoff}
     const call = phone ? `<a class="tel" href="tel:${tel(phone)}"${mark(SITE, "phone")}>${esc(phone)}</a>` : "";
     // The wordmark: first word large, the rest small beneath it.
     const cut = name.indexOf(" ");
-    const wordmark = cut < 0 ? `<b>${esc(name)}</b>` : `<b>${esc(name.slice(0, cut))}</b><span>${esc(name.slice(cut + 1))}</span>`;
+    const wordmark = `<i class="mark" aria-hidden="true"></i><span class="words">${cut < 0 ? `<b>${esc(name)}</b>` : `<b>${esc(name.slice(0, cut))}</b><small>${esc(name.slice(cut + 1))}</small>`}</span>`;
     // Client login: the portal once it has an address, until then the "For our clients" band on the home page.
     const portal = /^https?:\/\//.test(site.portal_url || "") ? site.portal_url : site.clients_title ? "./#clients" : "";
     const login = portal ? `<a class="login" href="${esc(portal)}">Client login</a>` : "";
