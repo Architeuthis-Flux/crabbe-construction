@@ -147,7 +147,7 @@ p, figure, blockquote { margin: 0; }
 .services-title span { display: inline-block; margin-right: -.15em; translate: var(--drift, 0) 0; }
 .work.has-bg .section-head, .work.has-bg .section-head .label { color: #fff; }   /* slides in from the side as it scrolls up the screen (site.js) */
 .work.has-bg .more { color: #fff; }
-.service-grid { display: grid; gap: 3rem clamp(2rem, 4vw, 3.5rem); margin-top: clamp(2.5rem, 6vw, 4.5rem); }
+.service-grid { display: grid; gap: 3.5rem clamp(2.5rem, 8vw, 7rem); margin-top: clamp(2.5rem, 6vw, 4.5rem); }
 .service .icon { display: block; margin-bottom: 1.1rem; color: var(--sand); }
 .service h3 { margin-bottom: .9rem; font-size: clamp(1.5rem, 2.2vw, 1.8rem); line-height: 1.2; color: var(--sand); }
 .service p { max-width: 60ch; font-size: 1rem; line-height: 1.65; color: var(--light); }
@@ -155,11 +155,11 @@ p, figure, blockquote { margin: 0; }
 
 /* ---------- home: philosophy, portrait, experience ---------- */
 .about { padding-block: var(--band); background: var(--sand-pale); }   /* same ground as the design-and-build band */
-/* After the old template: a tall slate Philosophy box with a hairline inside its edge; the portrait
-   laps over the box's side; the sand Experience box laps over the portrait's foot and hangs below. */
+/* As on the old site: the slate Philosophy box runs in from the left edge of the screen, the portrait
+   stands beside it a little lower, and the sand Experience box laps over both and hangs below. */
 .about-grid { display: grid; gap: 2.75rem; }
 .about-grid > * { position: relative; z-index: 0; }
-.philosophy { padding: clamp(2.25rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3.5rem) calc(clamp(2.25rem, 5vw, 4rem) + 2.75rem); background: var(--slate); color: #fff; outline: 1px solid rgba(255, 255, 255, .16); outline-offset: -.75rem; }
+.philosophy { padding: clamp(2.25rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3.5rem) calc(clamp(2.25rem, 5vw, 4rem) + 2.75rem); background: var(--slate); color: #fff; }
 .philosophy h2 { font-size: clamp(1.9rem, 3vw, 2.5rem); }
 .philosophy blockquote { margin-top: 1.75rem; font: 400 clamp(1rem, 1.5vw, 1.125rem)/1.8 var(--sans); color: var(--light); }
 .by { margin-top: 1.75rem; font: 500 .9375rem/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; }   /* white, like the rest of the slate box: sand is too faint on it */
@@ -255,10 +255,11 @@ p, figure, blockquote { margin: 0; }
   .card:nth-child(even) .card-photo { order: 2; }
 }
 @media (min-width: 60rem) {
-  .about-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); grid-template-rows: clamp(3rem, 6vw, 5rem) auto auto; gap: 0; align-items: start; }
-  .philosophy { grid-area: 1 / 1 / 4 / 8; align-self: stretch; display: grid; align-content: center; margin-bottom: clamp(4rem, 8vw, 7rem); padding: clamp(3rem, 6vw, 5rem) calc(100% / 7 + clamp(2rem, 4vw, 3.5rem)) clamp(3rem, 6vw, 5rem) clamp(2rem, 5vw, 4.5rem); }   /* its right padding clears the one column the portrait and Experience box lap over */
-  .portrait { grid-area: 2 / 7 / 3 / 13; z-index: 1; width: 100%; margin: 0; }
-  .experience { grid-area: 3 / 7 / 4 / 12; z-index: 2; margin-top: clamp(-7rem, -8vw, -4rem); padding: clamp(2rem, 4vw, 3.25rem); }
+  .about-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0; align-items: start; }
+  .philosophy { grid-area: 1 / 1 / 2 / 7; padding: clamp(3rem, 6vw, 5rem) clamp(2.5rem, 5vw, 4.5rem) clamp(8rem, 13vw, 11rem) clamp(1.5rem, 3vw, 2.5rem); }
+  .philosophy::before { content: ""; position: absolute; top: 0; bottom: 0; right: 100%; width: 50vw; background: var(--slate); }   /* carries the box out to the left edge of the screen */
+  .portrait { grid-area: 1 / 7 / 3 / 12; z-index: 1; width: auto; margin: clamp(2.5rem, 5vw, 4rem) 0 0 1rem; }
+  .experience { grid-area: 2 / 2 / 3 / 7; z-index: 2; margin: clamp(-8rem, -9vw, -5rem) -3.5rem 0 0; padding: clamp(2rem, 4vw, 3.25rem); }
 }
 
 /* ---------- phones ---------- */
@@ -325,7 +326,6 @@ p, figure, blockquote { margin: 0; }
 @media (min-width: 34rem) { .points { grid-template-columns: 1fr 1fr; } }
 @media (min-width: 60rem) { .clients .wrap { grid-template-columns: 1fr 1fr; } }
 
-@media (min-width: 72rem) { .service-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 
 /* Straight edges on both sides for the running text in Services, Philosophy and Experience.
    Words may break with a hyphen, which keeps the gaps between words from opening up in narrow columns. */
