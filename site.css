@@ -48,15 +48,18 @@ p, figure, blockquote { margin: 0; }
 
 /* ---------- header ---------- */
 .top { position: sticky; top: 0; z-index: 10; background: var(--deep); color: #fff; }
-.top .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem 2rem; padding-block: .6rem; }
-.brand { display: flex; align-items: center; gap: .75rem; font: 500 .75rem/1.5 var(--sans); letter-spacing: .28em; text-transform: uppercase; text-decoration: none; }
-.brand img { width: 2.75rem; height: 2.75rem; }
-.top nav { order: 2; display: flex; align-items: center; gap: 1.75rem; margin-left: auto; max-width: 100%; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
+.top .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem 2rem; padding-block: .85rem; }
+.brand { display: grid; gap: .35rem; text-transform: uppercase; text-decoration: none; }
+.brand b { font: 400 1.5rem/1 var(--serif); letter-spacing: .22em; color: var(--sand); }
+.brand span { font: 400 .625rem/1 var(--sans); letter-spacing: .34em; color: #a7b8bd; }
+.top nav { display: flex; align-items: center; gap: 1.75rem; margin-left: auto; max-width: 100%; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
 .top nav::-webkit-scrollbar { display: none; }
 .top nav a { padding-block: .5rem; border-bottom: 1px solid transparent; font: 400 .75rem/1 var(--sans); letter-spacing: .22em; text-transform: uppercase; text-decoration: none; color: rgba(255, 255, 255, .82); }
 .top nav a:hover, .top nav a[aria-current] { color: #fff; border-bottom-color: var(--sand); }
-.top .tel { order: 3; padding: .55rem .9rem; border: 1px solid var(--sand); font: 400 .75rem/1 var(--sans); letter-spacing: .12em; text-decoration: none; white-space: nowrap; color: var(--sand); }
-.top .tel:hover { background: var(--sand); color: var(--ink); }
+.top .tel { font: 400 .9375rem/1 var(--sans); letter-spacing: .06em; text-decoration: none; white-space: nowrap; color: var(--sand); }
+.top .tel:hover { color: #fff; }
+.top .login { padding: .8rem 1.1rem; background: var(--sand); color: var(--ink); font: 500 .75rem/1 var(--sans); letter-spacing: .22em; text-transform: uppercase; text-decoration: none; white-space: nowrap; }
+.top .login:hover { background: #fff; }
 
 /* ---------- home: hero ---------- */
 .hero { position: relative; z-index: 1; display: grid; grid-template-rows: 1fr auto; align-items: center; min-height: min(82vh, 46rem); text-align: center; background: var(--deep); color: #fff; }
@@ -74,10 +77,10 @@ p, figure, blockquote { margin: 0; }
 .hero::after { content: ""; position: absolute; inset: 0; background: rgba(35, 56, 63, .58); }
 .hero > .wrap { position: relative; z-index: 1; }   /* above the wash */   /* an even wash: the words sit in the middle of the photo */
 .hero > .wrap { padding-block: clamp(3rem, 8vw, 5.5rem); }
-.hero h1 { font-weight: 400; font-size: clamp(3rem, 9vw, 6.5rem); line-height: 1; letter-spacing: .2em; text-transform: uppercase; color: var(--sand); }
-.hero h1 { margin-right: -.2em; }   /* the last letter's spacing would push the name off centre */
-.hero h1 small { display: block; margin: clamp(1rem, 2.2vw, 1.75rem) calc(.2em - .32em) 0 0; font: 400 clamp(.75rem, 2.1vw, 1.4rem)/1.2 var(--sans); letter-spacing: .32em; color: #a7b8bd; }
-.hero .lede { max-width: 26ch; margin: 1.75rem auto 0; font: italic 400 clamp(1.3rem, 2.4vw, 1.8rem)/1.35 var(--serif); }
+.hero h1 { font-weight: 400; font-size: clamp(1.9rem, 5.6vw, 4.5rem); letter-spacing: .14em; text-transform: uppercase; color: var(--sand); }
+.hero h1 { margin-right: -.14em; }   /* the last letter's spacing would push the name off centre */
+.hero h1 small { display: block; margin: 1.1rem calc(.14em - .55em) 0 0; font: 500 clamp(.8rem, 1.5vw, 1.05rem)/1 var(--sans); letter-spacing: .55em; color: #f4f1ea; }
+.hero .lede { max-width: 46ch; margin: 1.9rem auto 0; font: 400 clamp(1rem, 1.7vw, 1.2rem)/1.6 var(--sans); }
 .actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2.25rem; }
 
 /* ---------- home: intro ---------- */
@@ -248,10 +251,13 @@ p, figure, blockquote { margin: 0; }
   .top { position: static; }
   .top .wrap { gap: .25rem 1rem; }
   .brand { flex: 1; min-width: 0; }
+  .top .tel { order: 1; }
+  .top .login { order: 2; padding: .65rem .8rem; letter-spacing: .16em; }
   .top nav { order: 3; width: 100%; margin-left: 0; gap: 1.4rem; }
 }
 @media (max-width: 45.99rem) {
-  .brand { font-size: .6875rem; letter-spacing: .2em; }
+  .brand b { font-size: 1.25rem; }
+  .top .tel { display: none; }   /* the hero has a Call button; the bar keeps the name and the login */
   .framed { --off: .4rem; --over: .9rem; }
   .foot .small { margin-left: 0; }
 }

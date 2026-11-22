@@ -206,9 +206,15 @@ ${signoff}
 
   const layout = (title, desc, body, here = "", image = "") => {
     const phone = site.phone;
-    const links = [["work.html", "Work"], ["./#services", "Services"], ["./#about", "About"], ...menu, ["#contact", "Contact"]];
+    const links = [["./#services", "Services"], ["./#about", "About"], ["work.html", "Portfolio"], ...menu, ["#contact", "Contact"]];
     const nav = links.map(([h, t]) => `<a href="${esc(h)}"${h === here ? ' aria-current="page"' : ""}>${esc(t)}</a>`).join("");
     const call = phone ? `<a class="tel" href="tel:${tel(phone)}"${mark(SITE, "phone")}>${esc(phone)}</a>` : "";
+    // The wordmark: first word large, the rest small beneath it.
+    const cut = name.indexOf(" ");
+    const wordmark = cut < 0 ? `<b>${esc(name)}</b>` : `<b>${esc(name.slice(0, cut))}</b><span>${esc(name.slice(cut + 1))}</span>`;
+    // Client login: the portal once it has an address, until then the "For our clients" band on the home page.
+    const portal = /^https?:\/\//.test(site.portal_url || "") ? site.portal_url : site.clients_title ? "./#clients" : "";
+    const login = portal ? `<a class="login" href="${esc(portal)}">Client login</a>` : "";
     // noindex while this copy sits next to the live constructioncrabbe.com. Filling in the site's
     // address (content/site.json "url") lifts it and adds the canonical link, and build.js then
     // writes sitemap.xml and robots.txt.
@@ -240,9 +246,10 @@ ${seo}
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="top"><div class="wrap">
-<a class="brand" href="./"><img src="logo.svg" alt="" width="44" height="44"><span${mark(SITE, "name")}>${esc(name)}</span></a>
-${call}
+<a class="brand" href="./" aria-label="${esc(name)}"${mark(SITE, "name")}>${wordmark}</a>
 <nav aria-label="Main">${nav}</nav>
+${call}
+${login}
 </div></header>
 <main id="main">
 ${body}
@@ -296,10 +303,9 @@ ${kind}
   /* ---------------------------------------------------------------- pages */
 
   const home = () => {
-    // The first word stands large; the rest of the name runs small beneath it.
-    const gap = name.indexOf(" ");
-    const head = gap < 0 ? name : name.slice(0, gap);
-    const small = gap < 0 ? "" : `<small>${esc(name.slice(gap + 1))}</small>`;
+    const amp = name.indexOf(" & ");
+    const head = amp < 0 ? name : name.slice(0, amp);
+    const small = amp < 0 ? "" : `<small>&amp; ${esc(name.slice(amp + 3))}</small>`;
     const { phone, owner } = site;
     // One still photo behind Design-and-build, Services, About and Recent Works together (site.css: .still).
     const still = Boolean(photo(site.services_photo));
