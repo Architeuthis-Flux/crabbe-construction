@@ -260,8 +260,8 @@ p, figure, blockquote { margin: 0; }
 }
 @media (min-width: 60rem) {
   .about-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0; align-items: start; }
-  .philosophy { grid-area: 1 / 1 / 2 / 7; padding: clamp(3rem, 6vw, 5rem) clamp(2.5rem, 5vw, 4.5rem) clamp(8rem, 13vw, 11rem) clamp(2rem, 4vw, 3.5rem); }
-  .portrait { grid-area: 1 / 7 / 3 / 12; z-index: 1; width: auto; margin: clamp(2.5rem, 5vw, 4rem) 0 0 1rem; }
+  .philosophy { grid-area: 1 / 1 / 2 / 9; padding: clamp(4rem, 8vw, 7rem) calc(25% + clamp(2rem, 4vw, 3.5rem)) clamp(11rem, 17vw, 15rem) clamp(2.5rem, 5vw, 4.5rem); }   /* the big slate box: two-thirds of the row, the portrait laps over its right side */
+  .portrait { grid-area: 1 / 7 / 3 / 12; z-index: 1; width: auto; margin: clamp(5rem, 9vw, 8rem) 0 0 1rem; }
   .experience { grid-area: 2 / 2 / 3 / 7; z-index: 2; margin: clamp(-8rem, -9vw, -5rem) -3.5rem 0 0; padding: clamp(2rem, 4vw, 3.25rem); }
 }
 
