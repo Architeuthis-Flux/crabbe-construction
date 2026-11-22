@@ -341,7 +341,7 @@ ${kind}
 <p class="more"><a class="btn" href="work.html">See portfolio</a></p>
 </div></section>`
       : "";
-    // The intro sits in a box under Design-and-build and laps onto Services below it.
+    // The intro sits in a box under Services, on the same teal.
     const chips = towns.length ? `<ul class="towns"${mark(SITE, "towns")}>${towns.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : "";
     const intro = site.intro ? `<div class="intro"><div class="wrap"><div class="intro-box"><p${mark(SITE, "intro")}>${esc(site.intro)}</p>${chips}</div></div></div>` : "";
     return `<section class="hero">
@@ -356,12 +356,12 @@ ${hero}
 </section>
 ${still ? `<div class="still">${backdrop(site.services_photo, "services_photo")}` : ""}
 ${approach}
-${intro}
 <section id="services" class="services${still ? " has-bg" : ""}"><div class="wrap">
 <p class="ghost" aria-hidden="true">Services</p>
 <h2 class="label">Services</h2>
 <div class="service-grid">${services}</div>
 </div></section>
+${intro}
 <section id="about" class="about${still ? " has-bg" : ""}"><div class="wrap about-grid">
 <div class="philosophy"><h2 class="label">Philosophy</h2><blockquote${mark(SITE, "philosophy")}><p>&ldquo;${esc(site.philosophy)}&rdquo;</p></blockquote>${by}</div>
 ${portrait}
