@@ -116,7 +116,7 @@ p, figure, blockquote { margin: 0; }
 .service p + p { margin-top: .9rem; }
 
 /* ---------- home: philosophy, portrait, experience ---------- */
-.about { padding-block: var(--band); background: var(--paper); }
+.about { padding-block: var(--band); background: var(--sand-pale); }   /* same ground as the design-and-build band */
 .about-grid { display: grid; gap: 2.75rem; }
 .philosophy { position: relative; padding-block: clamp(2.25rem, 5vw, 4rem); color: #fff; }
 .philosophy::before { content: ""; position: absolute; z-index: -1; inset: 0 calc(-1 * var(--gutter)); background: var(--slate); }
@@ -124,7 +124,9 @@ p, figure, blockquote { margin: 0; }
 .philosophy blockquote { margin-top: 1.5rem; font: italic 400 clamp(1.25rem, 2vw, 1.55rem)/1.5 var(--serif); }
 .by { margin-top: 1.5rem; font: 500 .8125rem/1 var(--sans); letter-spacing: .3em; text-transform: uppercase; color: #e9e1d2; }
 .by::before { content: ""; display: inline-block; width: 2.5rem; height: 1px; margin-right: 1rem; vertical-align: middle; background: var(--sand); }
-.portrait { width: min(100%, 24rem); margin: var(--over, 1.6rem) auto; }
+.portrait { z-index: 1; width: min(92%, 26rem); margin: -2.75rem auto; box-shadow: 0 1.25rem 2.5rem rgba(25, 42, 61, .22); }   /* laps over the box above and the box below */
+.philosophy { padding-bottom: calc(clamp(2.25rem, 5vw, 4rem) + 2.75rem); }
+.experience { padding-top: calc(clamp(1.75rem, 4vw, 3rem) + 2.75rem); }
 .portrait img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%; }
 .experience { padding: clamp(1.75rem, 4vw, 3rem); background: var(--sand); }
 .experience h2 { margin-bottom: 1rem; font-size: clamp(1.7rem, 3vw, 2.2rem); }
@@ -216,11 +218,11 @@ p, figure, blockquote { margin: 0; }
   .card:nth-child(even) .card-photo { order: 2; }
 }
 @media (min-width: 60rem) {
-  .about-grid { grid-template-columns: 7fr 5fr; gap: 0 clamp(3rem, 6vw, 5.5rem); align-items: start; }
-  .philosophy { grid-area: 1 / 1; padding-bottom: 7rem; padding-right: clamp(2rem, 4vw, 3.5rem); }
+  .about-grid { grid-template-columns: 6fr 5fr; gap: 0; align-items: start; }
+  .philosophy { grid-area: 1 / 1; padding-bottom: 7rem; padding-right: clamp(5rem, 8vw, 7rem); }
   .philosophy::before { inset: 0 0 0 -50vw; }
-  .portrait { grid-area: 1 / 2 / span 2; align-self: center; width: 100%; margin: 2rem 0; }
-  .experience { grid-area: 2 / 1; margin: -4rem 0 0 clamp(2rem, 6vw, 5rem); }
+  .portrait { grid-area: 1 / 2 / span 2; align-self: center; width: calc(100% + 3rem); margin: 2rem 0 2rem -3rem; }   /* its left edge laps over both text boxes */
+  .experience { grid-area: 2 / 1; margin: -4rem 0 0 clamp(2rem, 6vw, 5rem); padding-top: clamp(1.75rem, 4vw, 3rem); padding-right: clamp(5rem, 8vw, 7rem); }
 }
 
 /* ---------- phones ---------- */
