@@ -80,17 +80,15 @@ if (!calm) {
     }
   }
 
-  // Parallax: the hero photo drifts slower than the page, and the big "Services" word slides sideways.
+  // Parallax: the big "Services" word slides sideways as it passes. (The photos behind the hero and
+  // Services stay still while the page moves over them; that is done in site.css, not here.)
   const ghost = document.querySelector('.ghost');
-  if (hero || ghost) {
+  if (ghost) {
     let queued = false;
     const drift = () => {
       queued = false;
-      if (hero && scrollY < hero.offsetHeight + hero.offsetTop) hero.style.setProperty('--drift', Math.round(scrollY * 0.3) + 'px');
-      if (ghost) {
-        const r = ghost.getBoundingClientRect();
-        if (r.bottom > 0 && r.top < innerHeight) ghost.style.setProperty('--drift', Math.round((r.top - innerHeight / 2) * 0.12) + 'px');
-      }
+      const r = ghost.getBoundingClientRect();
+      if (r.bottom > 0 && r.top < innerHeight) ghost.style.setProperty('--drift', Math.round((r.top - innerHeight / 2) * 0.12) + 'px');
     };
     addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(drift); } }, { passive: true });
     drift();

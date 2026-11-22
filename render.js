@@ -73,17 +73,26 @@ const fileName = (path) => String(path).replace(/\/+$/, "").split("/").pop();
    files     Map of path -> text for content/site.json, content/projects/*.json, content/pages/*.json
    hasPhoto  (file name) -> true if that photo exists; a photo that is gone is left out, never shown broken
    photoUrl  (file name) -> address to load it from; the preview uses this for photos not yet published
+   hasThumb  (file name) -> true if a small copy exists at thumbs/<file name>; cards and gallery tiles
+             then load that instead of the full photo (tools/thumbs.py makes them)
    version   appended to the stylesheet and script addresses so a changed file is never served stale
    preview   true in the Ask Claude preview: marks which content field each piece of text came from
    warn      (message) -> void, for entries that had to be skipped
 */
-export function buildSite({ files, hasPhoto, photoUrl = (name) => "photos/" + name, version = "", year = new Date().getFullYear(), preview = false, warn = () => {} }) {
+export function buildSite({ files, hasPhoto, hasThumb = () => false, photoUrl = (name) => "photos/" + name, version = "", year = new Date().getFullYear(), preview = false, warn = () => {} }) {
   // Stored image path -> address, or "" if the file is gone. The editor stores "/photos/x.webp";
   // keeping only the file name keeps links relative, so the site works at any address.
   const photo = (path) => {
     const name = path ? fileName(path) : "";
     return name && hasPhoto(name) ? photoUrl(name) : "";
   };
+  // The small copy of a photo, or "" if there is none (new uploads have none until thumbs are remade).
+  const thumb = (path) => {
+    const name = path ? fileName(path) : "";
+    return name && hasPhoto(name) && hasThumb(name) ? "thumbs/" + name : "";
+  };
+  // A soft photo behind a whole band (Services, Recent Works). Loaded only when scrolled near.
+  const backdrop = (path, field) => (photo(path) ? `<img class="bg" src="${photo(path)}" alt="" loading="lazy" decoding="async"${mark(SITE, field)}>` : "");
   // Preview only: remember where a piece of the page came from, so pointing at it can tell Claude.
   const mark = (path, field) => (preview ? ` data-edit="${esc(path + "#" + field)}"` : "");
 
@@ -196,6 +205,7 @@ ${signoff}
 ${seo}
 <link rel="icon" href="logo-navy.png">
 <link rel="preload" href="fonts/eb-garamond.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/reem-kufi.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="site.css?v=${version}">
 <link rel="stylesheet" href="design.css?v=${version}">
 </head>
@@ -223,7 +233,8 @@ ${contact()}
 
   const card = (p) => {
     const href = p.slug + ".html";
-    const img = photo(p.cover) ? `<img src="${photo(p.cover)}" alt="${esc([p.title, place(p)].filter(Boolean).join(", "))}" loading="lazy"${mark(p.path, "cover")}>` : "";
+    const small = thumb(p.cover) ? ` srcset="${thumb(p.cover)} 900w, ${photo(p.cover)} 1800w" sizes="(min-width: 46rem) 40rem, 100vw"` : "";
+    const img = photo(p.cover) ? `<img src="${photo(p.cover)}"${small} alt="${esc([p.title, place(p)].filter(Boolean).join(", "))}" loading="lazy" decoding="async"${mark(p.path, "cover")}>` : "";
     const where = [p.kind, place(p)].filter(Boolean).join(" · ");
     const kind = where ? `<p class="label"${mark(p.path, "kind")}>${esc(where)}</p>` : "";
     return `<article class="card">
@@ -247,9 +258,9 @@ ${kind}
   const gallery = (shots, title, start = 1, path = "") => {
     const shown = shots.filter((s) => photo(s));
     if (!shown.length) return "";
-    // ponytail: tiles load the full 1800px photo (lazily); add build-time thumbnails if galleries get slow
+    // Tiles load the small copy when there is one; the full photo only opens in the viewer.
     const items = shown
-      .map((s, i) => `<a class="zoom" href="${photo(s)}"><img src="${photo(s)}" alt="${esc(title)}, photo ${i + start}" loading="lazy"${path ? mark(path, "photos") : ""}></a>`)
+      .map((s, i) => `<a class="zoom" href="${photo(s)}"><img src="${thumb(s) || photo(s)}" alt="${esc(title)}, photo ${i + start}" loading="lazy" decoding="async"${path ? mark(path, "photos") : ""}></a>`)
       .join("");
     return `<div class="gallery">${items}</div>`;
   };
@@ -294,7 +305,7 @@ ${kind}
 </div></section>`
       : "";
     const work = featured.length
-      ? `<section class="work"><div class="wrap">
+      ? `<section class="work${photo(site.work_photo) ? " has-bg" : ""}">${backdrop(site.work_photo, "work_photo")}<div class="wrap">
 <header class="section-head"><p class="label">Recent</p><h2>Works</h2></header>
 <div class="cards">${featured.map(card).join("")}</div>
 <p class="more"><a class="btn" href="work.html">See portfolio</a></p>
@@ -310,7 +321,7 @@ ${hero}
 </section>
 <section class="intro"><div class="wrap"><p${mark(SITE, "intro")}>${esc(site.intro)}</p></div></section>
 ${approach}
-<section id="services" class="services"><div class="wrap">
+<section id="services" class="services${photo(site.services_photo) ? " has-bg" : ""}">${backdrop(site.services_photo, "services_photo")}<div class="wrap">
 <p class="ghost" aria-hidden="true">Services</p>
 <h2 class="label">Services</h2>
 <div class="service-grid">${services}</div>

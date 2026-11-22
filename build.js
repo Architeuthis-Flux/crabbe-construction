@@ -18,7 +18,7 @@ import { fileURLToPath } from "node:url";
 import { buildSite, esc, jsonLd, num, paras, rich, slugify, tel } from "./render.js";
 
 const SRC = dirname(fileURLToPath(import.meta.url));
-const ASSETS = ["admin", "fonts", "photos", "guide", "guide.html", "ask.html", "ask.js", "ask.site.js", "ask.site.css",
+const ASSETS = ["admin", "fonts", "photos", "thumbs", "guide", "guide.html", "ask.html", "ask.js", "ask.site.js", "ask.site.css",
   "render.js", "site.css", "site.js", "logo.svg", "logo-navy.png"];   // published as they are
 const DESIGN = "content/design.css";   // design overrides, published as design.css next to site.css
 
@@ -88,6 +88,7 @@ function build(out) {
   const { pages, projects, extraPages } = buildSite({
     files: readContent(),
     hasPhoto: (name) => existsSync(join(SRC, "photos", name)),
+    hasThumb: (name) => existsSync(join(SRC, "thumbs", name)),
     version: version(),
     warn: (message) => console.error("crabbe: " + message),
   });
@@ -164,6 +165,11 @@ function selftest() {
   const liveSecond = live.pages.get("b-second.html");
   assert.ok(liveSecond.includes("<title>Second, Monterey, CA | Test &amp; Co</title>") && liveSecond.includes('href="https://example.com/b-second.html"'));
   assert.ok(liveSecond.includes("Residential · Monterey, CA") && liveSecond.includes('content="A deck. Monterey, CA"'));
+  assert.ok(!liveIndex.includes("thumbs/") && !liveIndex.includes('class="bg"'));                                  // no small copies, no backdrops: nothing extra
+  files.set("content/site.json", files.get("content/site.json").replace('"license":"123"', '"license":"123","services_photo":"/photos/b.webp","work_photo":"/photos/gone.webp"'));
+  const thumbed = buildSite({ files, hasPhoto: (name) => name !== "gone.webp", hasThumb: (name) => name === "a.webp", version: "v1" });
+  assert.ok(thumbed.pages.get("index.html").includes('srcset="thumbs/a.webp 900w, photos/a.webp 1800w"'));
+  assert.ok(thumbed.pages.get("index.html").includes('class="services has-bg"><img class="bg" src="photos/b.webp"') && thumbed.pages.get("index.html").includes('<section class="work">'));
   assert.ok(sitemap("https://example.com", ["index.html", "work.html"]).includes("<loc>https://example.com/</loc>") );
 
   // The real site builds, and nothing it links to is missing.

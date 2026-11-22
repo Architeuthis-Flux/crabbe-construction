@@ -60,8 +60,10 @@ p, figure, blockquote { margin: 0; }
 
 /* ---------- home: hero ---------- */
 .hero { position: relative; isolation: isolate; display: grid; align-items: end; min-height: min(82vh, 46rem); background: var(--deep); color: #fff; }
-.hero { overflow: clip; }
-.hero > img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.4s ease; transform: translateY(var(--drift, 0)); }
+/* The photo stays put while the page scrolls over it: it is pinned to the screen and the band
+   is a window onto it (clip-path), which unlike background-attachment also works on phones. */
+.hero { clip-path: inset(0); }
+.hero > img { position: fixed; top: 0; left: 0; z-index: -2; width: 100%; height: 100vh; height: 100lvh; object-fit: cover; object-position: 50% 70%; opacity: 0; transition: opacity 1.4s ease; }
 .hero > img.on { opacity: 1; }
 .hero-nav { position: absolute; right: var(--gutter); bottom: 1.25rem; display: flex; align-items: center; gap: .5rem; }
 .hero-nav button { width: 2.75rem; height: 2.75rem; padding: 0; border: 0; background: none; color: #fff; font: 400 1.5rem/1 var(--serif); cursor: pointer; }
@@ -85,12 +87,24 @@ p, figure, blockquote { margin: 0; }
 .approach .wrap { display: grid; gap: 1.5rem clamp(2.5rem, 6vw, 5rem); }
 .approach h2 { padding-top: 1.6rem; border-top: 1px solid var(--sand); color: var(--muted); line-height: 1.9; }
 .approach-text { max-width: 60ch; }
-.approach-text p:first-child { font: 400 clamp(1.3rem, 2.2vw, 1.6rem)/1.45 var(--serif); }
+.approach-text p { font: 400 clamp(1.3rem, 2.2vw, 1.6rem)/1.45 var(--serif); }
 .approach-text p + p { margin-top: 1.1rem; }
-.approach-text p:last-child { font: italic 400 1.25rem/1.5 var(--serif); color: var(--muted); }
+.approach-text p:last-child { font-style: italic; color: var(--muted); }
 
 /* ---------- home: services ---------- */
-.services { padding-block: var(--band); background: var(--deep); color: #fff; }
+.services { position: relative; isolation: isolate; padding-block: var(--band); background: var(--deep); color: #fff; }
+
+/* A photo behind a band, under a wash of the band's own colour. Pinned behind Services, as on the old site. */
+.has-bg { position: relative; isolation: isolate; }
+.has-bg > .bg { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
+.has-bg::after { content: ""; position: absolute; inset: 0; z-index: -1; }
+.services.has-bg { clip-path: inset(0); }
+.services.has-bg > .bg { position: fixed; top: 0; left: 0; height: 100vh; height: 100lvh; }
+.services.has-bg::after { background: rgba(36, 70, 83, .84); }
+.work.has-bg > .bg { object-position: 24% 54%; }
+.work.has-bg::after { background: rgba(35, 56, 63, .5); }
+.work.has-bg .section-head, .work.has-bg .section-head .label, .work.has-bg .more { color: #fff; }
+.work.has-bg .more .btn:hover { background: var(--sand); border-color: var(--sand); color: var(--ink); }
 .ghost { transform: translateX(var(--drift, 0)); margin-bottom: -.2em; overflow: hidden; font: 400 clamp(2.6rem, 11vw, 8rem)/1 var(--sans); letter-spacing: .18em; text-transform: uppercase; text-align: right; color: rgba(255, 255, 255, .07); user-select: none; }
 .services h2 { color: var(--sand); }
 .service-grid { display: grid; gap: 3rem clamp(2.5rem, 6vw, 5rem); margin-top: 2.5rem; }

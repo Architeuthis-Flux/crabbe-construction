@@ -11,10 +11,9 @@
   "email": "",
   "hero_photo": "/photos/deer-flats-02.webp",
   "hero_alt": "Remodeled home exterior at dusk, with a wood deck built around a mature oak tree",
-  "hero_photos": [
-    "/photos/deer-flats-01.webp",
-    "/photos/del-rey-oaks-01.webp"
-  ],
+  "hero_photos": [],
+  "services_photo": "/photos/deer-flats-21.webp",
+  "work_photo": "/photos/deer-flats-21.webp",
   "headline": "Design-forward building on the Monterey Peninsula",
   "intro": "A construction and design company on the Monterey Peninsula, specializing in new builds, additions, remodels and custom built-ins.",
   "approach_title": "Design and build, under one roof",
@@ -45,7 +44,7 @@
   "owner": "Phillip Crabbe",
   "portrait": "/photos/phil-crabbe.webp",
   "about_title": "Experience",
-  "about": "Phillip Crabbe has over 15 years of hands on building and high end construction management on Monterey Peninsula. During his journey from a laborer to project manager, Phil has always gravitated towards craftsmanship and quality in building projects. Over the years he has gained trusting relationships with his clients by ensuring clear communications and commitment to their vision while being mindful of the projects' budget. Phil's drive to providing service of the highest quality in construction, paying particular attention to working efficiently while keeping the lines of communication with clients clear and concise pushed him to start his own company in 2022. Today Crabbe Construction & Design is a family owned business that is eager to cater to your project's specific needs in a timely manner.",
+  "about": "Phillip Crabbe has over two decades of hands-on building and high end construction management on Monterey Peninsula. During his journey from a laborer to project manager, Phil has always gravitated towards craftsmanship and quality in building projects. Over the years he has gained trusting relationships with his clients by ensuring clear communications and commitment to their vision while being mindful of the projects' budget. Phil's drive to providing service of the highest quality in construction, paying particular attention to working efficiently while keeping the lines of communication with clients clear and concise pushed him to start his own company in 2022. Today Crabbe Construction & Design is a family owned business that is eager to cater to your project's specific needs in a timely manner.",
   "contact_lead": "We would like to hear from you and make your vision come true",
   "area_lead": "Building and remodeling homes across the Monterey Peninsula",
   "towns": [
