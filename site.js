@@ -80,15 +80,21 @@ if (!calm) {
     }
   }
 
-  // Parallax: the big "Services" word slides sideways as it passes. (The photos behind the hero and
-  // Services stay still while the page moves over them; that is done in site.css, not here.)
-  const ghost = document.querySelector('.services-title');
-  if (ghost) {
+  // Parallax: the big "Services" word slides in from the right as it passes, and the "Design and build"
+  // heading slides in from the left and settles in place. (The photos behind the hero and Services stay
+  // still while the page moves over them; that is done in site.css, not here.)
+  const drifters = [[document.querySelector('.services-title'), 0.22, false], [document.querySelector('.approach h2'), -0.3, true]].filter(d => d[0]);
+  if (drifters.length) {
     let queued = false;
     const drift = () => {
       queued = false;
-      const r = ghost.getBoundingClientRect();
-      if (r.bottom > 0 && r.top < innerHeight) ghost.style.setProperty('--drift', Math.round((r.top - innerHeight / 2) * 0.22) + 'px');
+      for (const [el, rate, settle] of drifters) {
+        const r = el.getBoundingClientRect();
+        if (r.bottom <= 0 || r.top >= innerHeight) continue;
+        let x = Math.round((r.top - innerHeight / 2) * rate);
+        if (settle && x > 0) x = 0;   // once in place it stays put
+        el.style.setProperty('--drift', x + 'px');
+      }
     };
     addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(drift); } }, { passive: true });
     drift();

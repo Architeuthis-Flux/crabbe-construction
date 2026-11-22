@@ -330,7 +330,7 @@ ${kind}
       .join("\n");
     const approach = site.approach
       ? `<section class="approach${still ? " has-bg" : ""}"><div class="wrap">
-<h2 class="label"${mark(SITE, "approach_title")}>${esc(site.approach_title || "Design and build")}</h2>
+<h2 class="label"${mark(SITE, "approach_title")}><span>${esc(site.approach_title || "Design and build")}</span></h2>
 <div class="approach-text"${mark(SITE, "approach")}>${paras(site.approach)}</div>
 </div></section>`
       : "";
