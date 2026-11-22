@@ -121,6 +121,19 @@ collections:
           - { name: portrait, label: Photo of the owner, widget: image, required: false }
           - { name: about_title, label: About heading, widget: string }
           - { name: about, label: About text, widget: text, hint: "Leave a blank line to start a new paragraph." }
+          - { name: clients_label, label: Client section small heading, widget: string, required: false }
+          - { name: clients_title, label: Client section heading, widget: string, required: false, hint: "Leave empty to hide the whole section." }
+          - { name: clients_text, label: Client section text, widget: text, required: false }
+          - name: clients_points
+            label: Client section boxes
+            label_singular: Box
+            widget: list
+            required: false
+            summary: "{{fields.title}}"
+            fields:
+              - { name: title, label: Name, widget: string }
+              - { name: text, label: One line, widget: string }
+          - { name: portal_url, label: Client login address, widget: string, required: false, hint: 'The web address of the client portal, starting with https://. While empty the section says "Client login coming soon".' }
           - { name: contact_lead, label: Line above "Contact us", widget: string }
           - { name: map_place, label: Map behind "Contact us", widget: string, required: false, hint: 'A place name Google Maps knows, for example "Monterey, CA". A town works best: it shows one pin. Leave empty for no map.' }
           - { name: map_zoom, label: Map zoom, widget: number, value_type: int, min: 3, max: 18, default: 11, required: false, hint: "Higher is closer. 11 shows the whole peninsula, 13 one town." }

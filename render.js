@@ -337,6 +337,24 @@ ${kind}
     // The intro sits in a box under Services, on the same teal.
     const chips = towns.length ? `<ul class="towns"${mark(SITE, "towns")}>${towns.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : "";
     const intro = site.intro ? `<div class="intro"><div class="wrap"><div class="intro-box"><p${mark(SITE, "intro")}>${esc(site.intro)}</p>${chips}</div></div></div>` : "";
+    // What clients get: their own project page. The login button appears once the portal has an
+    // address (content/site.json "portal_url"); until then the band says it is on its way.
+    const points = (site.clients_points || []).filter((c) => c && c.title)
+      .map((c, i) => `<div class="point"${mark(SITE, `clients_points[${i + 1}]`)}><h3>${esc(c.title)}</h3><p>${esc(c.text)}</p></div>`).join("");
+    const login = /^https?:\/\//.test(site.portal_url || "")
+      ? `<a class="btn solid" href="${esc(site.portal_url)}">Client login</a>`
+      : `<p class="soon">Client login coming soon</p>`;
+    const clients = site.clients_title
+      ? `<section id="clients" class="clients"><div class="wrap">
+<div class="clients-text">
+<h2 class="label"${mark(SITE, "clients_label")}>${esc(site.clients_label || "For our clients")}</h2>
+<p class="clients-title"${mark(SITE, "clients_title")}>${esc(site.clients_title)}</p>
+<p${mark(SITE, "clients_text")}>${esc(site.clients_text)}</p>
+${login}
+</div>
+${points ? `<div class="points">${points}</div>` : ""}
+</div></section>`
+      : "";
     return `<section class="hero">
 <div class="hero-photos">
 ${hero}
@@ -361,7 +379,8 @@ ${portrait}
 <div class="experience"${mark(SITE, "about")}><h2${mark(SITE, "about_title")}>${esc(site.about_title)}</h2>${paras(site.about)}</div>
 </div></section>
 ${work}
-${still ? "</div>" : ""}`;
+${still ? "</div>" : ""}
+${clients}`;
   };
 
   const workPage = () => `${pageHead("Portfolio", "Works", "")}

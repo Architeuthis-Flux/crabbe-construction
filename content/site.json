@@ -45,6 +45,28 @@
   "portrait": "/photos/phil-crabbe.webp",
   "about_title": "Experience",
   "about": "Phillip Crabbe has over two decades of hands-on building and high end construction management on Monterey Peninsula. During his journey from a laborer to project manager, Phil has always gravitated towards craftsmanship and quality in building projects. Over the years he has gained trusting relationships with his clients by ensuring clear communications and commitment to their vision while being mindful of the projects' budget. Phil's drive to providing service of the highest quality in construction, paying particular attention to working efficiently while keeping the lines of communication with clients clear and concise pushed him to start his own company in 2022. Today Crabbe Construction & Design is a family owned business that is eager to cater to your project's specific needs in a timely manner.",
+  "clients_label": "For our clients",
+  "clients_title": "Your whole project, in one place",
+  "clients_text": "Every client gets a private project page: the schedule, weekly photo updates, documents, and a selections room where we narrow down tile, fixtures, colors and finishes together, room by room.",
+  "clients_points": [
+    {
+      "title": "Selections",
+      "text": "Compare options, comment and approve, room by room."
+    },
+    {
+      "title": "Schedule",
+      "text": "See what is happening this week and what is next."
+    },
+    {
+      "title": "Photo updates",
+      "text": "Progress photos straight from the job site."
+    },
+    {
+      "title": "Home record",
+      "text": "Every finish and spec sheet, kept after we finish."
+    }
+  ],
+  "portal_url": "",
   "contact_lead": "We would like to hear from you and make your vision come true",
   "map_place": "Monterey, CA",
   "map_zoom": 11,

@@ -180,6 +180,12 @@ function selftest() {
   files.set("content/site.json", files.get("content/site.json").replace('"license":"123"', '"license":"123","form_key":"k<1"'));
   const formed = buildSite({ files, hasPhoto: () => true }).pages.get("work.html");
   assert.ok(formed.includes('name="access_key" value="k&lt;1"') && formed.includes("<option>Something else</option>") && formed.includes('name="botcheck"'));
+  assert.ok(!formed.includes('class="clients"'));
+  files.set("content/site.json", files.get("content/site.json").replace('"license":"123"', '"license":"123","clients_title":"One place","clients_points":[{"title":"A","text":"b"}]'));
+  const withClients = buildSite({ files, hasPhoto: () => true }).pages.get("index.html");
+  assert.ok(withClients.includes('class="clients"') && withClients.includes("Client login coming soon") && withClients.includes("<h3>A</h3><p>b</p>"));
+  files.set("content/site.json", files.get("content/site.json").replace('"license":"123"', '"license":"123","portal_url":"https://example.com/portal"'));
+  assert.ok(buildSite({ files, hasPhoto: () => true }).pages.get("index.html").includes('<a class="btn solid" href="https://example.com/portal">Client login</a>'));
   assert.ok(sitemap("https://example.com", ["index.html", "work.html"]).includes("<loc>https://example.com/</loc>") );
 
   // The real site builds, and nothing it links to is missing.
