@@ -172,14 +172,14 @@ export function buildSite({ files, hasPhoto, hasThumb = () => false, photoUrl = 
 <label><span>Type of project</span><select name="project">${kinds.map((k) => `<option>${esc(k)}</option>`).join("")}</select></label>
 <label class="wide"><span>Your message</span><textarea name="message" rows="5" required></textarea></label>
 </div>
-<button class="btn solid" type="submit">Send message</button>
+<button class="btn dark" type="submit">Send message</button>
 <p class="form-note" role="status" aria-live="polite"></p>
 </form>`
       : "";
     const signoff = owner ? `<p class="signoff"${mark(SITE, "owner")}>Thank you,<br>${esc(owner)}</p>` : "";
     return `<section id="contact" class="contact${map ? " has-map" : ""}">${map}<div class="wrap">
+<h2 class="title">Contact us</h2>
 <p class="lead"${mark(SITE, "contact_lead")}>${esc(site.contact_lead)}</p>
-<h2>Contact us</h2>
 ${form}
 ${lines.join("")}
 ${signoff}
@@ -336,7 +336,7 @@ ${kind}
       : "";
     const work = featured.length
       ? `<section class="work${still ? " has-bg" : ""}"><div class="wrap">
-<header class="section-head"><p class="label">Recent</p><h2>Works</h2></header>
+<header class="section-head"><h2 class="title">Recent works</h2></header>
 <div class="cards">${featured.map(card).join("")}</div>
 <p class="more"><a class="btn" href="work.html">See portfolio</a></p>
 </div></section>`
@@ -353,8 +353,8 @@ ${kind}
       : `<p class="soon">Client login coming soon</p>`;
     const clients = site.clients_title
       ? `<section id="clients" class="clients"><div class="wrap">
+<h2 class="title"${mark(SITE, "clients_label")}>${esc(site.clients_label || "For our clients")}</h2>
 <div class="clients-text">
-<h2 class="label"${mark(SITE, "clients_label")}>${esc(site.clients_label || "For our clients")}</h2>
 <p class="clients-title"${mark(SITE, "clients_title")}>${esc(site.clients_title)}</p>
 <p${mark(SITE, "clients_text")}>${esc(site.clients_text)}</p>
 ${login}
@@ -368,14 +368,16 @@ ${hero}
 </div>
 <div class="wrap">
 <h1${mark(SITE, "name")}>${esc(head)}${small}</h1>
+<div class="hero-foot">
 <p class="lede"${mark(SITE, "headline")}>${esc(site.headline)}</p>
 <p class="actions"><a class="btn solid" href="#contact">Start a project</a><a class="btn" href="work.html">See our work</a>${call}</p>
+</div>
 </div>
 </section>
 ${still ? `<div class="still">${backdrop(site.services_photo, "services_photo")}` : ""}
 ${approach}
 <section id="services" class="services${still ? " has-bg" : ""}"><div class="wrap">
-<h2 class="services-title">Services</h2>
+<h2 class="title">Services</h2>
 <div class="service-grid">${services}</div>
 </div></section>
 ${intro}

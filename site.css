@@ -13,6 +13,14 @@
   --slate: #597882;      /* philosophy block */
   --sand: #cdbda2;       /* accent block and drafting lines */
   --sand-pale: #f4f1ea;  /* sand, thinned out, behind the project cards */
+  --sand-light: #d9cdb8; /* every sand box and band: intro, cards, Experience, Contact */
+  --light: #e4ecee;      /* body text on dark */
+  --haze: #a7b8bd;       /* small capitals on dark */
+  --title: #7191a0;      /* big section titles on dark: the slate, lifted enough to read */
+  --deep-2: #2c4750;     /* boxes on a dark band */
+  --wash-dark: rgba(35, 56, 63, .9);     /* over the pinned photo: Services, Recent Works */
+  --wash-cream: rgba(244, 241, 234, .8); /* over the pinned photo: Design and build, About */
+  --track: .24em;        /* letter-spacing of every line of small capitals */
   --paper: #fafbfc;
   --muted: #56616b;
   --serif: "EB Garamond", Garamond, "Iowan Old Style", Georgia, serif;
@@ -23,7 +31,7 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 5rem; -webkit-text-size-adjust: 100%; }
-body { margin: 0; background: var(--paper); color: var(--ink); font: 400 1.0625rem/1.65 var(--sans); }
+body { margin: 0; background: var(--sand-pale); color: var(--ink); font: 400 1rem/1.65 var(--sans); }
 main { overflow-x: clip; }
 img { display: block; max-width: 100%; }
 a { color: inherit; }
@@ -31,12 +39,23 @@ h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 500; line-height
 p, figure, blockquote { margin: 0; }
 :focus-visible { outline: 2px solid var(--sand); outline-offset: 3px; }
 .wrap { width: 100%; max-width: 74rem; margin-inline: auto; padding-inline: var(--gutter); }
-.label { font: 500 .75rem/1.4 var(--sans); letter-spacing: .3em; text-transform: uppercase; }
+/* The four kinds of text on the site, each set one way everywhere:
+   .label  small capitals over or beside something (sand on dark, navy on light)
+   .title  the big name of a section (slate on dark, deep on light)
+   h3      the name of one item in a section (sand on dark, navy on light)
+   .say    a sentence set large in the serif: statements, quotes, leads */
+.label { font: 500 .75rem/1.4 var(--sans); letter-spacing: var(--track); text-transform: uppercase; }
+.title { margin-right: -.3em; font: 500 clamp(1.9rem, 5.2vw, 3.5rem)/1.1 var(--sans); letter-spacing: .3em; text-transform: uppercase; text-align: center; color: var(--deep); }
+h3, .experience h2 { font-size: clamp(1.5rem, 2.2vw, 1.8rem); line-height: 1.2; }
+.say, .approach-text p, .intro-box, .contact .lead, .clients-title, .philosophy blockquote, .page-head .lede { font: 400 clamp(1.3rem, 2.2vw, 1.6rem)/1.45 var(--serif); }
+.philosophy blockquote, .page-head .lede { font-style: italic; }
 .skip { position: absolute; left: -999rem; }
 .skip:focus { left: 1rem; top: 1rem; z-index: 20; padding: .5rem 1rem; background: #fff; }
 
-.btn { display: inline-block; padding: .9rem 1.6rem; border: 1px solid currentColor; font: 500 .75rem/1 var(--sans); letter-spacing: .28em; text-transform: uppercase; text-decoration: none; transition: background-color .2s, color .2s, border-color .2s; }
-.btn:hover { background: var(--ink); border-color: var(--ink); color: #fff; }
+.btn { display: inline-block; padding: .9rem 1.6rem; border: 1px solid currentColor; font: 500 .75rem/1 var(--sans); letter-spacing: var(--track); text-transform: uppercase; text-decoration: none; transition: background-color .2s, color .2s, border-color .2s; }
+.btn:hover { background: var(--sand); border-color: var(--sand); color: var(--ink); }
+.btn.dark { background: var(--deep); border-color: var(--deep); color: #fff; }   /* the filled button on a light band */
+.btn.dark:hover { background: var(--ink); border-color: var(--ink); color: #fff; }
 .btn.solid { background: var(--sand); border-color: var(--sand); color: var(--ink); }
 .btn.solid:hover { background: #fff; border-color: #fff; color: var(--ink); }
 
@@ -51,17 +70,17 @@ p, figure, blockquote { margin: 0; }
 .top .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem 2rem; padding-block: .85rem; }
 .brand { display: flex; align-items: center; gap: .85rem; text-transform: uppercase; text-decoration: none; }
 /* The logo, drawn in one flat colour (the menu's) by using the file as a stencil. */
-.brand .mark { flex: none; width: 2.75rem; height: 2.75rem; background: rgba(255, 255, 255, .82); -webkit-mask: url(logo.svg) center / contain no-repeat; mask: url(logo.svg) center / contain no-repeat; }
+.brand .mark { flex: none; width: 2.75rem; height: 2.75rem; background: var(--light); -webkit-mask: url(logo.svg) center / contain no-repeat; mask: url(logo.svg) center / contain no-repeat; }
 .brand .words { display: grid; gap: .35rem; }
 .brand b { font: 400 1.5rem/1 var(--serif); letter-spacing: .22em; color: var(--sand); }
-.brand small { font: 400 .625rem/1 var(--sans); letter-spacing: .34em; color: #a7b8bd; }
+.brand small { font: 400 .625rem/1 var(--sans); letter-spacing: .34em; color: var(--haze); }
 .top nav { display: flex; align-items: center; gap: 1.75rem; margin-left: auto; max-width: 100%; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
 .top nav::-webkit-scrollbar { display: none; }
-.top nav a { padding-block: .5rem; border-bottom: 1px solid transparent; font: 400 .75rem/1 var(--sans); letter-spacing: .22em; text-transform: uppercase; text-decoration: none; color: rgba(255, 255, 255, .82); }
+.top nav a { padding-block: .5rem; border-bottom: 1px solid transparent; font: 500 .75rem/1 var(--sans); letter-spacing: var(--track); text-transform: uppercase; text-decoration: none; color: var(--light); }
 .top nav a:hover, .top nav a[aria-current] { color: #fff; border-bottom-color: var(--sand); }
-.top .tel { font: 400 .9375rem/1 var(--sans); letter-spacing: .06em; text-decoration: none; white-space: nowrap; color: var(--sand); }
+.top .tel { font: 500 .75rem/1 var(--sans); letter-spacing: .12em; text-decoration: none; white-space: nowrap; color: var(--sand); }
 .top .tel:hover { color: #fff; }
-.top .login { padding: .8rem 1.1rem; background: var(--sand); color: var(--ink); font: 500 .75rem/1 var(--sans); letter-spacing: .22em; text-transform: uppercase; text-decoration: none; white-space: nowrap; }
+.top .login { padding: .8rem 1.1rem; background: var(--sand); color: var(--ink); font: 500 .75rem/1 var(--sans); letter-spacing: var(--track); text-transform: uppercase; text-decoration: none; white-space: nowrap; }
 .top .login:hover { background: #fff; }
 
 /* ---------- home: hero ---------- */
@@ -79,35 +98,35 @@ p, figure, blockquote { margin: 0; }
 .hero-nav .dot[aria-current]::before { background: var(--sand); border-color: var(--sand); }
 .hero::after { content: ""; position: absolute; inset: 0; background: rgba(35, 56, 63, .58); }
 .hero > .wrap { position: relative; z-index: 1; }   /* above the wash */   /* an even wash: the words sit in the middle of the photo */
-.hero > .wrap { padding-block: clamp(3rem, 8vw, 5.5rem); }
+/* The name stands alone in the middle of the photo; the tagline and buttons sit at its foot. */
+.hero > .wrap { align-self: stretch; display: grid; grid-template-rows: 1fr auto; align-items: center; gap: 2rem; padding-block: clamp(3rem, 8vw, 5.5rem) clamp(2rem, 5vw, 3.25rem); }
 .hero h1 { font-weight: 400; font-size: clamp(1.9rem, 5.6vw, 4.5rem); letter-spacing: .14em; text-transform: uppercase; color: var(--sand); }
 .hero h1 { margin-right: -.14em; }   /* the last letter's spacing would push the name off centre */
-.hero h1 small { display: block; margin: 1.1rem calc(.14em - .55em) 0 0; font: 500 clamp(.8rem, 1.5vw, 1.05rem)/1 var(--sans); letter-spacing: .55em; color: #f4f1ea; }
-.hero .lede { max-width: 46ch; margin: 1.9rem auto 0; font: 400 clamp(1rem, 1.7vw, 1.2rem)/1.6 var(--sans); }
-.actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2.25rem; }
+.hero h1 small { display: block; margin: 1.1rem calc(.14em - .55em) 0 0; font: 500 clamp(.8rem, 1.5vw, 1.05rem)/1 var(--sans); letter-spacing: .55em; color: var(--light); }
+.hero .lede { max-width: 46ch; margin: 0 auto; font-size: clamp(1rem, 1.6vw, 1.125rem); color: var(--light); }
+.actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; }
 
 /* ---------- home: intro ---------- */
 /* A cream box under Design-and-build, held in from both sides, whose lower edge laps onto Services. */
 .intro { --lap: clamp(2rem, 4vw, 3.25rem); position: relative; z-index: 1; background: var(--sand-pale); text-align: center; }
 .still > .intro { isolation: isolate; background: none; }
-.still > .intro::after { content: ""; position: absolute; inset: 0; z-index: -1; background: rgba(244, 241, 234, .8); }   /* the same cream wash as the band above */
-.intro-box { position: relative; top: var(--lap); padding: clamp(1.75rem, 4vw, 3rem) clamp(1.5rem, 5vw, 4rem); background: #d9cdb8;   /* the Experience box's sand, a shade lighter */ color: var(--ink); box-shadow: 0 1.25rem 2.5rem -1rem rgba(25, 42, 61, .35); font: 400 clamp(1.25rem, 2.3vw, 1.8rem)/1.42 var(--serif); text-wrap: balance; }
+.still > .intro::after { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--wash-cream); }   /* the same cream wash as the band above */
+.intro-box { position: relative; top: var(--lap); padding: clamp(1.75rem, 4vw, 3rem) clamp(1.5rem, 5vw, 4rem); background: var(--sand-light); color: var(--ink); box-shadow: 0 1.25rem 2.5rem -1rem rgba(25, 42, 61, .35); text-wrap: balance; }
 .intro-box .towns { margin-top: 1.75rem; }
 .intro + section { padding-top: calc(var(--band) + clamp(2rem, 4vw, 3.25rem)); }   /* room for the box that laps in from above */
 .approach:has(+ .intro), .services:has(+ .intro) { padding-bottom: clamp(2rem, 5vw, 3.5rem); }
 /* Under Services the box sits on About's cream with only its top edge lapping up onto the teal. */
 .services + .intro { padding-bottom: clamp(2.5rem, 6vw, 4.5rem); }
-.services + .intro::after { background: linear-gradient(to bottom, rgba(35, 56, 63, .9) var(--lap), rgba(244, 241, 234, .78) var(--lap)); }
+.services + .intro::after { background: linear-gradient(to bottom, var(--wash-dark) var(--lap), var(--wash-cream) var(--lap)); }
 .services + .intro .intro-box { top: 0; }
 .services:has(+ .intro) { padding-bottom: var(--band); }
 
 /* ---------- home: design and build ---------- */
 .approach { padding-block: var(--band); background: var(--sand-pale); }
 .approach .wrap { display: grid; gap: 1.5rem clamp(2.5rem, 6vw, 5rem); }
-.approach h2 { padding-top: 1.6rem; border-top: 1px solid var(--sand); color: var(--muted); line-height: 1.9; }
+.approach h2 { padding-top: 1.6rem; border-top: 1px solid var(--sand); color: var(--ink); line-height: 1.9; }
 .approach-text { max-width: none; }   /* fills its column, so it ends at the page margin like the heading starts at one */
 @media (min-width: 40rem) { .approach-text { text-align: justify; } }   /* straight edges both sides; on a phone that would open gaps between words */
-.approach-text p { font: 400 clamp(1.3rem, 2.2vw, 1.6rem)/1.45 var(--serif); }
 .approach-text p + p { margin-top: 1.1rem; }
 
 /* ---------- home: services ---------- */
@@ -120,24 +139,21 @@ p, figure, blockquote { margin: 0; }
 .still > .bg { position: fixed; top: 0; left: 0; z-index: -2; width: 100%; height: 100vh; height: 100lvh; object-fit: cover; }
 .still > .has-bg { position: relative; isolation: isolate; background: none; }
 .has-bg::after { content: ""; position: absolute; inset: 0; z-index: -1; }
-.services.has-bg::after { background: rgba(35, 56, 63, .9); }   /* the dark slate of the top bar, with the photo just showing through */
-.work.has-bg::after { background: rgba(36, 70, 83, .84); }
+.services.has-bg::after, .work.has-bg::after { background: var(--wash-dark); }   /* the dark slate of the top bar, with the photo just showing through */
 /* The teal of Services and Recent Works runs a little way into About at the top and bottom, and the
    Philosophy and Experience boxes sit flush with About's edges, so each box laps onto its neighbour. */
 .about.has-bg { --lap: clamp(2rem, 4vw, 3.25rem); padding-block: 0; }
-.approach.has-bg::after { background: rgba(244, 241, 234, .8); }
+.approach.has-bg::after { background: var(--wash-cream); }
 .approach.has-bg h2 { color: var(--ink); }   /* grey would be too faint over the photo */
-.about.has-bg::after { background: linear-gradient(to bottom, rgba(36, 70, 83, .84) var(--lap), rgba(244, 241, 234, .78) var(--lap), rgba(244, 241, 234, .78) calc(100% - var(--lap)), rgba(36, 70, 83, .84) calc(100% - var(--lap))); }
+.about.has-bg::after { background: linear-gradient(to bottom, var(--wash-dark) var(--lap), var(--wash-cream) var(--lap), var(--wash-cream) calc(100% - var(--lap)), var(--wash-dark) calc(100% - var(--lap))); }
 .about.has-bg .experience { align-self: end; }
-.intro + .about.has-bg::after { background: linear-gradient(to bottom, rgba(244, 241, 234, .78) calc(100% - var(--lap)), rgba(36, 70, 83, .84) calc(100% - var(--lap))); }
-.work.has-bg .section-head, .work.has-bg .section-head .label, .work.has-bg .more { color: #fff; }
-.work.has-bg .more .btn:hover { background: var(--sand); border-color: var(--sand); color: var(--ink); }
-.ghost { transform: translateX(var(--drift, 0)); margin-bottom: -.2em; overflow: hidden; font: 400 clamp(2.6rem, 11vw, 8rem)/1 var(--sans); letter-spacing: .18em; text-transform: uppercase; text-align: right; color: rgba(255, 255, 255, .07); user-select: none; }
-.services-title { margin-right: -.3em; font: 500 clamp(2.2rem, 6vw, 4rem)/1 var(--sans); letter-spacing: .3em; text-transform: uppercase; text-align: center; color: var(--slate); }
+.intro + .about.has-bg::after { background: linear-gradient(to bottom, var(--wash-cream) calc(100% - var(--lap)), var(--wash-dark) calc(100% - var(--lap))); }
+.services .title, .work.has-bg .title, .clients .title { color: var(--title); }
+.work.has-bg .more { color: #fff; }
 .service-grid { display: grid; gap: 3rem clamp(2rem, 4vw, 3.5rem); margin-top: clamp(2.5rem, 6vw, 4.5rem); }
 .service .icon { display: block; margin-bottom: 1.1rem; color: var(--sand); }
-.service h3 { margin-bottom: .9rem; font-size: clamp(1.5rem, 2.2vw, 1.8rem); line-height: 1.2; color: var(--sand); }
-.service p { max-width: 60ch; font-size: 1rem; line-height: 1.65; color: #e4ecee; }
+.service h3 { margin-bottom: .9rem; color: var(--sand); }
+.service p { max-width: 60ch; color: var(--light); }
 .service p + p { margin-top: .9rem; }
 
 /* ---------- home: philosophy, portrait, experience ---------- */
@@ -147,51 +163,44 @@ p, figure, blockquote { margin: 0; }
 .philosophy::before { content: ""; position: absolute; z-index: -1; inset: 0; background: var(--slate); }   /* stops at the page margin, like the photo on the other side */
 .philosophy { padding-inline: clamp(1.5rem, 4vw, 3.5rem); }
 .about-grid > * { position: relative; z-index: 0; }
-.philosophy blockquote { margin-top: 1.5rem; font: italic 400 clamp(1.25rem, 2vw, 1.55rem)/1.5 var(--serif); }
-.by { margin-top: 1.5rem; font: 500 .8125rem/1 var(--sans); letter-spacing: .3em; text-transform: uppercase; color: #e9e1d2; }
+.philosophy blockquote { margin-top: 1.5rem; }
+.by { margin-top: 1.5rem; font: 500 .75rem/1 var(--sans); letter-spacing: var(--track); text-transform: uppercase; }   /* white, like the rest of the slate box: sand is too faint on it */
 .by::before { content: ""; display: inline-block; width: 2.5rem; height: 1px; margin-right: 1rem; vertical-align: middle; background: var(--sand); }
 .portrait { z-index: 1; width: min(92%, 26rem); margin: -2.75rem auto; box-shadow: 0 1.25rem 2.5rem rgba(25, 42, 61, .22); }   /* laps over the box above and the box below */
 .philosophy { padding-bottom: calc(clamp(2.25rem, 5vw, 4rem) + 2.75rem); }
 .experience { padding-top: calc(clamp(1.75rem, 4vw, 3rem) + 2.75rem); }
 .portrait img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%; }
-.experience { padding: clamp(1.75rem, 4vw, 3rem); background: var(--sand); }
-.experience h2 { margin-bottom: 1rem; font-size: clamp(1.7rem, 3vw, 2.2rem); }
-.experience p { font-size: 1rem; }
+.experience { padding: clamp(1.75rem, 4vw, 3rem); background: var(--sand-light); }
+.experience h2 { margin-bottom: 1rem; }
 
 /* ---------- project cards (home and Works) ---------- */
 .work { padding-block: var(--band); background: var(--sand-pale); }
 .section-head { margin-bottom: clamp(2rem, 5vw, 3.5rem); text-align: center; }
-.section-head .label { color: var(--muted); letter-spacing: .6em; }
-.section-head h2 { margin-top: .6rem; font-weight: 400; font-size: clamp(2rem, 4vw, 2.75rem); letter-spacing: .14em; text-transform: uppercase; }
 .cards { display: grid; gap: clamp(2rem, 5vw, 3.5rem); }
-.card { display: grid; background: #fff; box-shadow: 0 24px 48px -32px rgba(25, 42, 61, .45); }
-.work.has-bg .card { background: #d9cdb8; }   /* cream on the home page, over the photo; white on the portfolio page, whose ground is already cream */
+.card { display: grid; background: var(--sand-light); box-shadow: 0 24px 48px -32px rgba(25, 42, 61, .45); }
 .card-photo { display: block; min-height: 12rem; background: var(--sand); }
 .card-photo img { width: 100%; height: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
 .card-text { display: grid; align-content: center; justify-items: center; gap: 1.1rem; padding: clamp(2rem, 5vw, 3.75rem); text-align: center; }
-.card-text .label { color: var(--muted); }
-.work.has-bg .card-text .label, .work.has-bg .card-text > p:not(.label) { color: var(--ink); }   /* grey is too faint on the sand */
-.card h3 { font: 500 clamp(1.1rem, 2vw, 1.35rem)/1.5 var(--sans); letter-spacing: .24em; text-transform: uppercase; }
-.rule { width: 2.75rem; height: 1px; background: var(--sand); }
-.card-text > p:not(.label) { max-width: 32ch; color: var(--muted); }
+.rule { width: 2.75rem; height: 1px; background: var(--ink); opacity: .35; }
+.card-text > p:not(.label) { max-width: 32ch; }
 .more { margin-top: clamp(2rem, 5vw, 3.5rem); text-align: center; }
 
 /* ---------- town chips (in the intro box) ---------- */
 .towns { display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem; max-width: 52rem; margin: 2.25rem auto 0; padding: 0; list-style: none; }
-.towns li { padding: .7rem 1.2rem; border: 1px solid rgba(25, 42, 61, .45); font: 500 .75rem/1 var(--sans); letter-spacing: .22em; text-transform: uppercase; }
+.towns li { padding: .7rem 1.2rem; border: 1px solid rgba(25, 42, 61, .45); font: 500 .75rem/1 var(--sans); letter-spacing: var(--track); text-transform: uppercase; }
 
 /* ---------- inner pages ---------- */
 .page-head { padding-block: clamp(3rem, 7vw, 5rem) clamp(5rem, 11vw, 8rem); background: var(--deep); color: #fff; }
 .page-head .label { margin-bottom: 1rem; color: var(--sand); }
-.page-head h1 { font-weight: 400; font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: .1em; text-transform: uppercase; }
-.page-head .lede { max-width: 44ch; margin-top: 1.25rem; font: italic 400 clamp(1.2rem, 2.2vw, 1.5rem)/1.4 var(--serif); color: rgba(255, 255, 255, .88); }
+.page-head h1 { font-weight: 400; font-size: clamp(1.9rem, 5vw, 3.5rem); letter-spacing: .14em; text-transform: uppercase; color: var(--sand); }
+.page-head .lede { max-width: 44ch; margin-top: 1.25rem; color: var(--light); }
 .work.plain, .project { margin-top: clamp(-5.5rem, -7vw, -3rem); padding-block: 0 var(--band); background: none; }
 .cover { margin-bottom: clamp(2.5rem, 6vw, 4rem); background: var(--sand-pale); }
 .cover img { width: 100%; max-height: 80vh; object-fit: cover; }
-.prose { max-width: 65ch; margin: 0 auto clamp(2.5rem, 6vw, 4rem); padding: clamp(1.5rem, 4vw, 2.5rem); background: #fff; font-size: 1.0625rem; }
+.prose { max-width: 65ch; margin: 0 auto clamp(2.5rem, 6vw, 4rem); padding: clamp(1.5rem, 4vw, 2.5rem); background: #fff; }
 .project > .wrap > .prose:first-child { box-shadow: 0 24px 48px -32px rgba(25, 42, 61, .45); }
 .prose > * + * { margin-top: 1.1em; }
-.prose h2, .prose h3 { margin-top: 1.6em; font-size: 1.6rem; }
+.prose h2, .prose h3 { margin-top: 1.6em; font-size: clamp(1.5rem, 2.2vw, 1.8rem); }
 .prose h3 { font-size: 1.3rem; }
 .prose a { color: var(--slate); text-underline-offset: .15em; }
 .prose ul, .prose ol { padding-left: 1.25rem; }
@@ -200,7 +209,7 @@ p, figure, blockquote { margin: 0; }
 .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); gap: .75rem; }
 .gallery img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; transition: opacity .2s; }
 .gallery a:hover img { opacity: .86; }
-.pager { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; margin-top: clamp(2.5rem, 6vw, 4rem); padding-top: 1.5rem; border-top: 1px solid var(--sand); font: 500 .75rem/1.5 var(--sans); letter-spacing: .24em; text-transform: uppercase; }
+.pager { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; margin-top: clamp(2.5rem, 6vw, 4rem); padding-top: 1.5rem; border-top: 1px solid var(--sand); font: 500 .75rem/1.5 var(--sans); letter-spacing: var(--track); text-transform: uppercase; }
 .pager a { text-decoration: none; }
 .pager a:hover { color: var(--slate); }
 
@@ -215,20 +224,19 @@ p, figure, blockquote { margin: 0; }
 .lightbox [data-act="next"] { bottom: .5rem; right: .5rem; }
 
 /* ---------- contact and footer ---------- */
-.contact { padding-block: var(--band); background: var(--sand); text-align: center; }
+.contact { padding-block: var(--band); background: var(--sand-light); text-align: center; }
 .contact.has-map { position: relative; isolation: isolate; overflow: hidden; }
 .contact .map { position: absolute; inset: -9rem 0; z-index: -2; width: 100%; height: calc(100% + 18rem); border: 0; pointer-events: none; }   /* taller than the band, so Google's own buttons and footer fall outside it */
-.contact.has-map::after { content: ""; position: absolute; inset: 0; z-index: -1; background: rgba(205, 189, 162, .6); }
-.contact .lead { max-width: 44ch; margin-inline: auto; font: 400 clamp(1.15rem, 2vw, 1.4rem)/1.4 var(--serif); letter-spacing: .08em; text-wrap: balance; }
-.contact h2 { margin-block: .75rem 2.25rem; font-weight: 400; font-size: clamp(2.2rem, 5vw, 3.25rem); letter-spacing: .14em; text-transform: uppercase; }
+.contact.has-map::after { content: ""; position: absolute; inset: 0; z-index: -1; background: rgba(217, 205, 184, .6); }
+.contact .lead { max-width: 44ch; margin: 1.25rem auto 2.25rem; text-wrap: balance; }
 .contact .phone, .contact .email { display: inline-block; margin: .5rem 0 1.75rem; font: 400 clamp(1.8rem, 4.5vw, 2.75rem)/1.2 var(--serif); letter-spacing: .08em; text-decoration: none; border-bottom: 1px solid transparent; }
 .contact .email { font-size: clamp(1.2rem, 3vw, 1.6rem); overflow-wrap: anywhere; }
 .contact .phone:hover, .contact .email:hover { border-bottom-color: var(--ink); }
 .signoff { margin-top: .5rem; font: italic 400 1.3rem/1.4 var(--serif); }
-.foot { padding-block: 2.5rem; background: var(--deep); color: rgba(255, 255, 255, .82); font-size: .875rem; }
+.foot { padding-block: 2.5rem; background: var(--deep); color: var(--light); font-size: .875rem; }
 .foot .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; }
 .foot img { width: 3.5rem; height: 3.5rem; }
-.foot .small { margin-left: auto; font-size: .8125rem; color: rgba(255, 255, 255, .62); }
+.foot .small { margin-left: auto; font-size: .8125rem; color: var(--haze); }
 .foot a { color: inherit; }
 
 /* ---------- fade in on scroll (site.js adds .reveal to blocks below the fold) ---------- */
@@ -284,13 +292,12 @@ p, figure, blockquote { margin: 0; }
 .form > .label { margin-bottom: 1.25rem; text-align: center; }
 .form .hp { position: absolute; left: -200vw; }   /* a trap for spam robots; people never see it */
 .fields { display: grid; gap: 1rem; }
-.form label { display: grid; gap: .4rem; font: 500 .75rem/1.4 var(--sans); letter-spacing: .16em; text-transform: uppercase; }
+.form label { display: grid; gap: .4rem; font: 500 .75rem/1.4 var(--sans); letter-spacing: var(--track); text-transform: uppercase; }
 .form label small { font-size: inherit; letter-spacing: .08em; text-transform: none; }
 .form input, .form select, .form textarea { width: 100%; padding: .8rem .9rem; border: 1px solid rgba(25, 42, 61, .35); border-radius: 0; background: rgba(255, 255, 255, .88); color: var(--ink); font: 400 1rem/1.4 var(--sans); letter-spacing: 0; text-transform: none; }
 .form textarea { resize: vertical; min-height: 8rem; }
 .form input:focus, .form select:focus, .form textarea:focus { outline: 2px solid var(--deep); outline-offset: 1px; background: #fff; }
-.form button.btn { display: block; margin: 1.5rem auto 0; cursor: pointer; background: var(--deep); border-color: var(--deep); color: #fff; }
-.form button.btn:hover { background: var(--ink); border-color: var(--ink); }
+.form button.btn { display: block; margin: 1.5rem auto 0; cursor: pointer; }
 .form button.btn[disabled] { opacity: .6; cursor: default; }
 .form-note { min-height: 1.5em; margin-top: 1rem; text-align: center; font: 400 1.1rem/1.4 var(--serif); }
 .form-note.bad { color: #7a2e30; }
@@ -300,18 +307,17 @@ p, figure, blockquote { margin: 0; }
 }
 
 /* ---------- home: for our clients ---------- */
-.clients { padding-block: var(--band); background: #2c4750; color: #fff; }
+.clients { padding-block: var(--band); background: var(--deep); border-top: 1px solid rgba(205, 189, 162, .25); color: #fff; }
 .clients .wrap { display: grid; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
-.clients .label { color: var(--sand); }
-.clients-title { margin: 1rem 0 1.25rem; font: 500 clamp(1.9rem, 4vw, 2.75rem)/1.15 var(--serif); }
-.clients-text > p:not(.clients-title):not(.soon) { max-width: 46ch; font-size: 1.0625rem; line-height: 1.65; color: #e4ecee; }
+.clients-title { margin-bottom: 1rem; color: var(--sand); }
+.clients-text > p:not(.clients-title):not(.soon) { max-width: 46ch; color: var(--light); }
 .clients .btn, .clients .soon { margin-top: 1.75rem; }
-.clients .soon { display: inline-block; padding: .9rem 1.6rem; border: 1px solid rgba(205, 189, 162, .6); color: var(--sand); font: 500 .75rem/1 var(--sans); letter-spacing: .28em; text-transform: uppercase; }
+.clients .soon { display: inline-block; padding: .9rem 1.6rem; border: 1px solid rgba(205, 189, 162, .6); color: var(--sand); font: 500 .75rem/1 var(--sans); letter-spacing: var(--track); text-transform: uppercase; }
 .points { display: grid; gap: 1rem; }
-.point { padding: 1.5rem; background: var(--deep); }
-.point h3 { margin-bottom: .5rem; font: 400 1.4rem/1.2 var(--serif); color: var(--sand); }
-.point p { font-size: .9375rem; line-height: 1.55; color: #e4ecee; }
+.point { padding: 1.5rem; background: var(--deep-2); }
+.point h3 { margin-bottom: .5rem; color: var(--sand); }
+.point p { color: var(--light); }
 @media (min-width: 34rem) { .points { grid-template-columns: 1fr 1fr; } }
-@media (min-width: 60rem) { .clients .wrap { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 60rem) { .clients .wrap { grid-template-columns: 1fr 1fr; } .clients .title { grid-column: 1 / -1; } }
 
 @media (min-width: 72rem) { .service-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
