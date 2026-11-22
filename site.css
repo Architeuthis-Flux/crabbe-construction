@@ -81,7 +81,7 @@ p, figure, blockquote { margin: 0; }
 
 /* ---------- home: intro ---------- */
 .intro { padding-block: var(--band); background: var(--sand-pale); text-align: center; }
-.intro p { max-width: 38ch; margin-inline: auto; font: 400 clamp(1.35rem, 2.5vw, 1.95rem)/1.42 var(--serif); text-wrap: balance; }
+.intro p { max-width: 62ch; margin-inline: auto; font: 400 clamp(1.35rem, 2.5vw, 1.95rem)/1.42 var(--serif); text-wrap: balance; }
 
 /* ---------- home: design and build ---------- */
 .approach { padding-block: var(--band); background: var(--sand-pale); }
