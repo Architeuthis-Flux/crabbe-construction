@@ -264,6 +264,7 @@ p, figure, blockquote { margin: 0; }
   .card:nth-child(even) .card-photo { order: 2; }
 }
 @media (min-width: 60rem) {
+  .approach + .intro .intro-box { width: 68%; margin-left: clamp(2rem, 6vw, 5rem); margin-top: -1.75rem; }   /* on the left, held in from the page margin */
   .about-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0; align-items: start; }
   .philosophy { grid-area: 1 / 1 / 2 / 9; padding: clamp(4rem, 8vw, 7rem) calc(25% + clamp(2rem, 4vw, 3.5rem)) clamp(11rem, 17vw, 15rem) clamp(2.5rem, 5vw, 4.5rem); }   /* the big slate box: two-thirds of the row, the portrait laps over its right side */
   .portrait { grid-area: 1 / 7 / 3 / 12; z-index: 1; width: auto; margin: clamp(5rem, 9vw, 8rem) 0 0 1rem; }

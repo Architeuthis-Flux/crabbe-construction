@@ -341,7 +341,7 @@ ${kind}
 <p class="more"><a class="btn" href="work.html">See portfolio</a></p>
 </div></section>`
       : "";
-    // The intro sits in a box under Services, on the same teal.
+    // The intro sits in a box just under Design-and-build, on the left, lapping down onto Services.
     const chips = towns.length ? `<ul class="towns"${mark(SITE, "towns")}>${towns.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : "";
     const intro = site.intro ? `<div class="intro"><div class="wrap"><div class="intro-box"><p${mark(SITE, "intro")}>${esc(site.intro)}</p>${chips}</div></div></div>` : "";
     // What clients get: their own project page. The login button appears once the portal has an
@@ -377,11 +377,11 @@ ${hero}
 </div></div>
 ${still ? `<div class="still">${backdrop(site.services_photo, "services_photo")}` : ""}
 ${approach}
+${intro}
 <section id="services" class="services${still ? " has-bg" : ""}"><div class="wrap">
 <h2 class="services-title"><span>Services</span></h2>
 <div class="service-grid">${services}</div>
 </div></section>
-${intro}
 <section id="about" class="about${still ? " has-bg" : ""}"><div class="wrap about-grid">
 <div class="philosophy"><h2>Philosophy</h2><blockquote${mark(SITE, "philosophy")}><p>&ldquo;${esc(site.philosophy)}&rdquo;</p></blockquote>${by}</div>
 ${portrait}
