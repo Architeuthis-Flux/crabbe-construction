@@ -116,7 +116,8 @@ p, figure, blockquote { margin: 0; }
 .intro-text .nb { white-space: nowrap; }   /* hyphenated words such as built-ins stay on one line */
 .intro-text p + p { margin-top: .35em; text-align: center; text-wrap: balance; }   /* a closing line set on its own, centred */   /* straight edges both sides, like the other text boxes */
 .intro { padding-top: 1.25rem; }   /* padding, not a margin on the box: a margin would open a strip of bare photo between the bands */
-.intro-box .towns { margin-top: 1.75rem; }
+.intro-box .towns { gap: .6rem 2rem; max-width: none; margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--sand); }   /* one quiet line of town names under a hairline, not a row of buttons */
+.intro-box .towns li { padding: 0; border: 0; font-size: .7rem; letter-spacing: .2em; color: rgba(25, 42, 61, .72); white-space: nowrap; }
 .intro-box { max-width: 62rem; margin-inline: auto; }   /* centred under Design-and-build */
 .intro-box { background: var(--sand-soft); border: 1px solid var(--sand); }   /* the same pale card as the clients box */
 .intro.lead { padding-top: clamp(2.5rem, 6vw, 4.5rem); }
