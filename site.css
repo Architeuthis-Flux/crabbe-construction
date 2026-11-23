@@ -111,10 +111,10 @@ p, figure, blockquote { margin: 0; }
 .intro-box { position: relative; top: var(--lap); padding: clamp(1.75rem, 4vw, 3rem) clamp(1.5rem, 5vw, 4rem); background: var(--sand-light); color: var(--ink); box-shadow: 0 1.25rem 2.5rem -1rem rgba(25, 42, 61, .35); font: 400 clamp(1.25rem, 2.3vw, 1.8rem)/1.42 var(--serif); text-wrap: balance; }
 .intro-text p { text-align: justify; text-align-last: center; text-wrap: wrap; }
 .intro-text p + p { margin-top: .35em; text-align: center; text-wrap: balance; }   /* a closing line set on its own, centred */   /* straight edges both sides, like the other text boxes */
-.intro:has(.clients) { padding-top: 1.25rem; }   /* padding, not a margin on the box: a margin would open a strip of bare photo between the bands */
+.intro { padding-top: 1.25rem; }   /* padding, not a margin on the box: a margin would open a strip of bare photo between the bands */
 .intro-box .towns { margin-top: 1.75rem; }
-/* At the top of Recent Works: a centred cream box on the dark band, above the heading. */
-.work .intro-box { top: 0; max-width: 52rem; margin: 0 auto var(--band); text-align: center; }
+.intro-box { max-width: 52rem; margin-inline: auto; }   /* centred under Design-and-build */
+.intro-box + .clients { margin-top: clamp(1.5rem, 3vw, 2.5rem); }
 .intro + section { padding-top: calc(var(--band) + clamp(2rem, 4vw, 3.25rem)); }   /* room for the box that laps in from above */
 .approach:has(+ .intro), .services:has(+ .intro) { padding-bottom: clamp(2rem, 5vw, 3.5rem); }
 /* Under Services the box sits on About's cream with only its top edge lapping up onto the teal. */
@@ -170,11 +170,11 @@ p, figure, blockquote { margin: 0; }
    stands beside it a little lower, and the sand Experience box laps over both and hangs below. */
 .about-grid { display: grid; gap: 2.75rem; }
 .about-grid > * { position: relative; z-index: 0; }
-.philosophy { padding: clamp(2.25rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3.5rem) calc(clamp(2.25rem, 5vw, 4rem) + 2.75rem); background: var(--slate); color: #fff; }
-.philosophy h2 { font-size: clamp(1.9rem, 3vw, 2.5rem); }
+.philosophy { padding: clamp(2.25rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3.5rem) calc(clamp(2.25rem, 5vw, 4rem) + 2.75rem); background: var(--ink); color: #fff; }   /* the deep navy of the type, with sand accents: sits with the teal and tan instead of beside them */
+.philosophy h2 { font-size: clamp(1.9rem, 3vw, 2.5rem); color: var(--sand); }
 .philosophy blockquote { margin-top: 1.75rem; font: 400 1rem/1.75 var(--sans); color: var(--light); }
-.by { margin-top: 1.75rem; font: 500 .9375rem/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; }   /* white, like the rest of the slate box: sand is too faint on it */
-.by::after { content: ""; display: block; width: 3rem; height: 1px; margin-top: 1.75rem; background: rgba(255, 255, 255, .5); }
+.by { margin-top: 1.75rem; font: 500 .9375rem/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--sand); }
+.by::after { content: ""; display: block; width: 3rem; height: 1px; margin-top: 1.75rem; background: var(--sand); opacity: .7; }
 .portrait { z-index: 1; width: min(92%, 26rem); margin: -2.75rem auto; box-shadow: 0 1.25rem 2.5rem rgba(25, 42, 61, .28); }   /* laps over the box above and the box below */
 .portrait img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%; }
 .experience { padding: calc(clamp(1.75rem, 4vw, 3rem) + 2.75rem) clamp(1.75rem, 4vw, 3rem) clamp(1.75rem, 4vw, 3rem); background: var(--sand-light); box-shadow: 0 1.25rem 2.5rem -1rem rgba(25, 42, 61, .3); }
@@ -350,6 +350,13 @@ p, figure, blockquote { margin: 0; }
 .clients.boxed .point { padding: 0; background: none; }
 .clients.boxed .point h3 { margin-bottom: .3rem; font-size: 1.2rem; }
 .clients.boxed .point p { font-size: .875rem; }
+/* Its own tone: a pale card with dark type, so it reads apart from the dark Services band it laps onto. */
+.clients.boxed { background: var(--sand-pale); border-color: var(--sand); color: var(--ink); }
+.clients.boxed .label { color: var(--title); }
+.clients.boxed .clients-text > p:not(.clients-title):not(.soon), .clients.boxed .point p { color: var(--ink); }
+.clients.boxed .soon { border-color: var(--ink); color: var(--ink); }
+.clients.boxed .point h3 { color: var(--ink); }
+.clients.boxed .points, .clients.boxed .clients-in .points { border-color: var(--sand); }
 @media (min-width: 60rem) { .clients .wrap { grid-template-columns: 1fr 1fr; } }
 
 

@@ -334,12 +334,11 @@ ${kind}
 <div class="approach-text"${mark(SITE, "approach")}>${paras(site.approach)}</div>
 </div></section>`
       : "";
-    // The intro sits in a box at the top of Recent Works, with the towns we build in.
+    // The intro sits in a box under Design-and-build, with the towns we build in.
     const chips = towns.length ? `<ul class="towns"${mark(SITE, "towns")}>${towns.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : "";
     const introBox = site.intro ? `<div class="intro-box"><div class="intro-text"${mark(SITE, "intro")}>${paras(site.intro)}</div>${chips}</div>` : "";
     const work = featured.length
       ? `<section class="work${still ? " has-bg" : ""}"><div class="wrap">
-${introBox}
 <header class="section-head"><p class="label">Recent</p><h2>Works</h2></header>
 <div class="cards">${featured.map(card).join("")}</div>
 <p class="more"><a class="btn" href="work.html">See portfolio</a></p>
@@ -366,8 +365,8 @@ ${login}
 ${points ? `<div class="points">${points}</div>` : ""}
 </div></section>`
       : "";
-    // The clients box sits just under Design-and-build and laps down onto Services.
-    const intro = clients && boxed ? `<div class="intro"><div class="wrap">${clients}</div></div>` : "";
+    // Under Design-and-build: the intro box, centred, then the clients box, which laps down onto Services.
+    const intro = introBox || (clients && boxed) ? `<div class="intro"><div class="wrap">${introBox}${boxed ? clients : ""}</div></div>` : "";
     return `<section class="hero">
 <div class="hero-photos">
 ${hero}
@@ -395,7 +394,7 @@ ${portrait}
 </div></section>
 ${work}
 ${still ? "</div>" : ""}
-${intro ? "" : clients}`;
+${intro && boxed ? "" : clients}`;
   };
 
   const workPage = () => `${pageHead("Portfolio", "Works", "")}
