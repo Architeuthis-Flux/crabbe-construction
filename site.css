@@ -274,7 +274,7 @@ p, figure, blockquote { margin: 0; }
 }
 @media (min-width: 60rem) {
   .clients.boxed .clients-in { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 4vw, 3.5rem); align-items: center; }   /* words left, the four points right */
-  .clients.boxed .clients-in .points { margin-top: 0; padding-top: 0; border-top: 0; padding-left: clamp(2rem, 4vw, 3.5rem); border-left: 1px solid rgba(205, 189, 162, .25); }
+  .clients.boxed .clients-in .points { margin-top: 0; }
   .approach:has(+ .intro) { padding-bottom: .5rem; }   /* brings the box up close to the text (a negative margin here would stack the two cream washes into a pale stripe) */   /* on the left, held in from the page margin */
   .about-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0; align-items: start; }
   .philosophy { grid-area: 1 / 1 / 2 / 9; padding: clamp(4rem, 8vw, 7rem) calc(25% + clamp(2rem, 4vw, 3.5rem)) clamp(11rem, 17vw, 15rem) clamp(2.5rem, 5vw, 4.5rem); }   /* the big slate box: two-thirds of the row, the portrait laps over its right side */
@@ -350,8 +350,8 @@ p, figure, blockquote { margin: 0; }
 .clients.boxed .clients-title { margin: .75rem 0 1rem; font-size: clamp(1.6rem, 2.6vw, 2.1rem); }
 .clients.boxed .clients-text > p:not(.clients-title):not(.soon) { font-size: 1rem; }
 .clients.boxed .btn, .clients.boxed .soon { margin-top: 1.25rem; }
-.clients.boxed .points { margin-top: 1.75rem; padding-top: 1.5rem; border-top: 1px solid rgba(205, 189, 162, .25); gap: 1.25rem 1.5rem; }
-.clients.boxed .point { padding: 0; background: none; }
+.clients.boxed .points { margin-top: 1.75rem; gap: .9rem; }
+.clients.boxed .point { padding: 1.1rem 1.25rem 1.2rem; background: var(--sand); border-radius: .3rem; }   /* four small cards in the darker tan */
 .clients.boxed .point h3 { margin-bottom: .3rem; font-size: 1.2rem; }
 .clients.boxed .point p { font-size: .875rem; }
 /* Its own tone: a pale card with dark type, so it reads apart from the dark Services band it laps onto. */
@@ -360,7 +360,6 @@ p, figure, blockquote { margin: 0; }
 .clients.boxed .clients-text > p:not(.clients-title):not(.soon), .clients.boxed .point p { color: var(--ink); }
 .clients.boxed .soon { border-color: var(--ink); color: var(--ink); }
 .clients.boxed .point h3 { color: var(--ink); }
-.clients.boxed .points, .clients.boxed .clients-in .points { border-color: var(--sand); }
 @media (min-width: 60rem) { .clients .wrap { grid-template-columns: 1fr 1fr; } }
 
 
