@@ -356,10 +356,11 @@ p, figure, blockquote { margin: 0; }
 .clients.boxed .point p { font-size: .875rem; }
 /* Its own tone: a pale card with dark type, so it reads apart from the dark Services band it laps onto. */
 .clients.boxed { background: var(--sand-soft); border-color: var(--sand); color: var(--ink); }
-.clients.boxed .label { color: var(--title); }
-.clients.boxed .clients-text > p:not(.clients-title):not(.soon), .clients.boxed .point p { color: var(--ink); }
-.clients.boxed .soon { border-color: var(--ink); color: var(--ink); }
-.clients.boxed .point h3 { color: var(--ink); }
+.clients.boxed .label { color: #3a5a64; font-weight: 500; }   /* teal for the small heading and the card titles, navy for the big line, softer navy for the running text */
+.clients.boxed .clients-title { color: var(--ink); }
+.clients.boxed .clients-text > p:not(.clients-title):not(.soon), .clients.boxed .point p { color: rgba(25, 42, 61, .78); }
+.clients.boxed .soon { border-color: var(--deep); background: var(--deep); color: var(--sand-pale); }
+.clients.boxed .point h3 { color: #2f505a; font-weight: 500; }
 @media (min-width: 60rem) { .clients .wrap { grid-template-columns: 1fr 1fr; } }
 
 
