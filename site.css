@@ -116,7 +116,7 @@ p, figure, blockquote { margin: 0; }
 .intro-text p + p { margin-top: .35em; text-align: center; text-wrap: balance; }   /* a closing line set on its own, centred */   /* straight edges both sides, like the other text boxes */
 .intro { padding-top: 1.25rem; }   /* padding, not a margin on the box: a margin would open a strip of bare photo between the bands */
 .intro-box .towns { margin-top: 1.75rem; }
-.intro-box { max-width: 52rem; margin-inline: auto; }   /* centred under Design-and-build */
+.intro-box { max-width: 62rem; margin-inline: auto; }   /* centred under Design-and-build */
 .intro-box { background: var(--sand-soft); border: 1px solid var(--sand); }   /* the same pale card as the clients box */
 .intro.lead { padding-top: clamp(2.5rem, 6vw, 4.5rem); }
 .about.has-bg:has(+ .intro)::after { background: linear-gradient(to bottom, var(--wash-dark) var(--lap), var(--wash-cream) var(--lap)); }   /* cream to the bottom: the box below does the lapping onto Works */
