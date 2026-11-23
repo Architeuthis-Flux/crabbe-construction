@@ -334,8 +334,12 @@ ${kind}
 <div class="approach-text"${mark(SITE, "approach")}>${paras(site.approach)}</div>
 </div></section>`
       : "";
+    // The intro sits in a box at the top of Recent Works, with the towns we build in.
+    const chips = towns.length ? `<ul class="towns"${mark(SITE, "towns")}>${towns.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : "";
+    const introBox = site.intro ? `<div class="intro-box"><p${mark(SITE, "intro")}>${esc(site.intro)}</p>${chips}</div>` : "";
     const work = featured.length
       ? `<section class="work${still ? " has-bg" : ""}"><div class="wrap">
+${introBox}
 <header class="section-head"><p class="label">Recent</p><h2>Works</h2></header>
 <div class="cards">${featured.map(card).join("")}</div>
 <p class="more"><a class="btn" href="work.html">See portfolio</a></p>
@@ -350,7 +354,7 @@ ${kind}
       : `<p class="soon">Client login coming soon</p>`;
     // With the intro box on the page it sits beside it as a box of its own, inside Design-and-build;
     // without one it is a band of its own further down.
-    const boxed = !!site.intro;
+    const boxed = !!site.approach;
     const clients = site.clients_title
       ? `<section id="clients" class="clients${boxed ? " boxed" : ""}"><div class="${boxed ? "clients-in" : "wrap"}">
 <div class="clients-text">
@@ -362,9 +366,8 @@ ${login}
 ${points ? `<div class="points">${points}</div>` : ""}
 </div></section>`
       : "";
-    // The intro sits in a box just under Design-and-build, on the left, lapping down onto Services.
-    const chips = towns.length ? `<ul class="towns"${mark(SITE, "towns")}>${towns.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : "";
-    const intro = site.intro ? `<div class="intro"><div class="wrap"><div class="intro-box"><p${mark(SITE, "intro")}>${esc(site.intro)}</p>${chips}</div>${clients}</div></div>` : "";
+    // The clients box sits just under Design-and-build and laps down onto Services.
+    const intro = clients && boxed ? `<div class="intro"><div class="wrap">${clients}</div></div>` : "";
     return `<section class="hero">
 <div class="hero-photos">
 ${hero}
@@ -392,7 +395,7 @@ ${portrait}
 </div></section>
 ${work}
 ${still ? "</div>" : ""}
-${site.intro ? "" : clients}`;
+${intro ? "" : clients}`;
   };
 
   const workPage = () => `${pageHead("Portfolio", "Works", "")}

@@ -110,7 +110,10 @@ p, figure, blockquote { margin: 0; }
 .still > .intro::after { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--wash-cream); }   /* the same cream wash as the band above */
 .intro-box { position: relative; top: var(--lap); padding: clamp(1.75rem, 4vw, 3rem) clamp(1.5rem, 5vw, 4rem); background: var(--sand-light); color: var(--ink); box-shadow: 0 1.25rem 2.5rem -1rem rgba(25, 42, 61, .35); font: 400 clamp(1.25rem, 2.3vw, 1.8rem)/1.42 var(--serif); text-wrap: balance; }
 .intro-box > p { text-align: justify; text-wrap: wrap; }   /* straight edges both sides, like the other text boxes */
+.intro:has(.clients) { padding-top: 1.25rem; }   /* padding, not a margin on the box: a margin would open a strip of bare photo between the bands */
 .intro-box .towns { margin-top: 1.75rem; }
+/* At the top of Recent Works: a centred cream box on the dark band, above the heading. */
+.work .intro-box { top: 0; max-width: 52rem; margin: 0 auto var(--band); text-align: center; }
 .intro + section { padding-top: calc(var(--band) + clamp(2rem, 4vw, 3.25rem)); }   /* room for the box that laps in from above */
 .approach:has(+ .intro), .services:has(+ .intro) { padding-bottom: clamp(2rem, 5vw, 3.5rem); }
 /* Under Services the box sits on About's cream with only its top edge lapping up onto the teal. */
@@ -265,10 +268,8 @@ p, figure, blockquote { margin: 0; }
   .card:nth-child(even) .card-photo { order: 2; }
 }
 @media (min-width: 60rem) {
-  .approach + .intro .intro-box { width: 58%; margin-left: clamp(1rem, 2.5vw, 2rem); padding-block: clamp(2.5rem, 5vw, 4rem); }
-  .approach + .intro .wrap:has(.clients) { display: grid; grid-template-columns: 54fr 46fr; gap: clamp(1.25rem, 2.5vw, 2rem); align-items: start; }   /* cream box left, clients box right, a step lower */
-  .approach + .intro .wrap:has(.clients) .intro-box { width: auto; }
-  .approach + .intro .clients.boxed { margin-top: clamp(2.5rem, 5vw, 4rem); }
+  .clients.boxed .clients-in { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 4vw, 3.5rem); align-items: center; }   /* words left, the four points right */
+  .clients.boxed .clients-in .points { margin-top: 0; padding-top: 0; border-top: 0; padding-left: clamp(2rem, 4vw, 3.5rem); border-left: 1px solid rgba(205, 189, 162, .25); }
   .approach:has(+ .intro) { padding-bottom: .5rem; }   /* brings the box up close to the text (a negative margin here would stack the two cream washes into a pale stripe) */   /* on the left, held in from the page margin */
   .about-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0; align-items: start; }
   .philosophy { grid-area: 1 / 1 / 2 / 9; padding: clamp(4rem, 8vw, 7rem) calc(25% + clamp(2rem, 4vw, 3.5rem)) clamp(11rem, 17vw, 15rem) clamp(2.5rem, 5vw, 4.5rem); }   /* the big slate box: two-thirds of the row, the portrait laps over its right side */
@@ -340,7 +341,7 @@ p, figure, blockquote { margin: 0; }
 .point p { font-size: .9375rem; line-height: 1.55; color: var(--light); }
 @media (min-width: 34rem) { .points { grid-template-columns: 1fr 1fr; } }
 /* Inside Design-and-build it is a dark box beside the cream one, and laps down onto Services with it. */
-.clients.boxed { position: relative; top: var(--lap); margin-top: 1.25rem; padding: clamp(1.75rem, 4vw, 2.75rem); border: 1px solid rgba(205, 189, 162, .3); box-shadow: 0 1.25rem 2.5rem -1rem rgba(25, 42, 61, .45); text-align: left; scroll-margin-top: 6rem; }
+.clients.boxed { position: relative; top: var(--lap); padding: clamp(1.75rem, 4vw, 2.75rem); border: 1px solid rgba(205, 189, 162, .3); box-shadow: 0 1.25rem 2.5rem -1rem rgba(25, 42, 61, .45); text-align: left; scroll-margin-top: 6rem; }
 .clients.boxed .clients-title { margin: .75rem 0 1rem; font-size: clamp(1.6rem, 2.6vw, 2.1rem); }
 .clients.boxed .clients-text > p:not(.clients-title):not(.soon) { font-size: 1rem; }
 .clients.boxed .btn, .clients.boxed .soon { margin-top: 1.25rem; }
