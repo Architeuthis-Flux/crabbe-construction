@@ -13,6 +13,7 @@
   --slate: #597882;      /* philosophy block */
   --sand: #cdbda2;       /* accent block and drafting lines */
   --sand-pale: #f4f1ea;  /* sand, thinned out, behind the project cards */
+  --sand-soft: #e7ddcc;  /* the clients and intro cards: a light tan, a step paler than the sand boxes */
   --sand-light: #d9cdb8; /* every sand box and band: intro, cards, Experience, Contact */
   --light: #e4ecee;      /* body text on dark */
   --haze: #a7b8bd;       /* small capitals on dark */
@@ -114,7 +115,7 @@ p, figure, blockquote { margin: 0; }
 .intro { padding-top: 1.25rem; }   /* padding, not a margin on the box: a margin would open a strip of bare photo between the bands */
 .intro-box .towns { margin-top: 1.75rem; }
 .intro-box { max-width: 52rem; margin-inline: auto; }   /* centred under Design-and-build */
-.intro-box { background: var(--sand-pale); border: 1px solid var(--sand); }   /* the same pale card as the clients box */
+.intro-box { background: var(--sand-soft); border: 1px solid var(--sand); }   /* the same pale card as the clients box */
 .intro.lead { padding-top: clamp(2.5rem, 6vw, 4.5rem); }
 .about.has-bg:has(+ .intro)::after { background: linear-gradient(to bottom, var(--wash-dark) var(--lap), var(--wash-cream) var(--lap)); }   /* cream to the bottom: the box below does the lapping onto Works */
 .intro + section { padding-top: calc(var(--band) + clamp(2rem, 4vw, 3.25rem)); }   /* room for the box that laps in from above */
@@ -352,7 +353,7 @@ p, figure, blockquote { margin: 0; }
 .clients.boxed .point h3 { margin-bottom: .3rem; font-size: 1.2rem; }
 .clients.boxed .point p { font-size: .875rem; }
 /* Its own tone: a pale card with dark type, so it reads apart from the dark Services band it laps onto. */
-.clients.boxed { background: var(--sand-pale); border-color: var(--sand); color: var(--ink); }
+.clients.boxed { background: var(--sand-soft); border-color: var(--sand); color: var(--ink); }
 .clients.boxed .label { color: var(--title); }
 .clients.boxed .clients-text > p:not(.clients-title):not(.soon), .clients.boxed .point p { color: var(--ink); }
 .clients.boxed .soon { border-color: var(--ink); color: var(--ink); }
