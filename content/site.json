@@ -21,7 +21,7 @@
   "services": [
     {
       "title": "New Building & Addition",
-      "text": "Building from the ground up gives the best opportunity to create a space that fits your every need. Our team works closely with the client, architects, civil and structural engineers, and city planning commission to account for every detail and ensure that projects flow smoothly from planning through building to deliver a successful and beautiful project.",
+      "text": "Building from the ground up gives the best opportunity to create a space that fits your every need. Our team works closely with the client, architects, civil and structural engineers, and the city planning commission to account for every detail and ensure that projects flow smoothly from planning through building to deliver a successful and beautiful project.",
       "icon": "build"
     },
     {
@@ -40,11 +40,11 @@
       "icon": "design"
     }
   ],
-  "philosophy": "We focus on quality craftsmanship in our design forward building. With honest communication, thoughtful planning, and genuine care, we build lasting relationships with our clients creating living spaces tailored to their vision. Our ongoing pursuit of knowledge keeps us up to date on the latest building techniques and materials that, coupled with our tried and tested experience, deliver the highest quality product.",
+  "philosophy": "We focus on quality craftsmanship in our design-forward building. With honest communication, thoughtful planning, and genuine care, we build lasting relationships with our clients, creating living spaces tailored to their vision. Our ongoing pursuit of knowledge keeps us up to date on the latest building techniques and materials that, coupled with our tried and tested experience, deliver the highest quality product.",
   "owner": "Phillip Crabbe",
   "portrait": "/photos/phil-crabbe.webp",
   "about_title": "Experience",
-  "about": "Phillip Crabbe has over two decades of hands-on building and high end construction management on Monterey Peninsula. During his journey from a laborer to project manager, Phil has always gravitated towards craftsmanship and quality in building projects. Over the years he has gained trusting relationships with his clients by ensuring clear communications and commitment to their vision while being mindful of the projects' budget. Phil's drive to providing service of the highest quality in construction, paying particular attention to working efficiently while keeping the lines of communication with clients clear and concise pushed him to start his own company in 2022. Today Crabbe Construction & Design is a family owned business that is eager to cater to your project's specific needs in a timely manner.",
+  "about": "Phillip Crabbe has over two decades of hands-on building and high-end construction management on the Monterey Peninsula. During his journey from laborer to project manager, Phil has always gravitated towards craftsmanship and quality in building projects. Over the years he has gained trusting relationships with his clients by ensuring clear communications and commitment to their vision while being mindful of the project's budget. Phil's drive to provide service of the highest quality in construction, paying particular attention to working efficiently while keeping the lines of communication with clients clear and concise, pushed him to start his own company in 2022. Today Crabbe Construction & Design is a family-owned business that is eager to cater to your project's specific needs in a timely manner.",
   "clients_label": "For our clients",
   "clients_title": "Your whole project, in one place",
   "clients_text": "Every client gets a private project page: the schedule, weekly photo updates, documents, and a selections room where we narrow down tile, fixtures, colors and finishes together, room by room.",
