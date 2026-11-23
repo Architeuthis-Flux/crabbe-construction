@@ -109,7 +109,8 @@ p, figure, blockquote { margin: 0; }
 .still > .intro { isolation: isolate; background: none; }
 .still > .intro::after { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--wash-cream); }   /* the same cream wash as the band above */
 .intro-box { position: relative; top: var(--lap); padding: clamp(1.75rem, 4vw, 3rem) clamp(1.5rem, 5vw, 4rem); background: var(--sand-light); color: var(--ink); box-shadow: 0 1.25rem 2.5rem -1rem rgba(25, 42, 61, .35); font: 400 clamp(1.25rem, 2.3vw, 1.8rem)/1.42 var(--serif); text-wrap: balance; }
-.intro-box > p { text-align: justify; text-wrap: wrap; }   /* straight edges both sides, like the other text boxes */
+.intro-text p { text-align: justify; text-align-last: center; text-wrap: wrap; }
+.intro-text p + p { margin-top: .35em; text-align: center; text-wrap: balance; }   /* a closing line set on its own, centred */   /* straight edges both sides, like the other text boxes */
 .intro:has(.clients) { padding-top: 1.25rem; }   /* padding, not a margin on the box: a margin would open a strip of bare photo between the bands */
 .intro-box .towns { margin-top: 1.75rem; }
 /* At the top of Recent Works: a centred cream box on the dark band, above the heading. */

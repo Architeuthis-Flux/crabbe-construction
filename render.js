@@ -336,7 +336,7 @@ ${kind}
       : "";
     // The intro sits in a box at the top of Recent Works, with the towns we build in.
     const chips = towns.length ? `<ul class="towns"${mark(SITE, "towns")}>${towns.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : "";
-    const introBox = site.intro ? `<div class="intro-box"><p${mark(SITE, "intro")}>${esc(site.intro)}</p>${chips}</div>` : "";
+    const introBox = site.intro ? `<div class="intro-box"><div class="intro-text"${mark(SITE, "intro")}>${paras(site.intro)}</div>${chips}</div>` : "";
     const work = featured.length
       ? `<section class="work${still ? " has-bg" : ""}"><div class="wrap">
 ${introBox}
