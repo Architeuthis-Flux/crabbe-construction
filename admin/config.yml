@@ -114,7 +114,7 @@ collections:
             widget: list
             fields:
               - { name: title, label: Name, widget: string }
-              - { name: icon, label: Drawing, widget: select, required: false, options: [{ label: House, value: build }, { label: Floor plan, value: remodel }, { label: Cabinet, value: cabinets }, { label: Pencil and ruler, value: design }], hint: "The small line drawing above the name." }
+              - { name: icon, label: Drawing, widget: select, required: false, options: [{ label: House, value: build }, { label: Floor plan, value: remodel }, { label: Cabinet, value: cabinets }, { label: Pencil and ruler, value: design }, { label: Deck railing, value: deck }], hint: "The small line drawing above the name." }
               - { name: text, label: Description, widget: text, hint: "Leave a blank line to start a new paragraph." }
           - { name: philosophy, label: Philosophy quote, widget: text }
           - { name: owner, label: Owner name, widget: string, hint: "Signs the quote and the Contact section." }

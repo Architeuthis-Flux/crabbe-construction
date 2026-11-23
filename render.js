@@ -57,6 +57,7 @@ export const ICONS = {
   remodel: '<rect x="8" y="8" width="32" height="32"/><path d="M8 24h13M29 24h11M24 8v9M24 31v9"/>',
   cabinets: '<rect x="9" y="6" width="30" height="36"/><path d="M24 6v24M9 30h30M20 17v5M28 17v5M21 36h6"/>',
   design: '<path d="M10 38 33 15l4 4-23 23h-4z"/><path d="M14 10l24 24-4 4L10 14z"/><path d="M19 15l-2 2M24 20l-2 2M29 25l-2 2"/>',
+  deck: '<path d="M5 15h38M5 30h38M5 36h38"/><path d="M9 15v15M19 15v15M29 15v15M39 15v15M11 36v6M37 36v6"/>',
 };
 const iconSvg = (key, i) => {
   const names = Object.keys(ICONS);
