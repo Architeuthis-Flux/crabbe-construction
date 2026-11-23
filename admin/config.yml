@@ -104,7 +104,7 @@ collections:
           - { name: hero_photos, label: More photos for the top slideshow, widget: image, multiple: true, required: false, hint: "Optional. The top of the home page fades between the big photo and these, in this order. Wide photos work best." }
           - { name: services_photo, label: "Photo behind the middle of the home page", widget: image, required: false, hint: "Optional. One photo that stays still behind Design and build, Services, About and Recent Works while the page scrolls over it." }
           - { name: hero_alt, label: What the big photo shows, widget: string, required: false, hint: "One plain sentence, for search engines and screen readers." }
-          - { name: headline, label: Line under the company name, widget: string }
+          - { name: headline, label: Lines under the company name, widget: text, hint: "Each line you type here is its own line on the page." }
           - { name: intro, label: Introduction, widget: text }
           - { name: approach_title, label: Design and build heading, widget: string, required: false }
           - { name: approach, label: Design and build text, widget: text, required: false, hint: "Leave a blank line to start a new paragraph. Leave empty to hide the section." }
