@@ -114,7 +114,9 @@ p, figure, blockquote { margin: 0; }
 .intro { padding-top: 1.25rem; }   /* padding, not a margin on the box: a margin would open a strip of bare photo between the bands */
 .intro-box .towns { margin-top: 1.75rem; }
 .intro-box { max-width: 52rem; margin-inline: auto; }   /* centred under Design-and-build */
-.intro-box + .clients { margin-top: clamp(1.5rem, 3vw, 2.5rem); }
+.intro-box { background: var(--sand-pale); border: 1px solid var(--sand); }   /* the same pale card as the clients box */
+.intro.lead { padding-top: clamp(2.5rem, 6vw, 4.5rem); }
+.about.has-bg:has(+ .intro)::after { background: linear-gradient(to bottom, var(--wash-dark) var(--lap), var(--wash-cream) var(--lap)); }   /* cream to the bottom: the box below does the lapping onto Works */
 .intro + section { padding-top: calc(var(--band) + clamp(2rem, 4vw, 3.25rem)); }   /* room for the box that laps in from above */
 .approach:has(+ .intro), .services:has(+ .intro) { padding-bottom: clamp(2rem, 5vw, 3.5rem); }
 /* Under Services the box sits on About's cream with only its top edge lapping up onto the teal. */

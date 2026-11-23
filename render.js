@@ -334,7 +334,7 @@ ${kind}
 <div class="approach-text"${mark(SITE, "approach")}>${paras(site.approach)}</div>
 </div></section>`
       : "";
-    // The intro sits in a box under Design-and-build, with the towns we build in.
+    // The intro sits in a box just above Recent Works, with the towns we build in.
     const chips = towns.length ? `<ul class="towns"${mark(SITE, "towns")}>${towns.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : "";
     const introBox = site.intro ? `<div class="intro-box"><div class="intro-text"${mark(SITE, "intro")}>${paras(site.intro)}</div>${chips}</div>` : "";
     const work = featured.length
@@ -365,8 +365,10 @@ ${login}
 ${points ? `<div class="points">${points}</div>` : ""}
 </div></section>`
       : "";
-    // Under Design-and-build: the intro box, centred, then the clients box, which laps down onto Services.
-    const intro = introBox || (clients && boxed) ? `<div class="intro"><div class="wrap">${introBox}${boxed ? clients : ""}</div></div>` : "";
+    // Under Design-and-build: the clients box, which laps down onto Services.
+    const intro = clients && boxed ? `<div class="intro"><div class="wrap">${clients}</div></div>` : "";
+    // Above Recent Works: the intro box, whose lower edge laps onto that band.
+    const lead = introBox ? `<div class="intro lead"><div class="wrap">${introBox}</div></div>` : "";
     return `<section class="hero">
 <div class="hero-photos">
 ${hero}
@@ -392,6 +394,7 @@ ${intro}
 ${portrait}
 <div class="experience"${mark(SITE, "about")}><h2${mark(SITE, "about_title")}>${esc(site.about_title)}</h2>${paras(site.about)}<p class="more-link"><a class="btn" href="work.html">View portfolio</a></p></div>
 </div></section>
+${lead}
 ${work}
 ${still ? "</div>" : ""}
 ${intro && boxed ? "" : clients}`;
