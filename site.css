@@ -75,7 +75,7 @@ p, figure, blockquote { margin: 0; }
 .top .login:hover { background: #fff; }
 
 /* ---------- home: hero ---------- */
-.hero { position: relative; z-index: 1; display: grid; align-items: center; min-height: calc(100vh - 4.6rem); min-height: calc(100svh - 4.6rem);   /* the whole screen under the top bar */ text-align: center; background: var(--deep); color: #fff; }
+.hero { position: relative; z-index: 1; display: grid; grid-template-rows: 1fr auto; align-items: center; min-height: calc(100vh - 4.6rem); min-height: calc(100svh - 4.6rem);   /* the whole screen under the top bar */ text-align: center; background: var(--deep); color: #fff; }
 /* The photo stays put while the page scrolls over it: it is pinned to the screen and the band
    is a window onto it (clip-path), which unlike background-attachment also works on phones. */
 .hero-photos { position: absolute; inset: 0 0 1px; clip-path: inset(0); }
@@ -96,7 +96,8 @@ p, figure, blockquote { margin: 0; }
 .hero .down:hover { color: var(--sand); opacity: 1; }
 @keyframes nudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(.4rem); } }
 @media (prefers-reduced-motion: reduce) { .hero .down { animation: none; } }
-.hero-foot { position: relative; z-index: 1; padding-block: clamp(2rem, 4vw, 2.75rem); background: var(--deep); color: #fff; text-align: center; }
+.hero-foot { position: relative; z-index: 1; padding: 0 0 clamp(4.25rem, 9vh, 5.5rem); color: #fff; text-align: center; }   /* tagline and buttons at the foot of the photo, just above the arrow */
+.hero-foot .lede { text-shadow: 0 1px .9rem rgba(25, 20, 20, .55); }
 .hero-foot .actions { justify-content: center; }
 .hero h1 { font-weight: 400; font-size: clamp(1.9rem, 5.6vw, 4.5rem); letter-spacing: .14em; text-transform: uppercase; color: var(--sand); }
 .hero h1 { margin-right: -.14em; }   /* the last letter's spacing would push the name off centre */
