@@ -172,7 +172,7 @@ p, figure, blockquote { margin: 0; }
    stands beside it a little lower, and the sand Experience box laps over both and hangs below. */
 .about-grid { display: grid; gap: 2.75rem; }
 .about-grid > * { position: relative; z-index: 0; }
-.philosophy { padding: clamp(2.25rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3.5rem) calc(clamp(2.25rem, 5vw, 4rem) + 2.75rem); background: var(--ink); color: #fff; }   /* the deep navy of the type, with sand accents: sits with the teal and tan instead of beside them */
+.philosophy { padding: clamp(2.25rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3.5rem) calc(clamp(2.25rem, 5vw, 4rem) + 2.75rem); background: #3a5a64; color: #fff; }   /* the Services teal, a few steps lighter, with sand accents */
 .philosophy h2 { font-size: clamp(1.9rem, 3vw, 2.5rem); color: var(--sand); }
 .philosophy blockquote { margin-top: 1.75rem; font: 400 1rem/1.75 var(--sans); color: var(--light); }
 .by { margin-top: 1.75rem; font: 500 .9375rem/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--sand); }
