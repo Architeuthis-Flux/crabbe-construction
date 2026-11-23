@@ -176,7 +176,7 @@ export function buildSite({ files, hasPhoto, hasThumb = () => false, photoUrl = 
 <p class="form-note" role="status" aria-live="polite"></p>
 </form>`
       : "";
-    const signoff = owner ? `<p class="signoff"${mark(SITE, "owner")}>Thank you,<br>${esc(owner)}</p>` : "";
+    const signoff = owner ? `<p class="signoff"${mark(SITE, "owner")}>We look forward to hearing from you.<br>${esc(owner)}</p>` : "";
     return `<section id="contact" class="contact${map ? " has-map" : ""}">${map}<div class="wrap">
 <p class="lead"${mark(SITE, "contact_lead")}>${esc(site.contact_lead)}</p>
 <h2>Contact us</h2>
