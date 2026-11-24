@@ -186,7 +186,7 @@ p, figure, blockquote { margin: 0; }
 .philosophy blockquote { margin-top: 1.75rem; font: 400 1rem/1.75 var(--sans); color: var(--light); }
 .by { margin-top: 1.75rem; font: 500 .9375rem/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--sand); }
 .by::after { content: ""; display: block; width: 3rem; height: 1px; margin-top: 1.75rem; background: var(--sand); opacity: .7; }
-.portrait { z-index: 1; width: min(92%, 26rem); margin: -2.75rem auto; box-shadow: 0 1.25rem 2.5rem rgba(25, 42, 61, .28); }   /* laps over the box above and the box below */
+.portrait { z-index: 1; width: min(96%, 28rem); margin: -2.75rem auto; box-shadow: 0 1.25rem 2.5rem rgba(25, 42, 61, .28); }   /* laps over the box above and the box below */
 .portrait img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%; }
 .experience { padding: calc(clamp(1.75rem, 4vw, 3rem) + 2.75rem) clamp(1.75rem, 4vw, 3rem) clamp(1.75rem, 4vw, 3rem); background: var(--sand-light); box-shadow: 0 1.25rem 2.5rem -1rem rgba(25, 42, 61, .3); }
 .experience h2 { margin-bottom: 1.25rem; font-size: clamp(1.9rem, 3vw, 2.5rem); }
@@ -285,7 +285,7 @@ p, figure, blockquote { margin: 0; }
   .approach:has(+ .intro) { padding-bottom: .5rem; }   /* brings the box up close to the text (a negative margin here would stack the two cream washes into a pale stripe) */   /* on the left, held in from the page margin */
   .about-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0; align-items: start; }
   .philosophy { grid-area: 1 / 1 / 2 / 9; padding: clamp(4rem, 8vw, 7rem) calc(25% + clamp(2rem, 4vw, 3.5rem)) clamp(11rem, 17vw, 15rem) clamp(2.5rem, 5vw, 4.5rem); }   /* the big slate box: two-thirds of the row, the portrait laps over its right side */
-  .portrait { grid-area: 1 / 7 / 3 / 12; z-index: 1; width: auto; margin: clamp(5rem, 9vw, 8rem) 0 0 1rem; }
+  .portrait { grid-area: 1 / 7 / 3 / 12; z-index: 1; width: auto; margin: clamp(5rem, 9vw, 8rem) -2.5rem 0 -.75rem; }   /* a touch wider than its five columns, into the spare one on the right */
   .experience { grid-area: 2 / 2 / 3 / 7; z-index: 2; margin: clamp(-8rem, -9vw, -5rem) -3.5rem 0 0; padding: clamp(2rem, 4vw, 3.25rem); }
 }
 
